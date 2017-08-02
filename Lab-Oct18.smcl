@@ -1,0 +1,493 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Oct18.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}13 Dec 2016, 00:25:06
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD06000000.tmp"
+{txt}
+{com}. input u v p t
+
+     {txt}        u          v          p          t
+  1{com}. 2 4 4 2
+{txt}  2{com}. 2 2 1 4
+{txt}  3{com}. end
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c TRC}
+     {c |} {res}u   v   p   t {txt}{c |}
+     {c LT}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c RT}
+  1. {c |} {res}2   4   4   2 {txt}{c |}
+  2. {c |} {res}2   2   1   4 {txt}{c |}
+     {c BLC}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c BRC}
+
+{com}. 
+{txt}end of do-file
+
+{com}. gen c = (u*v)/(p*t)
+
+. list
+{txt}
+     {c TLC}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c TRC}
+     {c |} {res}u   v   p   t   c {txt}{c |}
+     {c LT}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c RT}
+  1. {c |} {res}2   4   4   2   1 {txt}{c |}
+  2. {c |} {res}2   2   1   4   1 {txt}{c |}
+     {c BLC}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c -}{hline 3}{c BRC}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD06000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input tbw na1 na2 vinput einput eurine einf
+
+     {txt}      tbw        na1        na2     vinput     einput     eurine       einf
+  1{com}. 25 33 49 50 100 5 44
+{txt}  2{com}. end
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 6}{c TRC}
+     {c |} {res}tbw   na1   na2   vinput   einput   eurine   einf {txt}{c |}
+     {c LT}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 6}{c RT}
+  1. {c |} {res} 25    33    49       50      100        5     44 {txt}{c |}
+     {c BLC}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 6}{c BRC}
+
+{com}. 
+{txt}end of do-file
+
+{com}. gen volume = (tbw*(1-(na1+23.8)/(na2+23.8))+vinput-((einput*vinput)/eurine))/((einf/eurine)-1)
+
+. list
+{txt}
+     {c TLC}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 6}{c -}{hline 11}{c TRC}
+     {c |} {res}tbw   na1   na2   vinput   einput   eurine   einf      volume {txt}{c |}
+     {c LT}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 6}{c -}{hline 11}{c RT}
+  1. {c |} {res} 25    33    49       50      100        5     44   -121.0904 {txt}{c |}
+     {c BLC}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 6}{c -}{hline 11}{c BRC}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD06000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input resident str20 page_time str20 respond_time  
+
+     {txt} resident             page_time          respond_time
+  1{com}. 2   "8/20/2005 6:26:05"   "8/20/2005 6:26:49"  
+{txt}  2{com}. 2   "8/20/2005 8:15:22"   "8/20/2005 8:16:44"  
+{txt}  3{com}. 2   "8/22/2005 0:26:44"   "8/22/2005 13:25:05"  
+{txt}  4{com}. 2   "8/25/2005 15:15:01"  "8/25/2005 15:30:29"  
+{txt}  5{com}. 2   "8/25/2005 14:33:10"  "8/25/2005 14:55:15"  
+{txt}  6{com}. 3   "8/20/2005 23:26:10"  "8/21/2005 0:15:33"  
+{txt}  7{com}. 3   "8/21/2005 14:18:00"  "8/21/2005 15:33:45"  
+{txt}  8{com}. 3   "8/22/2005 23:50:09"  "8/23/2005 1:14:44"  
+{txt}  9{com}. 3   "8/24/2005 10:15:14"  "8/24/2005 11:33:22"  
+{txt} 10{com}. 3   "8/25/2005 10:10:03"  "8/25/2005 11:04:14"  
+{txt} 11{com}. end
+{txt}
+{com}. *
+. capture drop page_time2
+{txt}
+{com}. capture drop respond_time2
+{txt}
+{com}. capture drop timemilliseconds
+{txt}
+{com}. capture drop timeseconds
+{txt}
+{com}. capture drop timeminutes
+{txt}
+{com}. gen double page_time2 = clock(page_time, "MDYhms")
+{txt}
+{com}. gen double respond_time2 = clock(respond_time , "MDYhms")
+{txt}
+{com}. gen timemilliseconds = (respond_time2-page_time2)
+{txt}
+{com}. gen timeseconds = (respond_time2-page_time2)/1000
+{txt}
+{com}. * -- missing line or lines for you to fill in 
+. ttest timeminutes ,by(resident)
+{err}variable {bf}timeminutes{sf} not found
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD06000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input resident str20 page_time str20 respond_time  
+
+     {txt} resident             page_time          respond_time
+  1{com}. 2   "8/20/2005 6:26:05"   "8/20/2005 6:26:49"  
+{txt}  2{com}. 2   "8/20/2005 8:15:22"   "8/20/2005 8:16:44"  
+{txt}  3{com}. 2   "8/22/2005 0:26:44"   "8/22/2005 13:25:05"  
+{txt}  4{com}. 2   "8/25/2005 15:15:01"  "8/25/2005 15:30:29"  
+{txt}  5{com}. 2   "8/25/2005 14:33:10"  "8/25/2005 14:55:15"  
+{txt}  6{com}. 3   "8/20/2005 23:26:10"  "8/21/2005 0:15:33"  
+{txt}  7{com}. 3   "8/21/2005 14:18:00"  "8/21/2005 15:33:45"  
+{txt}  8{com}. 3   "8/22/2005 23:50:09"  "8/23/2005 1:14:44"  
+{txt}  9{com}. 3   "8/24/2005 10:15:14"  "8/24/2005 11:33:22"  
+{txt} 10{com}. 3   "8/25/2005 10:10:03"  "8/25/2005 11:04:14"  
+{txt} 11{com}. end
+{txt}
+{com}. 
+. capture drop page_time2
+{txt}
+{com}. capture drop respond_time2
+{txt}
+{com}. capture drop timemilliseconds
+{txt}
+{com}. capture drop timeseconds
+{txt}
+{com}. capture drop timeminutes
+{txt}
+{com}. gen double page_time2 = clock(page_time, "MDYhms")
+{txt}
+{com}. gen double respond_time2 = clock(respond_time , "MDYhms")
+{txt}
+{com}. gen timemilliseconds = (respond_time2-page_time2)
+{txt}
+{com}. gen timeseconds = (respond_time2-page_time2)/1000
+{txt}
+{com}. 
+. gen double  timeminutes = timeseconds* 0.0166667
+{txt}
+{com}. * -- missing line or lines for you to fill in 
+. ttest timeminutes ,by(resident)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       2 {c |}{res}{col 12}      5{col 22} 163.6003{col 34} 153.7425{col 46} 343.7787{col 58}-263.2573{col 70} 590.4579
+       {txt}3 {c |}{res}{col 12}      5{col 22}  68.4068{col 34} 6.980012{col 46} 15.60778{col 58} 49.02718{col 70} 87.78642
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}     10{col 22} 116.0036{col 34}  74.2641{col 46} 234.8437{col 58}-51.99349{col 70} 284.0006
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} 95.19352{col 34} 153.9009{col 58}-259.7025{col 70} 450.0896
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}2{txt}) - mean({res}3{txt})                                      t = {res}  0.6185
+{txt}Ho: diff = 0                                     degrees of freedom = {res}       8
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.7233         {txt}Pr(|T| > |t|) = {res}0.5534          {txt}Pr(T > t) = {res}0.2767
+{txt}
+{com}. ranksum timeminutes ,by(resident)
+
+{txt}Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+    resident {c |}      obs    rank sum    expected
+{hline 13}{c +}{hline 33}
+           2 {c |}{res}{col 17}      5{col 26}        20{col 38}      27.5
+           {txt}3 {c |}{res}{col 17}      5{col 26}        35{col 38}      27.5
+{txt}{hline 13}{c +}{hline 33}
+    combined {c |}{res}{col 17}     10{col 26}        55{col 38}        55
+
+{txt}unadjusted variance{col 22}{res}     22.92
+{txt}adjustment for ties{col 22}{res}      0.00
+{txt}{col 22}{hline 10}
+adjusted variance{col 22}{res}     22.92
+
+{txt}Ho: timem~es(resident==2) = timem~es(resident==3)
+{col 14}z = {res} -1.567
+{txt}{col 5}Prob > |z| = {res}  0.1172
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. ttest timeminutes if timeminutes <778.35 ,by(resident)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       2 {c |}{res}{col 12}      4{col 22}  9.91252{col 34}  5.29361{col 46} 10.58722{col 58}-6.934109{col 70} 26.75915
+       {txt}3 {c |}{res}{col 12}      5{col 22}  68.4068{col 34} 6.980012{col 46} 15.60778{col 58} 49.02718{col 70} 87.78642
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}      9{col 22} 42.40934{col 34} 11.12691{col 46} 33.38074{col 58} 16.75063{col 70} 68.06806
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}-58.49428{col 34} 9.179213{col 58}-80.19967{col 70} -36.7889
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}2{txt}) - mean({res}3{txt})                                      t = {res} -6.3725
+{txt}Ho: diff = 0                                     degrees of freedom = {res}       7
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.0002         {txt}Pr(|T| > |t|) = {res}0.0004          {txt}Pr(T > t) = {res}0.9998
+
+{com}. ranksum timeminutes if timeminutes <778.35  ,by(resident)
+
+{txt}Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+    resident {c |}      obs    rank sum    expected
+{hline 13}{c +}{hline 33}
+           2 {c |}{res}{col 17}      4{col 26}        10{col 38}        20
+           {txt}3 {c |}{res}{col 17}      5{col 26}        35{col 38}        25
+{txt}{hline 13}{c +}{hline 33}
+    combined {c |}{res}{col 17}      9{col 26}        45{col 38}        45
+
+{txt}unadjusted variance{col 22}{res}     16.67
+{txt}adjustment for ties{col 22}{res}      0.00
+{txt}{col 22}{hline 10}
+adjusted variance{col 22}{res}     16.67
+
+{txt}Ho: timem~es(resident==2) = timem~es(resident==3)
+{col 14}z = {res} -2.449
+{txt}{col 5}Prob > |z| = {res}  0.0143
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD06000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input infection str9 admitdate str9 dischargedate
+
+     {txt}infection  admitdate  dischar~e
+  1{com}. 0   "8/20/2005"  "8/22/2005"  
+{txt}  2{com}. 0   "8/20/2005"  "8/21/2005"  
+{txt}  3{com}. 0   "8/22/2005"  "8/23/2005"  
+{txt}  4{com}. 0   "8/25/2005"  "8/25/2005"  
+{txt}  5{com}. 0   "8/25/2005"  "8/29/2005"  
+{txt}  6{com}. 1   "8/20/2005"  "8/21/2005"  
+{txt}  7{com}. 1   "8/21/2005"  "8/24/2005"  
+{txt}  8{com}. 1   "8/22/2005"  "8/23/2005"  
+{txt}  9{com}. 1   "8/24/2005"  "8/27/2005"  
+{txt} 10{com}. 1   "8/25/2005"  "8/30/2005"  
+{txt} 11{com}. end
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. capture drop admitdate2
+
+. gen admitdate2 = date(admitdate, "MDY")
+
+. format admitdate2 %d
+
+. list , abbrev(15)
+{txt}
+     {c TLC}{hline 11}{c -}{hline 11}{c -}{hline 15}{c -}{hline 12}{c TRC}
+     {c |} {res}infection   admitdate   dischargedate   admitdate2 {txt}{c |}
+     {c LT}{hline 11}{c -}{hline 11}{c -}{hline 15}{c -}{hline 12}{c RT}
+  1. {c |} {res}        0   8/20/2005       8/22/2005    20aug2005 {txt}{c |}
+  2. {c |} {res}        0   8/20/2005       8/21/2005    20aug2005 {txt}{c |}
+  3. {c |} {res}        0   8/22/2005       8/23/2005    22aug2005 {txt}{c |}
+  4. {c |} {res}        0   8/25/2005       8/25/2005    25aug2005 {txt}{c |}
+  5. {c |} {res}        0   8/25/2005       8/29/2005    25aug2005 {txt}{c |}
+     {c LT}{hline 11}{c -}{hline 11}{c -}{hline 15}{c -}{hline 12}{c RT}
+  6. {c |} {res}        1   8/20/2005       8/21/2005    20aug2005 {txt}{c |}
+  7. {c |} {res}        1   8/21/2005       8/24/2005    21aug2005 {txt}{c |}
+  8. {c |} {res}        1   8/22/2005       8/23/2005    22aug2005 {txt}{c |}
+  9. {c |} {res}        1   8/24/2005       8/27/2005    24aug2005 {txt}{c |}
+ 10. {c |} {res}        1   8/25/2005       8/30/2005    25aug2005 {txt}{c |}
+     {c BLC}{hline 11}{c -}{hline 11}{c -}{hline 15}{c -}{hline 12}{c BRC}
+
+{com}. capture drop dischargedate2
+
+. gen dischargedate2 = date(dischargedate, "MDY")
+
+. format dischargedate2 %d
+
+. list , abbrev(15)
+{txt}
+     {c TLC}{hline 11}{c -}{hline 11}{c -}{hline 15}{c -}{hline 12}{c -}{hline 16}{c TRC}
+     {c |} {res}infection   admitdate   dischargedate   admitdate2   dischargedate2 {txt}{c |}
+     {c LT}{hline 11}{c -}{hline 11}{c -}{hline 15}{c -}{hline 12}{c -}{hline 16}{c RT}
+  1. {c |} {res}        0   8/20/2005       8/22/2005    20aug2005        22aug2005 {txt}{c |}
+  2. {c |} {res}        0   8/20/2005       8/21/2005    20aug2005        21aug2005 {txt}{c |}
+  3. {c |} {res}        0   8/22/2005       8/23/2005    22aug2005        23aug2005 {txt}{c |}
+  4. {c |} {res}        0   8/25/2005       8/25/2005    25aug2005        25aug2005 {txt}{c |}
+  5. {c |} {res}        0   8/25/2005       8/29/2005    25aug2005        29aug2005 {txt}{c |}
+     {c LT}{hline 11}{c -}{hline 11}{c -}{hline 15}{c -}{hline 12}{c -}{hline 16}{c RT}
+  6. {c |} {res}        1   8/20/2005       8/21/2005    20aug2005        21aug2005 {txt}{c |}
+  7. {c |} {res}        1   8/21/2005       8/24/2005    21aug2005        24aug2005 {txt}{c |}
+  8. {c |} {res}        1   8/22/2005       8/23/2005    22aug2005        23aug2005 {txt}{c |}
+  9. {c |} {res}        1   8/24/2005       8/27/2005    24aug2005        27aug2005 {txt}{c |}
+ 10. {c |} {res}        1   8/25/2005       8/30/2005    25aug2005        30aug2005 {txt}{c |}
+     {c BLC}{hline 11}{c -}{hline 11}{c -}{hline 15}{c -}{hline 12}{c -}{hline 16}{c BRC}
+
+{com}. capture drop los
+
+. gen los =  dischargedate2 - admitdate2
+
+. list , abbrev(15)
+
+     {txt}{c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  1. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/20/2005 {txt}{c |} {res}    8/22/2005 {txt}{c |} {res} 20aug2005 {txt}{c |} {res}     22aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  2                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  2. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/20/2005 {txt}{c |} {res}    8/21/2005 {txt}{c |} {res} 20aug2005 {txt}{c |} {res}     21aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  1                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  3. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/22/2005 {txt}{c |} {res}    8/23/2005 {txt}{c |} {res} 22aug2005 {txt}{c |} {res}     23aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  1                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  4. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/25/2005 {txt}{c |} {res}    8/25/2005 {txt}{c |} {res} 25aug2005 {txt}{c |} {res}     25aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  0                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  5. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/25/2005 {txt}{c |} {res}    8/29/2005 {txt}{c |} {res} 25aug2005 {txt}{c |} {res}     29aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  4                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  6. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/20/2005 {txt}{c |} {res}    8/21/2005 {txt}{c |} {res} 20aug2005 {txt}{c |} {res}     21aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  1                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  7. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/21/2005 {txt}{c |} {res}    8/24/2005 {txt}{c |} {res} 21aug2005 {txt}{c |} {res}     24aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  3                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  8. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/22/2005 {txt}{c |} {res}    8/23/2005 {txt}{c |} {res} 22aug2005 {txt}{c |} {res}     23aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  1                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  9. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/24/2005 {txt}{c |} {res}    8/27/2005 {txt}{c |} {res} 24aug2005 {txt}{c |} {res}     27aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  3                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+ 10. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/25/2005 {txt}{c |} {res}    8/30/2005 {txt}{c |} {res} 25aug2005 {txt}{c |} {res}     30aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  5                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+{com}. format dischargedate2 %d
+
+. list , abbrev(15)
+
+     {txt}{c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  1. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/20/2005 {txt}{c |} {res}    8/22/2005 {txt}{c |} {res} 20aug2005 {txt}{c |} {res}     22aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  2                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  2. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/20/2005 {txt}{c |} {res}    8/21/2005 {txt}{c |} {res} 20aug2005 {txt}{c |} {res}     21aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  1                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  3. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/22/2005 {txt}{c |} {res}    8/23/2005 {txt}{c |} {res} 22aug2005 {txt}{c |} {res}     23aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  1                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  4. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/25/2005 {txt}{c |} {res}    8/25/2005 {txt}{c |} {res} 25aug2005 {txt}{c |} {res}     25aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  0                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  5. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        0 {txt}{c |} {res}8/25/2005 {txt}{c |} {res}    8/29/2005 {txt}{c |} {res} 25aug2005 {txt}{c |} {res}     29aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  4                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  6. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/20/2005 {txt}{c |} {res}    8/21/2005 {txt}{c |} {res} 20aug2005 {txt}{c |} {res}     21aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  1                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  7. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/21/2005 {txt}{c |} {res}    8/24/2005 {txt}{c |} {res} 21aug2005 {txt}{c |} {res}     24aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  3                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  8. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/22/2005 {txt}{c |} {res}    8/23/2005 {txt}{c |} {res} 22aug2005 {txt}{c |} {res}     23aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  1                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+  9. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/24/2005 {txt}{c |} {res}    8/27/2005 {txt}{c |} {res} 24aug2005 {txt}{c |} {res}     27aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  3                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+     {c TLC}{hline 11}{c TT}{hline 11}{c TT}{hline 15}{c TT}{hline 12}{c TT}{hline 16}{c TRC}
+ 10. {c |} infection {c |} admitdate {c |} dischargedate {c |} admitdate2 {c |} dischargedate2 {c |}
+     {c |} {res}        1 {txt}{c |} {res}8/25/2005 {txt}{c |} {res}    8/30/2005 {txt}{c |} {res} 25aug2005 {txt}{c |} {res}     30aug2005 {txt}{c |}
+     {c LT}{hline 11}{c BT}{hline 11}{c BT}{hline 15}{c BT}{hline 12}{c BT}{hline 16}{c RT}
+     {c |}                                 los                                 {c |}
+     {c |}                                 {res}  5                                 {txt}{c |}
+     {c BLC}{hline 69}{c BRC}
+
+{com}. exit, clear
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Oct18.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}13 Dec 2016, 00:41:47
+
+{com}. format los %d
+{err}no variables defined
+{txt}{search r(111):r(111);}
+
+{com}. exit, clear

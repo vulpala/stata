@@ -1,0 +1,752 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Oct4.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}13 Dec 2016, 00:03:02
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. set obs 10
+{txt}{p}
+number of observations (_N)  was 0,
+now 10
+{p_end}
+
+{com}. foreach var of newlist v1-v10 {c -(}
+{txt}  2{com}.   gen str3 `var'="yes" in 1/5
+{txt}  3{com}.   replace `var'="no" in 6/10
+{txt}  4{com}. {c )-}
+{txt}(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+(5 missing values generated)
+(5 real changes made)
+
+{com}. list
+{txt}
+     {c TLC}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res} v1    v2    v3    v4    v5    v6    v7    v8    v9   v10 {txt}{c |}
+     {c LT}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res}yes   yes   yes   yes   yes   yes   yes   yes   yes   yes {txt}{c |}
+  2. {c |} {res}yes   yes   yes   yes   yes   yes   yes   yes   yes   yes {txt}{c |}
+  3. {c |} {res}yes   yes   yes   yes   yes   yes   yes   yes   yes   yes {txt}{c |}
+  4. {c |} {res}yes   yes   yes   yes   yes   yes   yes   yes   yes   yes {txt}{c |}
+  5. {c |} {res}yes   yes   yes   yes   yes   yes   yes   yes   yes   yes {txt}{c |}
+     {c LT}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} no    no    no    no    no    no    no    no    no    no {txt}{c |}
+  7. {c |} {res} no    no    no    no    no    no    no    no    no    no {txt}{c |}
+  8. {c |} {res} no    no    no    no    no    no    no    no    no    no {txt}{c |}
+  9. {c |} {res} no    no    no    no    no    no    no    no    no    no {txt}{c |}
+ 10. {c |} {res} no    no    no    no    no    no    no    no    no    no {txt}{c |}
+     {c BLC}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            10                          
+{txt} vars:{res}            10                          
+{txt} size:{res}           300                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:v1             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v2             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v3             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v4             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v5             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v6             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v7             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v8             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v9             }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v10            }{txt}{bind: str3    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. foreach var of varlist v1-v10 {c -(}
+{txt}  2{com}.   replace `var'="1" if `var'=="yes"
+{txt}  3{com}.   replace `var'="0" if `var'=="no"
+{txt}  4{com}. {c )-}
+{txt}(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+(5 real changes made)
+
+{com}. destring , replace
+{txt}v1 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v2 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v3 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v4 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v5 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v6 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v7 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v8 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v9 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}v10 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c TRC}
+     {c |} {res}v1   v2   v3   v4   v5   v6   v7   v8   v9   v10 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1    1    1    1    1    1    1    1    1     1 {txt}{c |}
+  2. {c |} {res} 1    1    1    1    1    1    1    1    1     1 {txt}{c |}
+  3. {c |} {res} 1    1    1    1    1    1    1    1    1     1 {txt}{c |}
+  4. {c |} {res} 1    1    1    1    1    1    1    1    1     1 {txt}{c |}
+  5. {c |} {res} 1    1    1    1    1    1    1    1    1     1 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c RT}
+  6. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+  7. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+  8. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+  9. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+ 10. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            10                          
+{txt} vars:{res}            10                          
+{txt} size:{res}           100                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:v1             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v2             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v3             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v4             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v5             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v6             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v7             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v8             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v9             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v10            }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. set obs 10
+{txt}{p}
+number of observations (_N)  was 0,
+now 10
+{p_end}
+
+{com}. foreach var of newlist v1-v10 {c -(}
+{txt}  2{com}.   gen str3 `var'="1" in 1/3
+{txt}  3{com}.   replace `var'="0" in 4/7
+{txt}  4{com}.   replace `var'="blank" in 8/10
+{txt}  5{com}. {c )-}
+{txt}(7 missing values generated)
+(4 real changes made)
+variable {bf}v1{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v2{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v3{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v4{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v5{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v6{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v7{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v8{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v9{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+(7 missing values generated)
+(4 real changes made)
+variable {bf}v10{sf} was {bf}{res}str3{sf}{txt} now {bf}{res}str5{sf}
+{txt}(3 real changes made)
+
+{com}. tab v1
+
+         {txt}v1 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          4       40.00       40.00
+{txt}          1 {c |}{res}          3       30.00       70.00
+{txt}      blank {c |}{res}          3       30.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         10      100.00
+{txt}
+{com}. 
+. foreach var of varlist v1-v10 {c -(}
+{txt}  2{com}.   replace `var'="" if `var'=="blank"
+{txt}  3{com}. {c )-}
+{txt}(3 real changes made)
+(3 real changes made)
+(3 real changes made)
+(3 real changes made)
+(3 real changes made)
+(3 real changes made)
+(3 real changes made)
+(3 real changes made)
+(3 real changes made)
+(3 real changes made)
+
+{com}. destring , replace
+{txt}v1 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v2 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v3 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v4 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v5 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v6 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v7 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v8 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v9 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}v10 has all characters numeric; {res}replaced {txt}as {res}byte
+{txt}(3 missing values generated)
+{res}{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c TRC}
+     {c |} {res}v1   v2   v3   v4   v5   v6   v7   v8   v9   v10 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1    1    1    1    1    1    1    1    1     1 {txt}{c |}
+  2. {c |} {res} 1    1    1    1    1    1    1    1    1     1 {txt}{c |}
+  3. {c |} {res} 1    1    1    1    1    1    1    1    1     1 {txt}{c |}
+  4. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+  5. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c RT}
+  6. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+  7. {c |} {res} 0    0    0    0    0    0    0    0    0     0 {txt}{c |}
+  8. {c |} {res} .    .    .    .    .    .    .    .    .     . {txt}{c |}
+  9. {c |} {res} .    .    .    .    .    .    .    .    .     . {txt}{c |}
+ 10. {c |} {res} .    .    .    .    .    .    .    .    .     . {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            10                          
+{txt} vars:{res}            10                          
+{txt} size:{res}           100                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:v1             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v2             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v3             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v4             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v5             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v6             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v7             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v8             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v9             }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:v10            }{txt}{bind: byte    }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input id q1 q2 q3
+
+     {txt}       id         q1         q2         q3
+  1{com}. 1 10 20 15
+{txt}  2{com}. 2 10  . 17
+{txt}  3{com}. 3  .  .  .
+{txt}  4{com}. 4 11 15 20
+{txt}  5{com}. end
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c TRC}
+     {c |} {res}id   q1   q2   q3 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c RT}
+  1. {c |} {res} 1   10   20   15 {txt}{c |}
+  2. {c |} {res} 2   10    .   17 {txt}{c |}
+  3. {c |} {res} 3    .    .    . {txt}{c |}
+  4. {c |} {res} 4   11   15   20 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c BRC}
+
+{com}. 
+. capture drop totalscore
+{txt}
+{com}. egen totalscore = rowtotal(q1 q2 q3), missing
+{txt}(1 missing value generated)
+
+{com}. list ,abbrev(15)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 12}{c TRC}
+     {c |} {res}id   q1   q2   q3   totalscore {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 12}{c RT}
+  1. {c |} {res} 1   10   20   15           45 {txt}{c |}
+  2. {c |} {res} 2   10    .   17           27 {txt}{c |}
+  3. {c |} {res} 3    .    .    .            . {txt}{c |}
+  4. {c |} {res} 4   11   15   20           46 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 12}{c BRC}
+
+{com}. 
+{txt}end of do-file
+
+{com}. list ,abbrev(15)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 12}{c TRC}
+     {c |} {res}id   q1   q2   q3   totalscore {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 12}{c RT}
+  1. {c |} {res} 1   10   20   15           45 {txt}{c |}
+  2. {c |} {res} 2   10    .   17           27 {txt}{c |}
+  3. {c |} {res} 3    .    .    .            . {txt}{c |}
+  4. {c |} {res} 4   11   15   20           46 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 4}{c -}{hline 12}{c BRC}
+
+{com}. reshape long q, i(id) j(question)
+{txt}(note: j = 1 2 3)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       4   {txt}->{res}      12
+{txt}Number of variables            {res}       5   {txt}->{res}       4
+{txt}j variable (3 values)                     ->   {res}question
+{txt}xij variables:
+                               {res}q1 q2 q3   {txt}->   {res}q
+{txt}{hline 77}
+
+{com}. list ,abbrev(15)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 4}{c -}{hline 12}{c TRC}
+     {c |} {res}id   question    q   totalscore {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 4}{c -}{hline 12}{c RT}
+  1. {c |} {res} 1          1   10           45 {txt}{c |}
+  2. {c |} {res} 1          2   20           45 {txt}{c |}
+  3. {c |} {res} 1          3   15           45 {txt}{c |}
+  4. {c |} {res} 2          1   10           27 {txt}{c |}
+  5. {c |} {res} 2          2    .           27 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 4}{c -}{hline 12}{c RT}
+  6. {c |} {res} 2          3   17           27 {txt}{c |}
+  7. {c |} {res} 3          1    .            . {txt}{c |}
+  8. {c |} {res} 3          2    .            . {txt}{c |}
+  9. {c |} {res} 3          3    .            . {txt}{c |}
+ 10. {c |} {res} 4          1   11           46 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 4}{c -}{hline 12}{c RT}
+ 11. {c |} {res} 4          2   15           46 {txt}{c |}
+ 12. {c |} {res} 4          3   20           46 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 4}{c -}{hline 12}{c BRC}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions 
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version  // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // temporarily set Stata to version 13.1 so get 
+.                // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 999
+{txt}
+{com}. set obs 1000
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. gen aspirin=1 in 1/300
+{txt}(700 missing values generated)
+
+{com}. replace aspirin=0 in 301/1000
+{txt}(700 real changes made)
+
+{com}. label define aspirinlab 0 "0) non-aspirin" 1 "1) aspirin"
+{txt}
+{com}. label values aspirin aspirinlab
+{txt}
+{com}. gen female=0
+{txt}
+{com}. replace female=1 if uniform()<.54 & aspirin==1
+{txt}(171 real changes made)
+
+{com}. replace female=1 if uniform()<.62 & aspirin==0
+{txt}(456 real changes made)
+
+{com}. gen age=rnormal(69,6) if aspirin==1
+{txt}(700 missing values generated)
+
+{com}. replace age=rnormal(67.5,5) if aspirin==0
+{txt}(700 real changes made)
+
+{com}. recode age 70/max=3 60/70=2 min/60=1 ,gen(agecat)
+{txt}(1000 differences between age and agecat)
+
+{com}. lab var agecat "age categories"
+{txt}
+{com}. gen rand=uniform()
+{txt}
+{com}. recode rand 0/.10=1 .10/.70=2 .70/max=3 ,gen(education)
+{txt}(1000 differences between rand and education)
+
+{com}. lab var education "education level"
+{txt}
+{com}. replace rand=uniform()
+{txt}(1,000 real changes made)
+
+{com}. recode rand 0/.25=1 .25/.60=2 .60/max=3 ,gen(marital)
+{txt}(1000 differences between rand and marital)
+
+{com}. lab var marital "marital status"
+{txt}
+{com}. drop rand
+{txt}
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+.   version `holdversion' // restore user’s Stata version to the
+.                         // post version 14 that it was 
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+{txt}end of do-file
+
+{com}. tabulate female aspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}        aspirin
+    female {c |} 0) non-as  1) aspiri {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       244        129 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     34.86      43.00 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       456        171 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     65.14      57.00 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       700        300 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. recode aspirin 1=0 0=1 , gen(nonaspirin)
+{txt}(1000 differences between aspirin and nonaspirin)
+
+{com}. tab aspirin nonaspirin , missing
+
+               {txt}{c |}   RECODE of aspirin
+       aspirin {c |}         0          1 {c |}     Total
+{hline 15}{c +}{hline 22}{c +}{hline 10}
+0) non-aspirin {c |}{res}         0        700 {txt}{c |}{res}       700 
+{txt}    1) aspirin {c |}{res}       300          0 {txt}{c |}{res}       300 
+{txt}{hline 15}{c +}{hline 22}{c +}{hline 10}
+         Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+
+
+{com}. label variable nonaspirin
+
+. tab aspirin nonaspirin , missing
+
+               {txt}{c |}      nonaspirin
+       aspirin {c |}         0          1 {c |}     Total
+{hline 15}{c +}{hline 22}{c +}{hline 10}
+0) non-aspirin {c |}{res}         0        700 {txt}{c |}{res}       700 
+{txt}    1) aspirin {c |}{res}       300          0 {txt}{c |}{res}       300 
+{txt}{hline 15}{c +}{hline 22}{c +}{hline 10}
+         Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+
+
+{com}. tabulate female nonaspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     43.00      34.86 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     57.00      65.14 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. tabulate female nonaspirin, column chi2
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     43.00      34.86 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     57.00      65.14 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+{txt}          Pearson chi2({res}1{txt}) = {res}  5.9538  {txt} Pr = {res}0.015
+
+{com}. tabulate marital nonaspirin, expected
+{txt}
+{c TLC}{hline 20}{c TRC}
+{c |} Key{col 22}{c |}
+{c LT}{hline 20}{c RT}
+{c |}{space 5}{it:frequency}{col 22}{c |}
+{c |}{space 1}{it:expected frequency}{col 22}{c |}
+{c BLC}{hline 20}{c BRC}
+
+   marital {c |}      nonaspirin
+    status {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        84        182 {txt}{c |}{res}       266 
+           {txt}{c |}{res}      79.8      186.2 {txt}{c |}{res}     266.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         2 {c |}{res}        96        251 {txt}{c |}{res}       347 
+           {txt}{c |}{res}     104.1      242.9 {txt}{c |}{res}     347.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         3 {c |}{res}       120        267 {txt}{c |}{res}       387 
+           {txt}{c |}{res}     116.1      270.9 {txt}{c |}{res}     387.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}     300.0      700.0 {txt}{c |}{res}   1,000.0 
+
+
+{com}. tabulate marital nonaspirin, column exact
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+{text}Enumerating sample-space combinations:
+{text}stage 3:{col 11}enumerations = 1
+{text}stage 2:{col 11}enumerations = 15
+{text}stage 1:{col 11}enumerations = 0
+
+   marital {c |}      nonaspirin
+    status {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        84        182 {txt}{c |}{res}       266 
+           {txt}{c |}{res}     28.00      26.00 {txt}{c |}{res}     26.60 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         2 {c |}{res}        96        251 {txt}{c |}{res}       347 
+           {txt}{c |}{res}     32.00      35.86 {txt}{c |}{res}     34.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         3 {c |}{res}       120        267 {txt}{c |}{res}       387 
+           {txt}{c |}{res}     40.00      38.14 {txt}{c |}{res}     38.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+{txt}           Fisher's exact =                 {res}0.490
+
+{com}. tabulate education nonaspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+ education {c |}      nonaspirin
+     level {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        29         69 {txt}{c |}{res}        98 
+           {txt}{c |}{res}      9.67       9.86 {txt}{c |}{res}      9.80 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         2 {c |}{res}       190        415 {txt}{c |}{res}       605 
+           {txt}{c |}{res}     63.33      59.29 {txt}{c |}{res}     60.50 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         3 {c |}{res}        81        216 {txt}{c |}{res}       297 
+           {txt}{c |}{res}     27.00      30.86 {txt}{c |}{res}     29.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. ranksum education, by(nonaspirin)
+
+{txt}Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+  nonaspirin {c |}      obs    rank sum    expected
+{hline 13}{c +}{hline 33}
+           0 {c |}{res}{col 17}    300{col 26}  146637.5{col 38}    150150
+           {txt}1 {c |}{res}{col 17}    700{col 26}  353862.5{col 38}    350350
+{txt}{hline 13}{c +}{hline 33}
+    combined {c |}{res}{col 17}   1000{col 26}    500500{col 38}    500500
+
+{txt}unadjusted variance{col 22}{res}  17517500
+{txt}adjustment for ties{col 22}{res}-4354563.9
+{txt}{col 22}{hline 10}
+adjusted variance{col 22}{res}  13162936
+
+{txt}Ho: educat~n(nonasp~n==0) = educat~n(nonasp~n==1)
+{col 14}z = {res} -0.968
+{txt}{col 5}Prob > |z| = {res}  0.3330
+
+{com}. ttest age , by(nonaspirin)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       0 {c |}{res}{col 12}    300{col 22} 68.66106{col 34} .3513305{col 46} 6.085222{col 58} 67.96967{col 70} 69.35246
+       {txt}1 {c |}{res}{col 12}    700{col 22} 67.65712{col 34} .1813885{col 46} 4.799089{col 58} 67.30099{col 70} 68.01325
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}  1,000{col 22}  67.9583{col 34} .1655593{col 46} 5.235443{col 58} 67.63342{col 70} 68.28319
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} 1.003943{col 34} .3600612{col 58} .2973787{col 70} 1.710506
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}0{txt}) - mean({res}1{txt})                                      t = {res}  2.7883
+{txt}Ho: diff = 0                                     degrees of freedom = {res}     998
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9973         {txt}Pr(|T| > |t|) = {res}0.0054          {txt}Pr(T > t) = {res}0.0027
+
+{com}. tabulate agecat nonaspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+       age {c |}      nonaspirin
+categories {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        20         42 {txt}{c |}{res}        62 
+           {txt}{c |}{res}      6.67       6.00 {txt}{c |}{res}      6.20 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         2 {c |}{res}       160        436 {txt}{c |}{res}       596 
+           {txt}{c |}{res}     53.33      62.29 {txt}{c |}{res}     59.60 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         3 {c |}{res}       120        222 {txt}{c |}{res}       342 
+           {txt}{c |}{res}     40.00      31.71 {txt}{c |}{res}     34.20 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. ranksum agecat, by(nonaspirin)
+
+{txt}Two-sample Wilcoxon rank-sum (Mann-Whitney) test
+
+  nonaspirin {c |}      obs    rank sum    expected
+{hline 13}{c +}{hline 33}
+           0 {c |}{res}{col 17}    300{col 26}    157850{col 38}    150150
+           {txt}1 {c |}{res}{col 17}    700{col 26}    342650{col 38}    350350
+{txt}{hline 13}{c +}{hline 33}
+    combined {c |}{res}{col 17}   1000{col 26}    500500{col 38}    500500
+
+{txt}unadjusted variance{col 22}{res}  17517500
+{txt}adjustment for ties{col 22}{res}-4413499.2
+{txt}{col 22}{hline 10}
+adjusted variance{col 22}{res}  13104001
+
+{txt}Ho: agecat(nonasp~n==0) = agecat(nonasp~n==1)
+{col 14}z = {res}  2.127
+{txt}{col 5}Prob > |z| = {res}  0.0334
+
+{com}. exit, clear

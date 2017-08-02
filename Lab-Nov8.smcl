@@ -1,0 +1,268 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Nov8.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}13 Dec 2016, 01:40:42
+
+{com}. mcpi 0.033 0.303 0.003 0.023 0.001 0.087 0.141
+
+{txt}SORTED ORDER: before anomaly corrected
+Unadj ---------------------- Adjusted ---------------------------
+P Val   TCH    Homml  Finnr  Hochb  Ho-Si  Holm   Sidak  Bonfr
+{res}0.0010  0.003  0.007  0.007  0.007  0.007  0.007  0.007  0.007
+0.0030  0.008  0.018  0.010  0.018  0.018  0.018  0.021  0.021
+0.0230  0.060  0.092  0.053  0.115  0.110  0.115  0.150  0.161
+0.0330  0.085  0.132  0.057  0.132  0.126  0.132  0.209  0.231
+0.0870  0.214  0.212  0.120  0.261  0.239  0.261  0.471  0.609
+0.1410  0.331  0.282  0.162  0.282  0.262  0.282  0.655  0.987
+0.3030  0.615  0.303  0.303  0.303  0.303  0.303  0.920  2.121
+
+{txt}SORTED ORDER: anomaly corrected
+  (1) If Finner or Holm or Bonfer P > 1 (undefined) then set to 1
+  (2) If Finner or Hol-Sid or Holm P < preceding smaller P
+      (illogical) then set to preceding P
+  (3) Working from largest to smallest, if Hochberg preceding
+      smaller P > P then set preceding smaller P to P
+Unadj ---------------------- Adjusted ---------------------------
+P Val   TCH    Homml  Finnr  Hochb  Ho-Si  Holm   Sidak  Bonfr
+{res}0.0010  0.003  0.007  0.007  0.007  0.007  0.007  0.007  0.007
+0.0030  0.008  0.018  0.010  0.018  0.018  0.018  0.021  0.021
+0.0230  0.060  0.092  0.053  0.115  0.110  0.115  0.150  0.161
+0.0330  0.085  0.132  0.057  0.132  0.126  0.132  0.209  0.231
+0.0870  0.214  0.212  0.120  0.261  0.239  0.261  0.471  0.609
+0.1410  0.331  0.282  0.162  0.282  0.262  0.282  0.655  0.987
+0.3030  0.615  0.303  0.303  0.303  0.303  0.303  0.920  1.000
+
+{txt}ORIGINAL ORDER: anomaly corrected
+Unadj ---------------------- Adjusted ---------------------------
+P Val   TCH    Homml  Finnr  Hochb  Ho-Si  Holm   Sidak  Bonfr
+{res}0.0330  0.085  0.132  0.057  0.132  0.126  0.132  0.209  0.231
+0.3030  0.615  0.303  0.303  0.303  0.303  0.303  0.920  1.000
+0.0030  0.008  0.018  0.010  0.018  0.018  0.018  0.021  0.021
+0.0230  0.060  0.092  0.053  0.115  0.110  0.115  0.150  0.161
+0.0010  0.003  0.007  0.007  0.007  0.007  0.007  0.007  0.007
+0.0870  0.214  0.212  0.120  0.261  0.239  0.261  0.471  0.609
+0.1410  0.331  0.282  0.162  0.282  0.262  0.282  0.655  0.987
+{txt}-----------------------------------------------------------------
+*Adjusted for 7 multiple comparisons
+
+KEY: TCH   = Tukey-Ciminera-Heyse procedure
+             (use TCH only with highly correlated comparisons)
+     Homml = Hommel procedure
+     Finnr = Finner procedure
+     Hochb = Hochberg procedure
+     Ho-Si = Holm-Sidak procedure
+     Holm  = Holm procedure
+     Sidak = Sidak procedure
+     Bonfr = Bonferroni procedure
+
+{com}. fdri 0.101 0.231 0.001 0.023 0.512
+
+{txt}P Value Adjustment for Controlling False Discovery Rate
+
+SORTED ORDER: before anomaly corrected
+Unadj   Adjusted
+P Val   BenHoc
+{res}0.0010  0.005
+0.0230  0.058
+0.1010  0.168
+0.2310  0.289
+0.5120  0.512
+
+{txt}SORTED ORDER: anomaly corrected
+  Working from largest to smallest, if Benjamini-Hochberg
+  preceding smaller P > P then set preceding smaller P to P
+Unadj   Adjusted
+P Val   BenHoc
+{res}0.0010  0.005
+0.0230  0.058
+0.1010  0.168
+0.2310  0.289
+0.5120  0.512
+
+{txt}ORIGINAL ORDER: anomaly corrected
+Unadj   Adjusted
+P Val   BenHoc
+{res}0.1010  0.168
+0.2310  0.289
+0.0010  0.005
+0.0230  0.058
+0.5120  0.512
+{txt}-----------------------------------------
+*Adjusted for 5 multiple comparisons
+
+KEY: BenHoc = Benjamini-Hochberg procedure
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions 
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version  // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // temporarily set Stata to version 13.1 so get 
+.                // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 600
+{txt}
+{com}. set obs 60
+{txt}{p}
+number of observations (_N)  was 0,
+now 60
+{p_end}
+
+{com}. gen group=_n
+{txt}
+{com}. recode group 1/20=1 21/40=2 41/60=3
+{txt}(group: 59 changes made)
+
+{com}. gen thyroxine=rnormal(1.22,0.21) if group==1
+{txt}(40 missing values generated)
+
+{com}. replace thyroxine=rnormal(1.15,0.22) if group==2
+{txt}(20 real changes made)
+
+{com}. replace thyroxine=rnormal(1.07,0.19) if group==3
+{txt}(20 real changes made)
+
+{com}. oneway thyroxine group , tab
+
+            {txt}{c |}        Summary of thyroxine
+      group {c |}        Mean   Std. Dev.       Freq.
+{hline 12}{c +}{hline 36}
+          1 {c |}  {res} 1.1943338   .16013801          20
+  {txt}        2 {c |}  {res} 1.1080236   .21736679          20
+  {txt}        3 {c |}  {res} 1.0501332   .18941653          20
+{txt}{hline 12}{c +}{hline 36}
+      Total {c |}  {res} 1.1174969   .19646373          60
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} .210630409      2   .105315204      2.90     0.0629
+{txt} Within groups     {res} 2.06665142     57   .036257042
+{txt}{hline 72}
+    Total          {res} 2.27728183     59   .038597997
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}  1.7085{txt}  Prob>chi2 = {res}0.426
+{txt}
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+.   version `holdversion' // restore user’s Stata version to the
+.                         // post version 14 that it was 
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+{txt}end of do-file
+
+{com}. ttest thyroxine if group==1 | group==2, by(group)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       1 {c |}{res}{col 12}     20{col 22} 1.194334{col 34} .0358079{col 46}  .160138{col 58} 1.119387{col 70} 1.269281
+       {txt}2 {c |}{res}{col 12}     20{col 22} 1.108024{col 34} .0486047{col 46} .2173668{col 58} 1.006293{col 70} 1.209754
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}     40{col 22} 1.151179{col 34} .0305867{col 46} .1934473{col 58} 1.089311{col 70} 1.213046
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0863103{col 34} .0603707{col 58}-.0359039{col 70} .2085244
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}1{txt}) - mean({res}2{txt})                                      t = {res}  1.4297
+{txt}Ho: diff = 0                                     degrees of freedom = {res}      38
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9195         {txt}Pr(|T| > |t|) = {res}0.1610          {txt}Pr(T > t) = {res}0.0805
+
+{com}. ttest thyroxine if group==2 | group==3, by(group)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       2 {c |}{res}{col 12}     20{col 22} 1.108024{col 34} .0486047{col 46} .2173668{col 58} 1.006293{col 70} 1.209754
+       {txt}3 {c |}{res}{col 12}     20{col 22} 1.050133{col 34} .0423548{col 46} .1894165{col 58} .9614836{col 70} 1.138783
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}     40{col 22} 1.079078{col 34} .0321547{col 46} .2033643{col 58} 1.014039{col 70} 1.144117
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .0578903{col 34} .0644697{col 58}-.0726218{col 70} .1884025
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}2{txt}) - mean({res}3{txt})                                      t = {res}  0.8979
+{txt}Ho: diff = 0                                     degrees of freedom = {res}      38
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.8126         {txt}Pr(|T| > |t|) = {res}0.3749          {txt}Pr(T > t) = {res}0.1874
+
+{com}. ttest thyroxine if group==3 | group==1, by(group)
+
+{txt}Two-sample t test with equal variances
+{hline 9}{c TT}{hline 68}
+   Group{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       1 {c |}{res}{col 12}     20{col 22} 1.194334{col 34} .0358079{col 46}  .160138{col 58} 1.119387{col 70} 1.269281
+       {txt}3 {c |}{res}{col 12}     20{col 22} 1.050133{col 34} .0423548{col 46} .1894165{col 58} .9614836{col 70} 1.138783
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}     40{col 22} 1.122234{col 34} .0297088{col 46} .1878946{col 58} 1.062142{col 70} 1.182325
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22} .1442006{col 34}  .055463{col 58} .0319217{col 70} .2564795
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}1{txt}) - mean({res}3{txt})                                      t = {res}  2.5999
+{txt}Ho: diff = 0                                     degrees of freedom = {res}      38
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9934         {txt}Pr(|T| > |t|) = {res}0.0132          {txt}Pr(T > t) = {res}0.0066
+
+{com}. mcpi 0.1610 0.3749 0.0132
+
+{txt}SORTED ORDER: before anomaly corrected
+Unadj ---------------------- Adjusted ---------------------------
+P Val   TCH    Homml  Finnr  Hochb  Ho-Si  Holm   Sidak  Bonfr
+{res}0.0132  0.023  0.040  0.039  0.040  0.039  0.040  0.039  0.040
+0.1610  0.262  0.322  0.232  0.322  0.296  0.322  0.409  0.483
+0.3749  0.557  0.375  0.375  0.375  0.375  0.375  0.756  1.125
+
+{txt}SORTED ORDER: anomaly corrected
+  (1) If Finner or Holm or Bonfer P > 1 (undefined) then set to 1
+  (2) If Finner or Hol-Sid or Holm P < preceding smaller P
+      (illogical) then set to preceding P
+  (3) Working from largest to smallest, if Hochberg preceding
+      smaller P > P then set preceding smaller P to P
+Unadj ---------------------- Adjusted ---------------------------
+P Val   TCH    Homml  Finnr  Hochb  Ho-Si  Holm   Sidak  Bonfr
+{res}0.0132  0.023  0.040  0.039  0.040  0.039  0.040  0.039  0.040
+0.1610  0.262  0.322  0.232  0.322  0.296  0.322  0.409  0.483
+0.3749  0.557  0.375  0.375  0.375  0.375  0.375  0.756  1.000
+
+{txt}ORIGINAL ORDER: anomaly corrected
+Unadj ---------------------- Adjusted ---------------------------
+P Val   TCH    Homml  Finnr  Hochb  Ho-Si  Holm   Sidak  Bonfr
+{res}0.1610  0.262  0.322  0.232  0.322  0.296  0.322  0.409  0.483
+0.3749  0.557  0.375  0.375  0.375  0.375  0.375  0.756  1.000
+0.0132  0.023  0.040  0.039  0.040  0.039  0.040  0.039  0.040
+{txt}-----------------------------------------------------------------
+*Adjusted for 3 multiple comparisons
+
+KEY: TCH   = Tukey-Ciminera-Heyse procedure
+             (use TCH only with highly correlated comparisons)
+     Homml = Hommel procedure
+     Finnr = Finner procedure
+     Hochb = Hochberg procedure
+     Ho-Si = Holm-Sidak procedure
+     Holm  = Holm procedure
+     Sidak = Sidak procedure
+     Bonfr = Bonferroni procedure
+
+{com}. exit, clear

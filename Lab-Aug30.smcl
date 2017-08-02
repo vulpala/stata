@@ -1,0 +1,547 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\stata lab Ch 1-2.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Oct 2016, 12:31:04
+
+{com}. log using "stata lab Ch 1-2"
+{err}log file already open
+{txt}{search r(604):r(604);}
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\stata lab Ch 1-2.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}12 Oct 2016, 12:41:48
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\stata lab Ch 1-2.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Oct 2016, 13:43:40
+
+{com}. import delimited "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\problem1.txt", delimiter(space) 
+{res}{text}(4 vars, 3 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 5}{c -}{hline 6}{c -}{hline 5}{c TRC}
+     {c |} {res}id   age   male   sdp {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 6}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1    30      1   120 {txt}{c |}
+  2. {c |} {res} 2    29      0   119 {txt}{c |}
+  3. {c |} {res} 3    45      1   130 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 6}{c -}{hline 5}{c BRC}
+
+{com}. clear
+
+. import delimited "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\problem2.csv", delimiter(comma) 
+{res}{text}(3 vars, 2 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 4}{c -}{hline 5}{c TRC}
+     {c |} {res}id   dm   chd {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 4}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1    1     0 {txt}{c |}
+  2. {c |} {res} 2    0     1 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
+
+{com}. clear
+
+. use "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\datasets & do-files\births_with_missing.dta", clear
+{txt}(Data from 500 births)
+
+{com}. tabulate gestwks
+
+  {txt}gestation {c |}
+     period {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      26.95 {c |}{res}          1        0.22        0.22
+{txt}      27.33 {c |}{res}          1        0.22        0.45
+{txt}      30.52 {c |}{res}          1        0.22        0.67
+{txt}      30.65 {c |}{res}          1        0.22        0.89
+{txt}      30.71 {c |}{res}          1        0.22        1.12
+{txt}      30.85 {c |}{res}          1        0.22        1.34
+{txt}      31.29 {c |}{res}          1        0.22        1.57
+{txt}      31.37 {c |}{res}          1        0.22        1.79
+{txt}      31.71 {c |}{res}          1        0.22        2.01
+{txt}      32.41 {c |}{res}          1        0.22        2.24
+{txt}      32.47 {c |}{res}          1        0.22        2.46
+{txt}      32.53 {c |}{res}          1        0.22        2.68
+{txt}      32.64 {c |}{res}          1        0.22        2.91
+{txt}      32.81 {c |}{res}          1        0.22        3.13
+{txt}      33.23 {c |}{res}          1        0.22        3.36
+{txt}      33.67 {c |}{res}          1        0.22        3.58
+{txt}      34.02 {c |}{res}          1        0.22        3.80
+{txt}      34.06 {c |}{res}          1        0.22        4.03
+{txt}      34.14 {c |}{res}          1        0.22        4.25
+{txt}      34.19 {c |}{res}          1        0.22        4.47
+{txt}      34.34 {c |}{res}          1        0.22        4.70
+{txt}      34.59 {c |}{res}          1        0.22        4.92
+{txt}      34.64 {c |}{res}          1        0.22        5.15
+{txt}      34.67 {c |}{res}          2        0.45        5.59
+{txt}      34.87 {c |}{res}          1        0.22        5.82
+{txt}      35.14 {c |}{res}          1        0.22        6.04
+{txt}      35.27 {c |}{res}          1        0.22        6.26
+{txt}      35.41 {c |}{res}          1        0.22        6.49
+{txt}      35.62 {c |}{res}          1        0.22        6.71
+{txt}      35.68 {c |}{res}          1        0.22        6.94
+{txt}       35.7 {c |}{res}          1        0.22        7.16
+{txt}      35.73 {c |}{res}          1        0.22        7.38
+{txt}      35.95 {c |}{res}          1        0.22        7.61
+{txt}      36.09 {c |}{res}          1        0.22        7.83
+{txt}      36.16 {c |}{res}          1        0.22        8.05
+{txt}      36.23 {c |}{res}          1        0.22        8.28
+{txt}      36.24 {c |}{res}          1        0.22        8.50
+{txt}      36.27 {c |}{res}          1        0.22        8.72
+{txt}      36.28 {c |}{res}          1        0.22        8.95
+{txt}      36.35 {c |}{res}          1        0.22        9.17
+{txt}      36.37 {c |}{res}          2        0.45        9.62
+{txt}       36.4 {c |}{res}          1        0.22        9.84
+{txt}      36.41 {c |}{res}          1        0.22       10.07
+{txt}      36.44 {c |}{res}          1        0.22       10.29
+{txt}      36.45 {c |}{res}          1        0.22       10.51
+{txt}      36.48 {c |}{res}          1        0.22       10.74
+{txt}      36.53 {c |}{res}          1        0.22       10.96
+{txt}      36.54 {c |}{res}          1        0.22       11.19
+{txt}      36.82 {c |}{res}          1        0.22       11.41
+{txt}      36.92 {c |}{res}          1        0.22       11.63
+{txt}      36.94 {c |}{res}          2        0.45       12.08
+{txt}      36.99 {c |}{res}          1        0.22       12.30
+{txt}      37.04 {c |}{res}          1        0.22       12.53
+{txt}      37.08 {c |}{res}          1        0.22       12.75
+{txt}       37.1 {c |}{res}          2        0.45       13.20
+{txt}      37.11 {c |}{res}          1        0.22       13.42
+{txt}      37.13 {c |}{res}          1        0.22       13.65
+{txt}      37.17 {c |}{res}          2        0.45       14.09
+{txt}      37.22 {c |}{res}          2        0.45       14.54
+{txt}      37.26 {c |}{res}          1        0.22       14.77
+{txt}      37.27 {c |}{res}          1        0.22       14.99
+{txt}      37.33 {c |}{res}          2        0.45       15.44
+{txt}      37.36 {c |}{res}          1        0.22       15.66
+{txt}      37.39 {c |}{res}          1        0.22       15.88
+{txt}       37.4 {c |}{res}          1        0.22       16.11
+{txt}      37.42 {c |}{res}          1        0.22       16.33
+{txt}      37.43 {c |}{res}          1        0.22       16.55
+{txt}      37.44 {c |}{res}          1        0.22       16.78
+{txt}      37.46 {c |}{res}          2        0.45       17.23
+{txt}      37.49 {c |}{res}          1        0.22       17.45
+{txt}      37.53 {c |}{res}          1        0.22       17.67
+{txt}      37.54 {c |}{res}          1        0.22       17.90
+{txt}      37.55 {c |}{res}          1        0.22       18.12
+{txt}      37.57 {c |}{res}          1        0.22       18.34
+{txt}      37.58 {c |}{res}          1        0.22       18.57
+{txt}      37.59 {c |}{res}          2        0.45       19.02
+{txt}      37.62 {c |}{res}          1        0.22       19.24
+{txt}      37.65 {c |}{res}          2        0.45       19.69
+{txt}      37.67 {c |}{res}          1        0.22       19.91
+{txt}      37.68 {c |}{res}          1        0.22       20.13
+{txt}       37.7 {c |}{res}          1        0.22       20.36
+{txt}      37.74 {c |}{res}          4        0.89       21.25
+{txt}      37.78 {c |}{res}          1        0.22       21.48
+{txt}      37.79 {c |}{res}          1        0.22       21.70
+{txt}      37.82 {c |}{res}          1        0.22       21.92
+{txt}      37.83 {c |}{res}          1        0.22       22.15
+{txt}      37.84 {c |}{res}          1        0.22       22.37
+{txt}      37.86 {c |}{res}          1        0.22       22.60
+{txt}      37.87 {c |}{res}          1        0.22       22.82
+{txt}      37.88 {c |}{res}          1        0.22       23.04
+{txt}      37.89 {c |}{res}          2        0.45       23.49
+{txt}       37.9 {c |}{res}          1        0.22       23.71
+{txt}      37.91 {c |}{res}          1        0.22       23.94
+{txt}      37.94 {c |}{res}          2        0.45       24.38
+{txt}      37.96 {c |}{res}          3        0.67       25.06
+{txt}      37.97 {c |}{res}          2        0.45       25.50
+{txt}      38.02 {c |}{res}          1        0.22       25.73
+{txt}      38.03 {c |}{res}          2        0.45       26.17
+{txt}      38.04 {c |}{res}          1        0.22       26.40
+{txt}      38.06 {c |}{res}          1        0.22       26.62
+{txt}      38.07 {c |}{res}          1        0.22       26.85
+{txt}      38.09 {c |}{res}          3        0.67       27.52
+{txt}      38.14 {c |}{res}          1        0.22       27.74
+{txt}      38.15 {c |}{res}          2        0.45       28.19
+{txt}      38.16 {c |}{res}          1        0.22       28.41
+{txt}      38.18 {c |}{res}          1        0.22       28.64
+{txt}      38.21 {c |}{res}          1        0.22       28.86
+{txt}      38.23 {c |}{res}          3        0.67       29.53
+{txt}      38.25 {c |}{res}          1        0.22       29.75
+{txt}      38.26 {c |}{res}          4        0.89       30.65
+{txt}      38.27 {c |}{res}          3        0.67       31.32
+{txt}      38.33 {c |}{res}          1        0.22       31.54
+{txt}      38.34 {c |}{res}          1        0.22       31.77
+{txt}      38.36 {c |}{res}          3        0.67       32.44
+{txt}      38.37 {c |}{res}          1        0.22       32.66
+{txt}      38.41 {c |}{res}          1        0.22       32.89
+{txt}      38.44 {c |}{res}          3        0.67       33.56
+{txt}      38.45 {c |}{res}          2        0.45       34.00
+{txt}      38.48 {c |}{res}          3        0.67       34.68
+{txt}       38.5 {c |}{res}          1        0.22       34.90
+{txt}      38.51 {c |}{res}          3        0.67       35.57
+{txt}      38.55 {c |}{res}          2        0.45       36.02
+{txt}      38.56 {c |}{res}          1        0.22       36.24
+{txt}      38.58 {c |}{res}          2        0.45       36.69
+{txt}       38.6 {c |}{res}          2        0.45       37.14
+{txt}      38.63 {c |}{res}          1        0.22       37.36
+{txt}      38.64 {c |}{res}          1        0.22       37.58
+{txt}      38.66 {c |}{res}          1        0.22       37.81
+{txt}      38.67 {c |}{res}          1        0.22       38.03
+{txt}      38.68 {c |}{res}          2        0.45       38.48
+{txt}      38.69 {c |}{res}          2        0.45       38.93
+{txt}      38.72 {c |}{res}          2        0.45       39.37
+{txt}      38.74 {c |}{res}          1        0.22       39.60
+{txt}      38.75 {c |}{res}          2        0.45       40.04
+{txt}      38.77 {c |}{res}          1        0.22       40.27
+{txt}      38.78 {c |}{res}          1        0.22       40.49
+{txt}      38.83 {c |}{res}          1        0.22       40.72
+{txt}      38.85 {c |}{res}          1        0.22       40.94
+{txt}      38.86 {c |}{res}          1        0.22       41.16
+{txt}      38.87 {c |}{res}          1        0.22       41.39
+{txt}      38.88 {c |}{res}          1        0.22       41.61
+{txt}      38.89 {c |}{res}          2        0.45       42.06
+{txt}       38.9 {c |}{res}          2        0.45       42.51
+{txt}      38.91 {c |}{res}          2        0.45       42.95
+{txt}      38.92 {c |}{res}          2        0.45       43.40
+{txt}      38.93 {c |}{res}          2        0.45       43.85
+{txt}      38.95 {c |}{res}          1        0.22       44.07
+{txt}      38.96 {c |}{res}          1        0.22       44.30
+{txt}      38.97 {c |}{res}          2        0.45       44.74
+{txt}      38.98 {c |}{res}          1        0.22       44.97
+{txt}      38.99 {c |}{res}          4        0.89       45.86
+{txt}      39.01 {c |}{res}          2        0.45       46.31
+{txt}      39.02 {c |}{res}          2        0.45       46.76
+{txt}      39.04 {c |}{res}          3        0.67       47.43
+{txt}      39.05 {c |}{res}          1        0.22       47.65
+{txt}      39.06 {c |}{res}          1        0.22       47.87
+{txt}       39.1 {c |}{res}          1        0.22       48.10
+{txt}      39.11 {c |}{res}          1        0.22       48.32
+{txt}      39.12 {c |}{res}          2        0.45       48.77
+{txt}      39.13 {c |}{res}          1        0.22       48.99
+{txt}      39.14 {c |}{res}          1        0.22       49.22
+{txt}      39.17 {c |}{res}          1        0.22       49.44
+{txt}      39.18 {c |}{res}          2        0.45       49.89
+{txt}      39.19 {c |}{res}          1        0.22       50.11
+{txt}       39.2 {c |}{res}          2        0.45       50.56
+{txt}      39.21 {c |}{res}          1        0.22       50.78
+{txt}      39.22 {c |}{res}          2        0.45       51.23
+{txt}      39.23 {c |}{res}          1        0.22       51.45
+{txt}      39.27 {c |}{res}          1        0.22       51.68
+{txt}      39.33 {c |}{res}          1        0.22       51.90
+{txt}      39.35 {c |}{res}          4        0.89       52.80
+{txt}      39.38 {c |}{res}          2        0.45       53.24
+{txt}      39.42 {c |}{res}          1        0.22       53.47
+{txt}      39.43 {c |}{res}          4        0.89       54.36
+{txt}      39.44 {c |}{res}          1        0.22       54.59
+{txt}      39.45 {c |}{res}          2        0.45       55.03
+{txt}      39.46 {c |}{res}          1        0.22       55.26
+{txt}      39.47 {c |}{res}          1        0.22       55.48
+{txt}      39.49 {c |}{res}          3        0.67       56.15
+{txt}       39.5 {c |}{res}          1        0.22       56.38
+{txt}      39.51 {c |}{res}          1        0.22       56.60
+{txt}      39.52 {c |}{res}          3        0.67       57.27
+{txt}      39.54 {c |}{res}          2        0.45       57.72
+{txt}      39.55 {c |}{res}          1        0.22       57.94
+{txt}      39.56 {c |}{res}          2        0.45       58.39
+{txt}      39.57 {c |}{res}          3        0.67       59.06
+{txt}      39.58 {c |}{res}          1        0.22       59.28
+{txt}       39.6 {c |}{res}          2        0.45       59.73
+{txt}      39.61 {c |}{res}          1        0.22       59.96
+{txt}      39.62 {c |}{res}          2        0.45       60.40
+{txt}      39.63 {c |}{res}          1        0.22       60.63
+{txt}      39.64 {c |}{res}          2        0.45       61.07
+{txt}      39.65 {c |}{res}          2        0.45       61.52
+{txt}      39.67 {c |}{res}          1        0.22       61.74
+{txt}      39.69 {c |}{res}          1        0.22       61.97
+{txt}       39.7 {c |}{res}          3        0.67       62.64
+{txt}      39.71 {c |}{res}          2        0.45       63.09
+{txt}      39.74 {c |}{res}          2        0.45       63.53
+{txt}      39.75 {c |}{res}          2        0.45       63.98
+{txt}      39.76 {c |}{res}          4        0.89       64.88
+{txt}      39.77 {c |}{res}          2        0.45       65.32
+{txt}       39.8 {c |}{res}          3        0.67       66.00
+{txt}      39.81 {c |}{res}          2        0.45       66.44
+{txt}      39.83 {c |}{res}          1        0.22       66.67
+{txt}      39.84 {c |}{res}          1        0.22       66.89
+{txt}      39.85 {c |}{res}          4        0.89       67.79
+{txt}      39.86 {c |}{res}          3        0.67       68.46
+{txt}      39.88 {c |}{res}          2        0.45       68.90
+{txt}       39.9 {c |}{res}          3        0.67       69.57
+{txt}      39.91 {c |}{res}          1        0.22       69.80
+{txt}      39.92 {c |}{res}          2        0.45       70.25
+{txt}      39.93 {c |}{res}          1        0.22       70.47
+{txt}      39.94 {c |}{res}          2        0.45       70.92
+{txt}      39.95 {c |}{res}          1        0.22       71.14
+{txt}      39.96 {c |}{res}          2        0.45       71.59
+{txt}      39.97 {c |}{res}          1        0.22       71.81
+{txt}      39.98 {c |}{res}          1        0.22       72.04
+{txt}      40.01 {c |}{res}          1        0.22       72.26
+{txt}      40.03 {c |}{res}          4        0.89       73.15
+{txt}      40.04 {c |}{res}          2        0.45       73.60
+{txt}      40.05 {c |}{res}          1        0.22       73.83
+{txt}      40.06 {c |}{res}          1        0.22       74.05
+{txt}      40.07 {c |}{res}          2        0.45       74.50
+{txt}      40.08 {c |}{res}          1        0.22       74.72
+{txt}      40.09 {c |}{res}          2        0.45       75.17
+{txt}       40.1 {c |}{res}          1        0.22       75.39
+{txt}      40.11 {c |}{res}          1        0.22       75.62
+{txt}      40.12 {c |}{res}          1        0.22       75.84
+{txt}      40.13 {c |}{res}          1        0.22       76.06
+{txt}      40.14 {c |}{res}          1        0.22       76.29
+{txt}      40.15 {c |}{res}          1        0.22       76.51
+{txt}      40.18 {c |}{res}          2        0.45       76.96
+{txt}      40.19 {c |}{res}          2        0.45       77.40
+{txt}       40.2 {c |}{res}          1        0.22       77.63
+{txt}      40.21 {c |}{res}          2        0.45       78.08
+{txt}      40.23 {c |}{res}          1        0.22       78.30
+{txt}      40.25 {c |}{res}          1        0.22       78.52
+{txt}      40.27 {c |}{res}          1        0.22       78.75
+{txt}      40.29 {c |}{res}          1        0.22       78.97
+{txt}       40.3 {c |}{res}          1        0.22       79.19
+{txt}      40.33 {c |}{res}          1        0.22       79.42
+{txt}      40.34 {c |}{res}          1        0.22       79.64
+{txt}      40.35 {c |}{res}          3        0.67       80.31
+{txt}      40.36 {c |}{res}          3        0.67       80.98
+{txt}      40.37 {c |}{res}          1        0.22       81.21
+{txt}      40.38 {c |}{res}          1        0.22       81.43
+{txt}      40.41 {c |}{res}          1        0.22       81.66
+{txt}      40.42 {c |}{res}          1        0.22       81.88
+{txt}      40.44 {c |}{res}          1        0.22       82.10
+{txt}      40.45 {c |}{res}          3        0.67       82.77
+{txt}      40.46 {c |}{res}          1        0.22       83.00
+{txt}      40.48 {c |}{res}          4        0.89       83.89
+{txt}       40.5 {c |}{res}          2        0.45       84.34
+{txt}      40.55 {c |}{res}          2        0.45       84.79
+{txt}      40.56 {c |}{res}          1        0.22       85.01
+{txt}      40.57 {c |}{res}          1        0.22       85.23
+{txt}      40.58 {c |}{res}          1        0.22       85.46
+{txt}      40.61 {c |}{res}          1        0.22       85.68
+{txt}      40.62 {c |}{res}          1        0.22       85.91
+{txt}      40.63 {c |}{res}          1        0.22       86.13
+{txt}      40.64 {c |}{res}          2        0.45       86.58
+{txt}      40.66 {c |}{res}          1        0.22       86.80
+{txt}      40.67 {c |}{res}          2        0.45       87.25
+{txt}       40.7 {c |}{res}          1        0.22       87.47
+{txt}      40.74 {c |}{res}          3        0.67       88.14
+{txt}      40.78 {c |}{res}          1        0.22       88.37
+{txt}      40.79 {c |}{res}          1        0.22       88.59
+{txt}       40.8 {c |}{res}          3        0.67       89.26
+{txt}      40.82 {c |}{res}          3        0.67       89.93
+{txt}      40.84 {c |}{res}          1        0.22       90.16
+{txt}      40.89 {c |}{res}          1        0.22       90.38
+{txt}       40.9 {c |}{res}          1        0.22       90.60
+{txt}      40.92 {c |}{res}          2        0.45       91.05
+{txt}      40.93 {c |}{res}          2        0.45       91.50
+{txt}      40.95 {c |}{res}          1        0.22       91.72
+{txt}      40.97 {c |}{res}          1        0.22       91.95
+{txt}      40.99 {c |}{res}          2        0.45       92.39
+{txt}         41 {c |}{res}          1        0.22       92.62
+{txt}      41.01 {c |}{res}          1        0.22       92.84
+{txt}      41.02 {c |}{res}          3        0.67       93.51
+{txt}      41.03 {c |}{res}          1        0.22       93.74
+{txt}      41.04 {c |}{res}          2        0.45       94.18
+{txt}      41.05 {c |}{res}          1        0.22       94.41
+{txt}       41.1 {c |}{res}          1        0.22       94.63
+{txt}      41.11 {c |}{res}          2        0.45       95.08
+{txt}      41.13 {c |}{res}          1        0.22       95.30
+{txt}      41.18 {c |}{res}          1        0.22       95.53
+{txt}      41.22 {c |}{res}          1        0.22       95.75
+{txt}      41.24 {c |}{res}          1        0.22       95.97
+{txt}      41.26 {c |}{res}          1        0.22       96.20
+{txt}      41.29 {c |}{res}          1        0.22       96.42
+{txt}      41.31 {c |}{res}          1        0.22       96.64
+{txt}      41.66 {c |}{res}          1        0.22       96.87
+{txt}      41.68 {c |}{res}          1        0.22       97.09
+{txt}      41.71 {c |}{res}          1        0.22       97.32
+{txt}      41.79 {c |}{res}          1        0.22       97.54
+{txt}      41.84 {c |}{res}          1        0.22       97.76
+{txt}      41.96 {c |}{res}          1        0.22       97.99
+{txt}      41.99 {c |}{res}          1        0.22       98.21
+{txt}      42.03 {c |}{res}          1        0.22       98.43
+{txt}      42.05 {c |}{res}          1        0.22       98.66
+{txt}      42.06 {c |}{res}          1        0.22       98.88
+{txt}      42.14 {c |}{res}          1        0.22       99.11
+{txt}       42.2 {c |}{res}          1        0.22       99.33
+{txt}       42.3 {c |}{res}          1        0.22       99.55
+{txt}      42.86 {c |}{res}          1        0.22       99.78
+{txt}      43.16 {c |}{res}          1        0.22      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        447      100.00
+
+{com}. histogram gestwks, discrete
+{txt}(start={res}26.950001{txt}, width={res}.00999832{txt})
+{res}
+{com}. histogram gestwks
+{txt}(bin={res}21{txt}, start={res}26.950001{txt}, width={res}.77190472{txt})
+{res}
+{com}. histogram gestwks, discrete
+{txt}(start={res}26.950001{txt}, width={res}.00999832{txt})
+{res}
+{com}. histogram gestwks, percent
+{txt}(bin={res}21{txt}, start={res}26.950001{txt}, width={res}.77190472{txt})
+{res}
+{com}. histogram gestwks, discrete percent
+{txt}(start={res}26.950001{txt}, width={res}.00999832{txt})
+{res}
+{com}. twoway (kdensity gestwks if sexalph == "female", lcolor(red)) ///
+{err}/ / / is not a twoway plot type
+{txt}{search r(198):r(198);}
+
+{com}. 
+.   (kdensity gestwks if sexalph == "male" , lcolor(green)) ///
+{bf}{err}({sf} is not a valid command name
+{txt}{search r(199):r(199);}
+
+{com}. 
+.  , legend(label(1 "female") label(2 "male")) ///
+{bf}{err},{sf} is not a valid command name
+{txt}{search r(199):r(199);}
+
+{com}. 
+.    ytitle("kdensity gestwks") xtitle("x")
+{err}command {bf}ytitle{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}.  , legend(label(1 "female") label(2 "male")) ///
+{bf}{err},{sf} is not a valid command name
+{txt}{search r(199):r(199);}
+
+{com}.   (kdensity gestwks if sexalph == "male" , lcolor(green)) ///
+{bf}{err}({sf} is not a valid command name
+{txt}{search r(199):r(199);}
+
+{com}. twoway (kdensity matage if sexalph == "female", lcolor(pink))
+{res}
+{com}. 
+.   (kdensity matage if sexalph == "male" , lcolor(blue))
+{bf}{err}({sf} is not a valid command name
+{txt}{search r(199):r(199);}
+
+{com}. 
+.  , legend(label(1 "female") label(2 "male"))
+{bf}{err},{sf} is not a valid command name
+{txt}{search r(199):r(199);}
+
+{com}. 
+.    ytitle("Density") xtitle("Maternal Age (years)")
+{err}command {bf}ytitle{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. twoway (kdensity matage if sexalph == "female", lcolor(pink)) ///
+>   (kdensity matage if sexalph == "male" , lcolor(blue)) ///
+>  , legend(label(1 "female") label(2 "male")) ///
+>    ytitle("Density") xtitle("Maternal Age (years)")
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. twoway (kdensity gestwks if sexalph == "female", lcolor(red)) ///
+>   (kdensity gestwks if sexalph == "male" , lcolor(green)) ///
+>  , legend(label(1 "female") label(2 "male")) ///
+>    ytitle("kensity gestwks") xtitle("x")
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}.  twoway (kdensity gestwks if sexalph == "female", lcolor(red)) ///
+>    (kdensity gestwks if sexalph == "male" , lcolor(green)) ///
+>   , legend(label(1 "female") label(2 "male")) ///
+>     ytitle("kensity gestwks") xtitle("x")
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. graph box gestwks, by(sexalph)
+{res}
+{com}. graph box gestwks, by(sexalph)
+{res}
+{com}. graph box gestwks, over(sexalph)
+{res}
+{com}. 
+. 
+. graph box gestwks, over(sex, relabel(0 "normal birth weight" 1 "low birth weight"))
+{res}
+{com}. 
+. 
+. 
+. 
+. graph box gestwks, over(lowbw, relabel(1 "low birth weight" 0 "normal birth weight"))
+{res}
+{com}. 
+. 
+. graph box gestwks, over(lowbw, relabel(1 "low birth weight" 2 "normal birth weight"))
+{res}
+{com}.  graph box gestwks, over(lowbw, relabel(0 "normal birth weight" 1 "low birth weight"))
+{res}
+{com}.  graph box gestwks, over(lowbw, relabel(0=normal birth weight 1=low birth weight"))
+{err}parentheses do not balance
+{txt}{search r(198):r(198);}
+
+{com}. graph box gestwks, over(lowbw(hyp, relabel(1 "low birth weight" 2 "normal birth weight")))
+{err}factor variables and time-series operators not allowed
+{txt}{search r(101):r(101);}
+
+{com}. graph box gestwks, over(lowbw, relabel(1 "normal birth weight" 2 "low birth weight")) ///
+{res}{err}option {bf:/} not allowed
+{txt}{search r(198):r(198);}
+
+{com}. 
+.   over(hyp, relabel(0 "normal birth weight" ///
+{err}command {bf}over{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. 
+.   1 "low birth weight"))
+{bf}{err}1{sf} is not a valid command name
+{txt}{search r(199):r(199);}
+
+{com}. 
+. 
+. graph box matage, over(sex, relabel(1 "Male" 2 "Female")) ///
+{res}{err}option {bf:/} not allowed
+{txt}{search r(198):r(198);}
+
+{com}. 
+.   over(hyp, relabel(1 "Maternal Hypertension Absent" ///
+{err}command {bf}over{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. 
+.   2 "Maternal Hypertension Present"))
+{bf}{err}2{sf} is not a valid command name
+{txt}{search r(199):r(199);}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD02000000.tmp"
+{txt}
+{com}. graph box gestwks, over(lowbw, relabel(1 "Male" 2 "Female")) ///
+>   over(hyp, relabel(0 "normal bith weight" ///
+>   1 "low birth weight"))
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. {smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\6000-lab-aug30.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Dec 2016, 22:32:42
+
+{com}. graph box gestwks, over(lowbw, relabel(1 "Normal Birth Weight" 2 "Low Birth Weight"))
+{err}variable {bf}lowbw{sf} not found
+{txt}{search r(111):r(111);}
+
+{com}. use "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\datasets & do-files\births_with_missing.dta", clear
+{txt}(Data from 500 births)
+
+{com}. graph box gestwks, over(lowbw, relabel(1 "Normal Birth Weight" 2       "Low Birth Weight"))
+{res}
+{com}. exit, clear

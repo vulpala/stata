@@ -1,0 +1,461 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Nov1.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Dec 2016, 03:32:59
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. *---------------------------------------------------------------
+. * Demonstrate statistical regularity by plotting the mean from
+. * two normal distributions (1st: mean=5, std.dev=2.5; 
+. * 2nd: mean=4, std.dev=2.5) for increasingly larger sample sizes
+. *---------------------------------------------------------------
+. *
+. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions 
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version  // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // temporarily set Stata to version 13.1 so get 
+.                // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. local j=1
+{txt}
+{com}. foreach i of numlist 555 999  888 333 {c -(}
+{txt}  2{com}.   clear 
+{txt}  3{com}.   set obs 200
+{txt}  4{com}.   gen nvar=.
+{txt}  5{com}.   gen y1var=.
+{txt}  6{com}.   gen y2var=.
+{txt}  7{com}.   gen m1var=.
+{txt}  8{com}.   gen m2var=.
+{txt}  9{com}.   set seed `i'
+{txt} 10{com}.   forvalues x = 1/200 {c -(}
+{txt} 11{com}.     quietly replace y1var=rnormal(8,2.5) in 1/`x'
+{txt} 12{com}.     sum y1var, meanonly
+{txt} 13{com}.     quietly replace m1var=r(mean) in `x'
+{txt} 14{com}.     quietly replace y2var=rnormal(4,2.5) in 1/`x'
+{txt} 15{com}.     sum y2var, meanonly
+{txt} 16{com}.     quietly replace m2var=r(mean) in `x'
+{txt} 17{com}.     quietly replace nvar=`x' in `x'
+{txt} 18{com}.   {c )-}
+{txt} 19{com}. *
+.   sort nvar
+{txt} 20{com}.   #delimit ;
+{txt}delimiter now ;
+{com}.   twoway (line m1var nvar, lcolor(blue) clwidth(*1.5))
+>      (line m2var nvar, lcolor(red) clwidth(*1.5))
+>    , ylabel(2(1)8,angle(horizontal)) 
+>      xlabel(1 10 15 30 50 100 200)
+>      xtitle("Sample Size (log scale)",height(5))
+>      subtitle("Normal Random Number Seed = `i'")
+>      ytitle(Mean) xscale(log) legend(off) saving(temp`j', replace)
+>          scheme(s1color) plotregion(style(none))
+>    ;
+{txt} 21{com}.   #delimit cr
+{txt}delimiter now cr
+{com}.   local j=`j'+1 // graph #
+{txt} 22{com}. {c )-}
+{txt}{p}
+number of observations (_N)  was 0,
+now 200
+{p_end}
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+{res}{txt}(note: file temp1.gph not found)
+{res}{txt}(file temp1.gph saved)
+{p}
+number of observations (_N)  was 0,
+now 200
+{p_end}
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+{res}{txt}(note: file temp2.gph not found)
+{res}{txt}(file temp2.gph saved)
+{p}
+number of observations (_N)  was 0,
+now 200
+{p_end}
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+{res}{txt}(note: file temp3.gph not found)
+{res}{txt}(file temp3.gph saved)
+{p}
+number of observations (_N)  was 0,
+now 200
+{p_end}
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+{res}{txt}(note: file temp4.gph not found)
+{res}{txt}(file temp4.gph saved)
+
+{com}. graph combine temp1.gph temp2.gph temp3.gph temp4.gph, ///
+>   title("Statistical Regularity for N(8,2.5) and N(4,2.5) Variables") ///
+>   cols(2) scheme(s1color) plotregion(style(none))
+{res}{txt}
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+.   version `holdversion' // restore user’s Stata version to the
+.                         // post version 14 that it was 
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+{txt}end of do-file
+
+{com}. power twomeans 8 4, sd(2.5) power(.80)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated sample sizes for a two-sample means test{p_end}{txt}t test assuming sd1 = sd2 = sd
+{txt}{txt}{bind:Ho: m2 = m1}  {txt}versus  {bind:Ha: m2 != m1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.8000
+{txt}{ralign 16:delta = }{res}  -4.0000
+{txt}{ralign 16:m1 = }{res}   8.0000
+{txt}{ralign 16:m2 = }{res}   4.0000
+{txt}{ralign 16:sd = }{res}   2.5000
+
+{p}{txt}Estimated sample sizes:{p_end}
+
+{txt}{ralign 16:N = }{res}       16
+{txt}{ralign 16:N per group = }{res}        8
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. *---------------------------------------------------------------
+. * Demonstrate statistical regularity by plotting the mean from
+. * two normal distributions (1st: mean=5, std.dev=2.5; 
+. * 2nd: mean=4, std.dev=2.5) for increasingly larger sample sizes
+. *---------------------------------------------------------------
+. *
+. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions 
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version  // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // temporarily set Stata to version 13.1 so get 
+.                // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. local j=1
+{txt}
+{com}. foreach i of numlist 555 999  888 333 {c -(}
+{txt}  2{com}.   clear 
+{txt}  3{com}.   set obs 200
+{txt}  4{com}.   gen nvar=.
+{txt}  5{com}.   gen y1var=.
+{txt}  6{com}.   gen y2var=.
+{txt}  7{com}.   gen m1var=.
+{txt}  8{com}.   gen m2var=.
+{txt}  9{com}.   set seed `i'
+{txt} 10{com}.   forvalues x = 1/200 {c -(}
+{txt} 11{com}.     quietly replace y1var=rnormal(4.1,2.5) in 1/`x'
+{txt} 12{com}.     sum y1var, meanonly
+{txt} 13{com}.     quietly replace m1var=r(mean) in `x'
+{txt} 14{com}.     quietly replace y2var=rnormal(4,2.5) in 1/`x'
+{txt} 15{com}.     sum y2var, meanonly
+{txt} 16{com}.     quietly replace m2var=r(mean) in `x'
+{txt} 17{com}.     quietly replace nvar=`x' in `x'
+{txt} 18{com}.   {c )-}
+{txt} 19{com}. *
+.   sort nvar
+{txt} 20{com}.   #delimit ;
+{txt}delimiter now ;
+{com}.   twoway (line m1var nvar, lcolor(blue) clwidth(*1.5))
+>      (line m2var nvar, lcolor(red) clwidth(*1.5))
+>    , ylabel(2(1)8,angle(horizontal)) 
+>      xlabel(1 10 15 30 50 100 200)
+>      xtitle("Sample Size (log scale)",height(5))
+>      subtitle("Normal Random Number Seed = `i'")
+>      ytitle(Mean) xscale(log) legend(off) saving(temp`j', replace)
+>          scheme(s1color) plotregion(style(none))
+>    ;
+{txt} 21{com}.   #delimit cr
+{txt}delimiter now cr
+{com}.   local j=`j'+1 // graph #
+{txt} 22{com}. {c )-}
+{txt}{p}
+number of observations (_N)  was 0,
+now 200
+{p_end}
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+{res}{txt}(file temp1.gph saved)
+{p}
+number of observations (_N)  was 0,
+now 200
+{p_end}
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+{res}{txt}(file temp2.gph saved)
+{p}
+number of observations (_N)  was 0,
+now 200
+{p_end}
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+{res}{txt}(file temp3.gph saved)
+{p}
+number of observations (_N)  was 0,
+now 200
+{p_end}
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+(200 missing values generated)
+{res}{txt}(file temp4.gph saved)
+
+{com}. graph combine temp1.gph temp2.gph temp3.gph temp4.gph, ///
+>   title("Statistical Regularity for N(4.1,2.5) and N(4,2.5) Variables") ///
+>   cols(2) scheme(s1color) plotregion(style(none))
+{res}{txt}
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+.   version `holdversion' // restore user’s Stata version to the
+.                         // post version 14 that it was 
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+{txt}end of do-file
+
+{com}. power twomeans 4.1 4, sd(2.5) power(.80)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated sample sizes for a two-sample means test{p_end}{txt}t test assuming sd1 = sd2 = sd
+{txt}{txt}{bind:Ho: m2 = m1}  {txt}versus  {bind:Ha: m2 != m1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.8000
+{txt}{ralign 16:delta = }{res}  -0.1000
+{txt}{ralign 16:m1 = }{res}   4.1000
+{txt}{ralign 16:m2 = }{res}   4.0000
+{txt}{ralign 16:sd = }{res}   2.5000
+
+{p}{txt}Estimated sample sizes:{p_end}
+
+{txt}{ralign 16:N = }{res}    19626
+{txt}{ralign 16:N per group = }{res}     9813
+
+{com}. power twomeans 0 .30, sd(1) power(.80)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated sample sizes for a two-sample means test{p_end}{txt}t test assuming sd1 = sd2 = sd
+{txt}{txt}{bind:Ho: m2 = m1}  {txt}versus  {bind:Ha: m2 != m1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.8000
+{txt}{ralign 16:delta = }{res}   0.3000
+{txt}{ralign 16:m1 = }{res}   0.0000
+{txt}{ralign 16:m2 = }{res}   0.3000
+{txt}{ralign 16:sd = }{res}   1.0000
+
+{p}{txt}Estimated sample sizes:{p_end}
+
+{txt}{ralign 16:N = }{res}      352
+{txt}{ralign 16:N per group = }{res}      176
+
+{com}. power twomeans 0 1.50, sd(1) power(.80)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated sample sizes for a two-sample means test{p_end}{txt}t test assuming sd1 = sd2 = sd
+{txt}{txt}{bind:Ho: m2 = m1}  {txt}versus  {bind:Ha: m2 != m1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.8000
+{txt}{ralign 16:delta = }{res}   1.5000
+{txt}{ralign 16:m1 = }{res}   0.0000
+{txt}{ralign 16:m2 = }{res}   1.5000
+{txt}{ralign 16:sd = }{res}   1.0000
+
+{p}{txt}Estimated sample sizes:{p_end}
+
+{txt}{ralign 16:N = }{res}       18
+{txt}{ralign 16:N per group = }{res}        9
+
+{com}. power twomeans 0 1.60, sd(1) power(.80)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated sample sizes for a two-sample means test{p_end}{txt}t test assuming sd1 = sd2 = sd
+{txt}{txt}{bind:Ho: m2 = m1}  {txt}versus  {bind:Ha: m2 != m1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.8000
+{txt}{ralign 16:delta = }{res}   1.6000
+{txt}{ralign 16:m1 = }{res}   0.0000
+{txt}{ralign 16:m2 = }{res}   1.6000
+{txt}{ralign 16:sd = }{res}   1.0000
+
+{p}{txt}Estimated sample sizes:{p_end}
+
+{txt}{ralign 16:N = }{res}       16
+{txt}{ralign 16:N per group = }{res}        8
+
+{com}. power twomeans 0 1.70, sd(1) power(.80)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated sample sizes for a two-sample means test{p_end}{txt}t test assuming sd1 = sd2 = sd
+{txt}{txt}{bind:Ho: m2 = m1}  {txt}versus  {bind:Ha: m2 != m1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.8000
+{txt}{ralign 16:delta = }{res}   1.7000
+{txt}{ralign 16:m1 = }{res}   0.0000
+{txt}{ralign 16:m2 = }{res}   1.7000
+{txt}{ralign 16:sd = }{res}   1.0000
+
+{p}{txt}Estimated sample sizes:{p_end}
+
+{txt}{ralign 16:N = }{res}       14
+{txt}{ralign 16:N per group = }{res}        7
+
+{com}. power twomeans 0 1.40, sd(1) power(.80)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated sample sizes for a two-sample means test{p_end}{txt}t test assuming sd1 = sd2 = sd
+{txt}{txt}{bind:Ho: m2 = m1}  {txt}versus  {bind:Ha: m2 != m1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.8000
+{txt}{ralign 16:delta = }{res}   1.4000
+{txt}{ralign 16:m1 = }{res}   0.0000
+{txt}{ralign 16:m2 = }{res}   1.4000
+{txt}{ralign 16:sd = }{res}   1.0000
+
+{p}{txt}Estimated sample sizes:{p_end}
+
+{txt}{ralign 16:N = }{res}       20
+{txt}{ralign 16:N per group = }{res}       10
+
+{com}. power twomeans 140, sd(20) power(.999) n1(100000) n2(100000) direction(lower)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated experimental-group mean for a two-sample means test{p_end}{txt}t test assuming sd1 = sd2 = sd
+{txt}{txt}{bind:Ho: m2 = m1}  {txt}versus  {bind:Ha: m2 != m1}{txt}; {bind:m2 < m1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.9990
+{txt}{ralign 16:N = }{res}   200000
+{txt}{ralign 16:N1 = }{res}   100000
+{txt}{ralign 16:N2 = }{res}   100000
+{txt}{ralign 16:m1 = }{res} 140.0000
+{txt}{ralign 16:sd = }{res}  20.0000
+
+{p}{txt}Estimated effect size and  experimental-group mean:{p_end}
+
+{txt}{ralign 16:delta = }{res}  -0.4517
+{txt}{ralign 16:m2 = }{res} 139.5483
+
+{com}. power twoproportions .3 .55, test(chi2) power(.90)
+{res}
+{txt}Performing iteration ...
+{res}
+{p 0 2 2}{txt}Estimated sample sizes for a two-sample proportions test{p_end}{txt}Pearson's chi-squared test 
+{txt}{txt}{bind:Ho: p2 = p1}  {txt}versus  {bind:Ha: p2 != p1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:power = }{res}   0.9000
+{txt}{ralign 16:delta = }{res}   0.2500{txt}  (difference)
+{txt}{ralign 16:p1 = }{res}   0.3000
+{txt}{ralign 16:p2 = }{res}   0.5500
+
+{p}{txt}Estimated sample sizes:{p_end}
+
+{txt}{ralign 16:N = }{res}      162
+{txt}{ralign 16:N per group = }{res}       81
+
+{com}. display 81/0.85
+{res}95.294118
+
+{com}. power twoproportions .15 .45, test(fisher) n1(41) n2(41)
+{res}
+{p 0 2 2}{txt}Estimated power for a two-sample proportions test{p_end}{txt}Fisher's exact test
+{txt}{txt}{bind:Ho: p2 = p1}  {txt}versus  {bind:Ha: p2 != p1}
+
+{txt}Study parameters:
+
+{txt}{ralign 16:alpha = }{res}   0.0500
+{txt}{ralign 16:N = }{res}       82
+{txt}{ralign 16:N1 = }{res}       41
+{txt}{ralign 16:N2 = }{res}       41
+{txt}{ralign 16:delta = }{res}   0.3000{txt}  (difference)
+{txt}{ralign 16:p1 = }{res}   0.1500
+{txt}{ralign 16:p2 = }{res}   0.4500
+
+{p}{txt}Estimated power and alpha:{p_end}
+
+{txt}{ralign 16:power = }{res}   0.8062
+{txt}{ralign 16:actual alpha = }{res}   0.0262
+
+{com}. display 1-(1-0.05)^7
+{res}.3016627
+
+{com}. exit, clear

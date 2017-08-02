@@ -1,0 +1,938 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Sep13.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}15 Dec 2016, 23:27:23
+
+{com}. import delimited stata_lab_ch1-4b.csv, clear
+{res}{text}(3 vars, 5 obs)
+
+{com}. save stata_lab_ch1-4b.csv , replace
+{txt}file stata_lab_ch1-4b.csv saved
+
+{com}. import delimited stata_lab_ch1-4a.csv, clear
+{res}{text}(3 vars, 5 obs)
+
+{com}. merge 1:1 _n using stata_lab_ch1-4b.csv , update
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+
+{txt}{col 5}matched{col 30}{res}               5
+{txt}{col 9}not updated{col 30}{res}               3{txt}  (_merge==3)
+{col 9}missing updated{col 30}{res}               1{txt}  (_merge==4)
+{col 9}nonmissing conflict{col 30}{res}               1{txt}  (_merge==5)
+{col 5}{hline 41}
+
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 25}{c TRC}
+     {c |} {res}studyid   gender   sbp   age                    _merge {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 25}{c RT}
+  1. {c |} {res}      1        M   120    18               matched (3) {txt}{c |}
+  2. {c |} {res}      2        F   119    22   nonmissing conflict (5) {txt}{c |}
+  3. {c |} {res}      3        F   125    33       missing updated (4) {txt}{c |}
+  4. {c |} {res}      4        M   110    40               matched (3) {txt}{c |}
+  5. {c |} {res}      5        F   100    25               matched (3) {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 25}{c BRC}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions 
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version  // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // temporarily set Stata to version 13.1 so get 
+.                // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 999
+{txt}
+{com}. set obs 1000
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. gen aspirin=1 in 1/300
+{txt}(700 missing values generated)
+
+{com}. replace aspirin=0 in 301/1000
+{txt}(700 real changes made)
+
+{com}. label define aspirinlab 0 "0) non-aspirin" 1 "1) aspirin"
+{txt}
+{com}. label values aspirin aspirinlab
+{txt}
+{com}. gen female=0
+{txt}
+{com}. replace female=1 if uniform()<.54 & aspirin==1
+{txt}(171 real changes made)
+
+{com}. replace female=1 if uniform()<.62 & aspirin==0
+{txt}(456 real changes made)
+
+{com}. gen age=rnormal(69,6) if aspirin==1
+{txt}(700 missing values generated)
+
+{com}. replace age=rnormal(61,5) if aspirin==0
+{txt}(700 real changes made)
+
+{com}. recode age 70/max=3 60/70=2 min/60=1 ,gen(agecat)
+{txt}(1000 differences between age and agecat)
+
+{com}. lab var agecat "age categories"
+{txt}
+{com}. gen rand=uniform()
+{txt}
+{com}. recode rand 0/.10=1 .10/.70=2 .70/max=3 ,gen(education)
+{txt}(1000 differences between rand and education)
+
+{com}. lab var education "education level"
+{txt}
+{com}. replace rand=uniform()
+{txt}(1,000 real changes made)
+
+{com}. recode rand 0/.25=1 .25/.60=2 .60/max=3 ,gen(marital)
+{txt}(1000 differences between rand and marital)
+
+{com}. lab var marital "marital status"
+{txt}
+{com}. drop rand
+{txt}
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+.   version `holdversion' // restore user’s Stata version to the
+.                         // post version 14 that it was 
+. {c )-}
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. tabulate aspirin
+
+       {txt}aspirin {c |}      Freq.     Percent        Cum.
+{hline 15}{c +}{hline 35}
+0) non-aspirin {c |}{res}        700       70.00       70.00
+{txt}    1) aspirin {c |}{res}        300       30.00      100.00
+{txt}{hline 15}{c +}{hline 35}
+         Total {c |}{res}      1,000      100.00
+
+{com}. tabstat age, statistics( sd mean count ) by(aspirin) columns(statistics)
+
+{txt}Summary for variables: age
+{col 6}by categories of: aspirin 
+
+{ralign 14:aspirin} {...}
+{c |}        sd      mean         N
+{hline 15}{c +}{hline 30}
+{ralign 14:0) non-aspirin} {...}
+{c |}{...}
+ {res} 4.799089  61.15712       700
+{txt}{ralign 14:1) aspirin} {...}
+{c |}{...}
+ {res} 6.085222  68.66106       300
+{txt}{hline 15}{c +}{hline 30}
+{ralign 14:Total} {...}
+{c |}{...}
+ {res}  6.24778   63.4083      1000
+{txt}{hline 15}{c BT}{hline 30}
+
+{com}. bysort aspirin: tab agecat
+
+{txt}{hline}
+-> aspirin = 0) non-aspirin
+
+        age {c |}
+ categories {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}        271       38.71       38.71
+{txt}          2 {c |}{res}        412       58.86       97.57
+{txt}          3 {c |}{res}         17        2.43      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        700      100.00
+
+{txt}{hline}
+-> aspirin = 1) aspirin
+
+        age {c |}
+ categories {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}         20        6.67        6.67
+{txt}          2 {c |}{res}        160       53.33       60.00
+{txt}          3 {c |}{res}        120       40.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        300      100.00
+
+
+{com}. table marital education, contents(mean age sd age) format(%3.0f)
+
+{txt}{hline 10}{c TT}{hline 17}
+marital   {c |} education level 
+status    {c |}    1     2     3
+{hline 10}{c +}{hline 17}
+        1 {c |}   {res}63    64    63
+          {txt}{c |}    {res}4     7     7
+          {txt}{c |} 
+        2 {c |}   {res}62    64    64
+          {txt}{c |}    {res}5     6     6
+          {txt}{c |} 
+        3 {c |}   {res}64    64    63
+          {txt}{c |}    {res}6     6     6
+{txt}{hline 10}{c BT}{hline 17}
+
+{com}. table marital education, contents(mean age semean age) format(%3.1f)
+
+{txt}{hline 10}{c TT}{hline 17}
+marital   {c |} education level 
+status    {c |}    1     2     3
+{hline 10}{c +}{hline 17}
+        1 {c |} {res}62.5  63.6  63.5
+          {txt}{c |}  {res}0.8   0.5   0.7
+          {txt}{c |} 
+        2 {c |} {res}62.0  63.6  63.6
+          {txt}{c |}  {res}0.8   0.4   0.6
+          {txt}{c |} 
+        3 {c |} {res}63.6  63.7  62.5
+          {txt}{c |}  {res}0.9   0.4   0.6
+{txt}{hline 10}{c BT}{hline 17}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input cd4cells count
+
+     {txt} cd4cells      count
+  1{com}. 0.00 5
+{txt}  2{com}. 0.01 3
+{txt}  3{com}. 0.02 2
+{txt}  4{com}. 0.00 6
+{txt}  5{com}. 0.01 2
+{txt}  6{com}. 0.02 1
+{txt}  7{com}. 0.06 1
+{txt}  8{com}. 0.00 2
+{txt}  9{com}. 0.01 3
+{txt} 10{com}. 0.03 4
+{txt} 11{com}. 0.09 1
+{txt} 12{com}. 0.00 3
+{txt} 13{com}. 0.01 3
+{txt} 14{com}. 0.03 3
+{txt} 15{com}. 0.04 1
+{txt} 16{com}. end
+{txt}
+{com}. expand count
+{txt}(25 observations created)
+
+{com}. drop count
+{txt}
+{com}. * -----------------------------------------------------------------
+. * Create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using pre-14 Stata 
+. * versions. See appendix to Ch 5-13 for an explanation why needed.
+. local holdversion = `c(version)' // store Stata version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // set to version 13.1 so get pre-14 random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 777
+{txt}
+{com}. gen rand=uniform() // jumble order of data then assign IDs
+{txt}
+{com}. sort rand
+{txt}
+{com}. gen id = _n in 1/40
+{txt}
+{com}. drop rand
+{txt}
+{com}. label variable cd4cells ///
+>   "baseline % of CD4+ T-cells producing at least 2 cytokines"
+{txt}
+{com}. order id cd4cells
+{txt}
+{com}. list in 1/5 
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c TRC}
+     {c |} {res}id   cd4cells {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+  1. {c |} {res} 1        .03 {txt}{c |}
+  2. {c |} {res} 2        .02 {txt}{c |}
+  3. {c |} {res} 3        .03 {txt}{c |}
+  4. {c |} {res} 4        .01 {txt}{c |}
+  5. {c |} {res} 5        .03 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c BRC}
+
+{com}. version `holdversion' // restore Stata version to what it was
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. * step 1
+. * -----------------------------------------------------------------
+. * Create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using pre-14 Stata 
+. * versions. See appendix to Ch 5-13 for an explanation why needed.
+. local holdversion = `c(version)' // store Stata version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // set to version 13.1 so get pre-14 random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+. * step 2
+. sort cd4cells id
+{txt}
+{com}. list , sep(3)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c TRC}
+     {c |} {res}id   cd4cells {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+  1. {c |} {res} 7          0 {txt}{c |}
+  2. {c |} {res}12          0 {txt}{c |}
+  3. {c |} {res}15          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+  4. {c |} {res}16          0 {txt}{c |}
+  5. {c |} {res}17          0 {txt}{c |}
+  6. {c |} {res}18          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+  7. {c |} {res}20          0 {txt}{c |}
+  8. {c |} {res}21          0 {txt}{c |}
+  9. {c |} {res}23          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 10. {c |} {res}27          0 {txt}{c |}
+ 11. {c |} {res}29          0 {txt}{c |}
+ 12. {c |} {res}33          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 13. {c |} {res}37          0 {txt}{c |}
+ 14. {c |} {res}38          0 {txt}{c |}
+ 15. {c |} {res}39          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 16. {c |} {res}40          0 {txt}{c |}
+ 17. {c |} {res} 4        .01 {txt}{c |}
+ 18. {c |} {res} 6        .01 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 19. {c |} {res}11        .01 {txt}{c |}
+ 20. {c |} {res}14        .01 {txt}{c |}
+ 21. {c |} {res}22        .01 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 22. {c |} {res}24        .01 {txt}{c |}
+ 23. {c |} {res}26        .01 {txt}{c |}
+ 24. {c |} {res}31        .01 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 25. {c |} {res}34        .01 {txt}{c |}
+ 26. {c |} {res}35        .01 {txt}{c |}
+ 27. {c |} {res}36        .01 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 28. {c |} {res} 2        .02 {txt}{c |}
+ 29. {c |} {res}25        .02 {txt}{c |}
+ 30. {c |} {res}28        .02 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 31. {c |} {res} 1        .03 {txt}{c |}
+ 32. {c |} {res} 3        .03 {txt}{c |}
+ 33. {c |} {res} 5        .03 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 34. {c |} {res} 8        .03 {txt}{c |}
+ 35. {c |} {res} 9        .03 {txt}{c |}
+ 36. {c |} {res}10        .03 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 37. {c |} {res}30        .03 {txt}{c |}
+ 38. {c |} {res}13        .04 {txt}{c |}
+ 39. {c |} {res}19        .06 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c RT}
+ 40. {c |} {res}32        .09 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c BRC}
+
+{com}. 
+. * step 3
+. gen tiesid = 0
+{txt}
+{com}. replace tiesid = 1 if (_n==1) | (cd4cells ~= cd4cells[_n-1] & _n>1)
+{txt}(7 real changes made)
+
+{com}. replace tiesid = sum(tiesid)
+{txt}(39 real changes made)
+
+{com}. list , sepby(tiesid)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 8}{c TRC}
+     {c |} {res}id   cd4cells   tiesid {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c RT}
+  1. {c |} {res} 7          0        1 {txt}{c |}
+  2. {c |} {res}12          0        1 {txt}{c |}
+  3. {c |} {res}15          0        1 {txt}{c |}
+  4. {c |} {res}16          0        1 {txt}{c |}
+  5. {c |} {res}17          0        1 {txt}{c |}
+  6. {c |} {res}18          0        1 {txt}{c |}
+  7. {c |} {res}20          0        1 {txt}{c |}
+  8. {c |} {res}21          0        1 {txt}{c |}
+  9. {c |} {res}23          0        1 {txt}{c |}
+ 10. {c |} {res}27          0        1 {txt}{c |}
+ 11. {c |} {res}29          0        1 {txt}{c |}
+ 12. {c |} {res}33          0        1 {txt}{c |}
+ 13. {c |} {res}37          0        1 {txt}{c |}
+ 14. {c |} {res}38          0        1 {txt}{c |}
+ 15. {c |} {res}39          0        1 {txt}{c |}
+ 16. {c |} {res}40          0        1 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c RT}
+ 17. {c |} {res} 4        .01        2 {txt}{c |}
+ 18. {c |} {res} 6        .01        2 {txt}{c |}
+ 19. {c |} {res}11        .01        2 {txt}{c |}
+ 20. {c |} {res}14        .01        2 {txt}{c |}
+ 21. {c |} {res}22        .01        2 {txt}{c |}
+ 22. {c |} {res}24        .01        2 {txt}{c |}
+ 23. {c |} {res}26        .01        2 {txt}{c |}
+ 24. {c |} {res}31        .01        2 {txt}{c |}
+ 25. {c |} {res}34        .01        2 {txt}{c |}
+ 26. {c |} {res}35        .01        2 {txt}{c |}
+ 27. {c |} {res}36        .01        2 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c RT}
+ 28. {c |} {res} 2        .02        3 {txt}{c |}
+ 29. {c |} {res}25        .02        3 {txt}{c |}
+ 30. {c |} {res}28        .02        3 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c RT}
+ 31. {c |} {res} 1        .03        4 {txt}{c |}
+ 32. {c |} {res} 3        .03        4 {txt}{c |}
+ 33. {c |} {res} 5        .03        4 {txt}{c |}
+ 34. {c |} {res} 8        .03        4 {txt}{c |}
+ 35. {c |} {res} 9        .03        4 {txt}{c |}
+ 36. {c |} {res}10        .03        4 {txt}{c |}
+ 37. {c |} {res}30        .03        4 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c RT}
+ 38. {c |} {res}13        .04        5 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c RT}
+ 39. {c |} {res}19        .06        6 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c RT}
+ 40. {c |} {res}32        .09        7 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 8}{c BRC}
+
+{com}. 
+. * step 4
+. sort tiesid id
+{txt}
+{com}. set seed 888 // so get same answer if execute again
+{txt}
+{com}. gen tiesidrand = uniform()
+{txt}
+{com}. list , sepby(tiesid) abbrev(10)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c TRC}
+     {c |} {res}id   cd4cells   tiesid   tiesidrand {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+  1. {c |} {res} 7          0        1     .3919779 {txt}{c |}
+  2. {c |} {res}12          0        1     .5639539 {txt}{c |}
+  3. {c |} {res}15          0        1     .8728974 {txt}{c |}
+  4. {c |} {res}16          0        1     .9747285 {txt}{c |}
+  5. {c |} {res}17          0        1     .0962137 {txt}{c |}
+  6. {c |} {res}18          0        1     .1022639 {txt}{c |}
+  7. {c |} {res}20          0        1      .278269 {txt}{c |}
+  8. {c |} {res}21          0        1     .4834487 {txt}{c |}
+  9. {c |} {res}23          0        1     .1373691 {txt}{c |}
+ 10. {c |} {res}27          0        1     .6935664 {txt}{c |}
+ 11. {c |} {res}29          0        1     .1064071 {txt}{c |}
+ 12. {c |} {res}33          0        1      .734168 {txt}{c |}
+ 13. {c |} {res}37          0        1     .3420483 {txt}{c |}
+ 14. {c |} {res}38          0        1     .1305037 {txt}{c |}
+ 15. {c |} {res}39          0        1     .1384828 {txt}{c |}
+ 16. {c |} {res}40          0        1     .2356554 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 17. {c |} {res} 4        .01        2     .2438193 {txt}{c |}
+ 18. {c |} {res} 6        .01        2     .7444605 {txt}{c |}
+ 19. {c |} {res}11        .01        2     .6120884 {txt}{c |}
+ 20. {c |} {res}14        .01        2     .7505407 {txt}{c |}
+ 21. {c |} {res}22        .01        2     .7825475 {txt}{c |}
+ 22. {c |} {res}24        .01        2     .3804419 {txt}{c |}
+ 23. {c |} {res}26        .01        2     .2151616 {txt}{c |}
+ 24. {c |} {res}31        .01        2     .2143846 {txt}{c |}
+ 25. {c |} {res}34        .01        2     .0276526 {txt}{c |}
+ 26. {c |} {res}35        .01        2     .1452012 {txt}{c |}
+ 27. {c |} {res}36        .01        2     .3754609 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 28. {c |} {res} 2        .02        3     .8682609 {txt}{c |}
+ 29. {c |} {res}25        .02        3     .1964506 {txt}{c |}
+ 30. {c |} {res}28        .02        3     .0333858 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 31. {c |} {res} 1        .03        4     .4604992 {txt}{c |}
+ 32. {c |} {res} 3        .03        4     .9595683 {txt}{c |}
+ 33. {c |} {res} 5        .03        4     .3534248 {txt}{c |}
+ 34. {c |} {res} 8        .03        4      .494446 {txt}{c |}
+ 35. {c |} {res} 9        .03        4     .2143108 {txt}{c |}
+ 36. {c |} {res}10        .03        4     .3603746 {txt}{c |}
+ 37. {c |} {res}30        .03        4     .0118423 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 38. {c |} {res}13        .04        5      .349865 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 39. {c |} {res}19        .06        6     .8367125 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 40. {c |} {res}32        .09        7     .1940645 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c BRC}
+
+{com}. 
+. * step 5
+. sort tiesid tiesidrand
+{txt}
+{com}. list , sepby(tiesid) abbrev(10)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c TRC}
+     {c |} {res}id   cd4cells   tiesid   tiesidrand {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+  1. {c |} {res}17          0        1     .0962137 {txt}{c |}
+  2. {c |} {res}18          0        1     .1022639 {txt}{c |}
+  3. {c |} {res}29          0        1     .1064071 {txt}{c |}
+  4. {c |} {res}38          0        1     .1305037 {txt}{c |}
+  5. {c |} {res}23          0        1     .1373691 {txt}{c |}
+  6. {c |} {res}39          0        1     .1384828 {txt}{c |}
+  7. {c |} {res}40          0        1     .2356554 {txt}{c |}
+  8. {c |} {res}20          0        1      .278269 {txt}{c |}
+  9. {c |} {res}37          0        1     .3420483 {txt}{c |}
+ 10. {c |} {res} 7          0        1     .3919779 {txt}{c |}
+ 11. {c |} {res}21          0        1     .4834487 {txt}{c |}
+ 12. {c |} {res}12          0        1     .5639539 {txt}{c |}
+ 13. {c |} {res}27          0        1     .6935664 {txt}{c |}
+ 14. {c |} {res}33          0        1      .734168 {txt}{c |}
+ 15. {c |} {res}15          0        1     .8728974 {txt}{c |}
+ 16. {c |} {res}16          0        1     .9747285 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 17. {c |} {res}34        .01        2     .0276526 {txt}{c |}
+ 18. {c |} {res}35        .01        2     .1452012 {txt}{c |}
+ 19. {c |} {res}31        .01        2     .2143846 {txt}{c |}
+ 20. {c |} {res}26        .01        2     .2151616 {txt}{c |}
+ 21. {c |} {res} 4        .01        2     .2438193 {txt}{c |}
+ 22. {c |} {res}36        .01        2     .3754609 {txt}{c |}
+ 23. {c |} {res}24        .01        2     .3804419 {txt}{c |}
+ 24. {c |} {res}11        .01        2     .6120884 {txt}{c |}
+ 25. {c |} {res} 6        .01        2     .7444605 {txt}{c |}
+ 26. {c |} {res}14        .01        2     .7505407 {txt}{c |}
+ 27. {c |} {res}22        .01        2     .7825475 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 28. {c |} {res}28        .02        3     .0333858 {txt}{c |}
+ 29. {c |} {res}25        .02        3     .1964506 {txt}{c |}
+ 30. {c |} {res} 2        .02        3     .8682609 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 31. {c |} {res}30        .03        4     .0118423 {txt}{c |}
+ 32. {c |} {res} 9        .03        4     .2143108 {txt}{c |}
+ 33. {c |} {res} 5        .03        4     .3534248 {txt}{c |}
+ 34. {c |} {res}10        .03        4     .3603746 {txt}{c |}
+ 35. {c |} {res} 1        .03        4     .4604992 {txt}{c |}
+ 36. {c |} {res} 8        .03        4      .494446 {txt}{c |}
+ 37. {c |} {res} 3        .03        4     .9595683 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 38. {c |} {res}13        .04        5      .349865 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 39. {c |} {res}19        .06        6     .8367125 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 40. {c |} {res}32        .09        7     .1940645 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c BRC}
+
+{com}. 
+. * step 6
+. gen strataid=.
+{txt}(40 missing values generated)
+
+{com}. local row=1
+{txt}
+{com}. forval strat=1/10 {c -(}
+{txt}  2{com}.   forval grp=1/4 {c -(}
+{txt}  3{com}.     replace strataid=`strat' in `row'
+{txt}  4{com}.     local row=`row'+1
+{txt}  5{com}.   {c )-}
+{txt}  6{com}. {c )-}
+{txt}(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+{com}. order id strataid cd4cells tiesid tiesidrand
+{txt}
+{com}. list , sepby(strataid) abbrev(10)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c TRC}
+     {c |} {res}id   strataid   cd4cells   tiesid   tiesidrand {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+  1. {c |} {res}17          1          0        1     .0962137 {txt}{c |}
+  2. {c |} {res}18          1          0        1     .1022639 {txt}{c |}
+  3. {c |} {res}29          1          0        1     .1064071 {txt}{c |}
+  4. {c |} {res}38          1          0        1     .1305037 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+  5. {c |} {res}23          2          0        1     .1373691 {txt}{c |}
+  6. {c |} {res}39          2          0        1     .1384828 {txt}{c |}
+  7. {c |} {res}40          2          0        1     .2356554 {txt}{c |}
+  8. {c |} {res}20          2          0        1      .278269 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+  9. {c |} {res}37          3          0        1     .3420483 {txt}{c |}
+ 10. {c |} {res} 7          3          0        1     .3919779 {txt}{c |}
+ 11. {c |} {res}21          3          0        1     .4834487 {txt}{c |}
+ 12. {c |} {res}12          3          0        1     .5639539 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 13. {c |} {res}27          4          0        1     .6935664 {txt}{c |}
+ 14. {c |} {res}33          4          0        1      .734168 {txt}{c |}
+ 15. {c |} {res}15          4          0        1     .8728974 {txt}{c |}
+ 16. {c |} {res}16          4          0        1     .9747285 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 17. {c |} {res}34          5        .01        2     .0276526 {txt}{c |}
+ 18. {c |} {res}35          5        .01        2     .1452012 {txt}{c |}
+ 19. {c |} {res}31          5        .01        2     .2143846 {txt}{c |}
+ 20. {c |} {res}26          5        .01        2     .2151616 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 21. {c |} {res} 4          6        .01        2     .2438193 {txt}{c |}
+ 22. {c |} {res}36          6        .01        2     .3754609 {txt}{c |}
+ 23. {c |} {res}24          6        .01        2     .3804419 {txt}{c |}
+ 24. {c |} {res}11          6        .01        2     .6120884 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 25. {c |} {res} 6          7        .01        2     .7444605 {txt}{c |}
+ 26. {c |} {res}14          7        .01        2     .7505407 {txt}{c |}
+ 27. {c |} {res}22          7        .01        2     .7825475 {txt}{c |}
+ 28. {c |} {res}28          7        .02        3     .0333858 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 29. {c |} {res}25          8        .02        3     .1964506 {txt}{c |}
+ 30. {c |} {res} 2          8        .02        3     .8682609 {txt}{c |}
+ 31. {c |} {res}30          8        .03        4     .0118423 {txt}{c |}
+ 32. {c |} {res} 9          8        .03        4     .2143108 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 33. {c |} {res} 5          9        .03        4     .3534248 {txt}{c |}
+ 34. {c |} {res}10          9        .03        4     .3603746 {txt}{c |}
+ 35. {c |} {res} 1          9        .03        4     .4604992 {txt}{c |}
+ 36. {c |} {res} 8          9        .03        4      .494446 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c RT}
+ 37. {c |} {res} 3         10        .03        4     .9595683 {txt}{c |}
+ 38. {c |} {res}13         10        .04        5      .349865 {txt}{c |}
+ 39. {c |} {res}19         10        .06        6     .8367125 {txt}{c |}
+ 40. {c |} {res}32         10        .09        7     .1940645 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c BRC}
+
+{com}. 
+. * step 7
+. gen grouprand = uniform()
+{txt}
+{com}. sort strataid grouprand
+{txt}
+{com}. order id strataid cd4cells tiesid tiesidrand grouprand
+{txt}
+{com}. list , sepby(strataid) abbrev(10)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c TRC}
+     {c |} {res}id   strataid   cd4cells   tiesid   tiesidrand   grouprand {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+  1. {c |} {res}18          1          0        1     .1022639    .1717001 {txt}{c |}
+  2. {c |} {res}38          1          0        1     .1305037    .2747746 {txt}{c |}
+  3. {c |} {res}17          1          0        1     .0962137    .6238279 {txt}{c |}
+  4. {c |} {res}29          1          0        1     .1064071    .6378781 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+  5. {c |} {res}20          2          0        1      .278269    .0809489 {txt}{c |}
+  6. {c |} {res}23          2          0        1     .1373691    .1123187 {txt}{c |}
+  7. {c |} {res}40          2          0        1     .2356554    .1647792 {txt}{c |}
+  8. {c |} {res}39          2          0        1     .1384828    .5594596 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+  9. {c |} {res}12          3          0        1     .5639539    .0324986 {txt}{c |}
+ 10. {c |} {res}37          3          0        1     .3420483    .0829416 {txt}{c |}
+ 11. {c |} {res} 7          3          0        1     .3919779    .1094594 {txt}{c |}
+ 12. {c |} {res}21          3          0        1     .4834487    .2583396 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 13. {c |} {res}16          4          0        1     .9747285     .145535 {txt}{c |}
+ 14. {c |} {res}33          4          0        1      .734168    .3673713 {txt}{c |}
+ 15. {c |} {res}15          4          0        1     .8728974     .564247 {txt}{c |}
+ 16. {c |} {res}27          4          0        1     .6935664    .7518263 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 17. {c |} {res}35          5        .01        2     .1452012    .0574337 {txt}{c |}
+ 18. {c |} {res}26          5        .01        2     .2151616    .3508884 {txt}{c |}
+ 19. {c |} {res}31          5        .01        2     .2143846    .4682435 {txt}{c |}
+ 20. {c |} {res}34          5        .01        2     .0276526    .8055671 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 21. {c |} {res} 4          6        .01        2     .2438193    .1126046 {txt}{c |}
+ 22. {c |} {res}36          6        .01        2     .3754609    .2760701 {txt}{c |}
+ 23. {c |} {res}11          6        .01        2     .6120884    .7109208 {txt}{c |}
+ 24. {c |} {res}24          6        .01        2     .3804419    .9070804 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 25. {c |} {res}28          7        .02        3     .0333858    .0403082 {txt}{c |}
+ 26. {c |} {res}22          7        .01        2     .7825475    .2407722 {txt}{c |}
+ 27. {c |} {res} 6          7        .01        2     .7444605    .4633153 {txt}{c |}
+ 28. {c |} {res}14          7        .01        2     .7505407    .9036593 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 29. {c |} {res}30          8        .03        4     .0118423    .0617578 {txt}{c |}
+ 30. {c |} {res}25          8        .02        3     .1964506    .4802597 {txt}{c |}
+ 31. {c |} {res} 9          8        .03        4     .2143108     .577168 {txt}{c |}
+ 32. {c |} {res} 2          8        .02        3     .8682609    .7797248 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 33. {c |} {res} 5          9        .03        4     .3534248     .027917 {txt}{c |}
+ 34. {c |} {res} 1          9        .03        4     .4604992    .1886524 {txt}{c |}
+ 35. {c |} {res}10          9        .03        4     .3603746    .9378923 {txt}{c |}
+ 36. {c |} {res} 8          9        .03        4      .494446    .9606951 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 37. {c |} {res} 3         10        .03        4     .9595683     .102284 {txt}{c |}
+ 38. {c |} {res}19         10        .06        6     .8367125    .1180116 {txt}{c |}
+ 39. {c |} {res}32         10        .09        7     .1940645    .7641741 {txt}{c |}
+ 40. {c |} {res}13         10        .04        5      .349865    .9791386 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c BRC}
+
+{com}. 
+. * step 8
+. gen group = .
+{txt}(40 missing values generated)
+
+{com}. local row=1
+{txt}
+{com}. forval strat=1/10 {c -(}
+{txt}  2{com}.   forval grp=1/4 {c -(}
+{txt}  3{com}.     replace group = `grp' in `row'
+{txt}  4{com}.         local row=`row'+1
+{txt}  5{com}.   {c )-}
+{txt}  6{com}. {c )-}
+{txt}(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+
+{com}. order id strataid group cd4cells tiesid tiesidrand grouprand
+{txt}
+{com}. list , sepby(strataid) abbrev(10)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c TRC}
+     {c |} {res}id   strataid   group   cd4cells   tiesid   tiesidrand   grouprand {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+  1. {c |} {res}18          1       1          0        1     .1022639    .1717001 {txt}{c |}
+  2. {c |} {res}38          1       2          0        1     .1305037    .2747746 {txt}{c |}
+  3. {c |} {res}17          1       3          0        1     .0962137    .6238279 {txt}{c |}
+  4. {c |} {res}29          1       4          0        1     .1064071    .6378781 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+  5. {c |} {res}20          2       1          0        1      .278269    .0809489 {txt}{c |}
+  6. {c |} {res}23          2       2          0        1     .1373691    .1123187 {txt}{c |}
+  7. {c |} {res}40          2       3          0        1     .2356554    .1647792 {txt}{c |}
+  8. {c |} {res}39          2       4          0        1     .1384828    .5594596 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+  9. {c |} {res}12          3       1          0        1     .5639539    .0324986 {txt}{c |}
+ 10. {c |} {res}37          3       2          0        1     .3420483    .0829416 {txt}{c |}
+ 11. {c |} {res} 7          3       3          0        1     .3919779    .1094594 {txt}{c |}
+ 12. {c |} {res}21          3       4          0        1     .4834487    .2583396 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 13. {c |} {res}16          4       1          0        1     .9747285     .145535 {txt}{c |}
+ 14. {c |} {res}33          4       2          0        1      .734168    .3673713 {txt}{c |}
+ 15. {c |} {res}15          4       3          0        1     .8728974     .564247 {txt}{c |}
+ 16. {c |} {res}27          4       4          0        1     .6935664    .7518263 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 17. {c |} {res}35          5       1        .01        2     .1452012    .0574337 {txt}{c |}
+ 18. {c |} {res}26          5       2        .01        2     .2151616    .3508884 {txt}{c |}
+ 19. {c |} {res}31          5       3        .01        2     .2143846    .4682435 {txt}{c |}
+ 20. {c |} {res}34          5       4        .01        2     .0276526    .8055671 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 21. {c |} {res} 4          6       1        .01        2     .2438193    .1126046 {txt}{c |}
+ 22. {c |} {res}36          6       2        .01        2     .3754609    .2760701 {txt}{c |}
+ 23. {c |} {res}11          6       3        .01        2     .6120884    .7109208 {txt}{c |}
+ 24. {c |} {res}24          6       4        .01        2     .3804419    .9070804 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 25. {c |} {res}28          7       1        .02        3     .0333858    .0403082 {txt}{c |}
+ 26. {c |} {res}22          7       2        .01        2     .7825475    .2407722 {txt}{c |}
+ 27. {c |} {res} 6          7       3        .01        2     .7444605    .4633153 {txt}{c |}
+ 28. {c |} {res}14          7       4        .01        2     .7505407    .9036593 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 29. {c |} {res}30          8       1        .03        4     .0118423    .0617578 {txt}{c |}
+ 30. {c |} {res}25          8       2        .02        3     .1964506    .4802597 {txt}{c |}
+ 31. {c |} {res} 9          8       3        .03        4     .2143108     .577168 {txt}{c |}
+ 32. {c |} {res} 2          8       4        .02        3     .8682609    .7797248 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 33. {c |} {res} 5          9       1        .03        4     .3534248     .027917 {txt}{c |}
+ 34. {c |} {res} 1          9       2        .03        4     .4604992    .1886524 {txt}{c |}
+ 35. {c |} {res}10          9       3        .03        4     .3603746    .9378923 {txt}{c |}
+ 36. {c |} {res} 8          9       4        .03        4      .494446    .9606951 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c RT}
+ 37. {c |} {res} 3         10       1        .03        4     .9595683     .102284 {txt}{c |}
+ 38. {c |} {res}19         10       2        .06        6     .8367125    .1180116 {txt}{c |}
+ 39. {c |} {res}32         10       3        .09        7     .1940645    .7641741 {txt}{c |}
+ 40. {c |} {res}13         10       4        .04        5      .349865    .9791386 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 8}{c -}{hline 12}{c -}{hline 11}{c BRC}
+
+{com}. 
+. * step 9
+. drop tiesid tiesidrand grouprand
+{txt}
+{com}. order id strataid group cd4cells
+{txt}
+{com}. list , sepby(strataid) abbrev(10)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c TRC}
+     {c |} {res}id   strataid   group   cd4cells {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+  1. {c |} {res}18          1       1          0 {txt}{c |}
+  2. {c |} {res}38          1       2          0 {txt}{c |}
+  3. {c |} {res}17          1       3          0 {txt}{c |}
+  4. {c |} {res}29          1       4          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+  5. {c |} {res}20          2       1          0 {txt}{c |}
+  6. {c |} {res}23          2       2          0 {txt}{c |}
+  7. {c |} {res}40          2       3          0 {txt}{c |}
+  8. {c |} {res}39          2       4          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+  9. {c |} {res}12          3       1          0 {txt}{c |}
+ 10. {c |} {res}37          3       2          0 {txt}{c |}
+ 11. {c |} {res} 7          3       3          0 {txt}{c |}
+ 12. {c |} {res}21          3       4          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+ 13. {c |} {res}16          4       1          0 {txt}{c |}
+ 14. {c |} {res}33          4       2          0 {txt}{c |}
+ 15. {c |} {res}15          4       3          0 {txt}{c |}
+ 16. {c |} {res}27          4       4          0 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+ 17. {c |} {res}35          5       1        .01 {txt}{c |}
+ 18. {c |} {res}26          5       2        .01 {txt}{c |}
+ 19. {c |} {res}31          5       3        .01 {txt}{c |}
+ 20. {c |} {res}34          5       4        .01 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+ 21. {c |} {res} 4          6       1        .01 {txt}{c |}
+ 22. {c |} {res}36          6       2        .01 {txt}{c |}
+ 23. {c |} {res}11          6       3        .01 {txt}{c |}
+ 24. {c |} {res}24          6       4        .01 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+ 25. {c |} {res}28          7       1        .02 {txt}{c |}
+ 26. {c |} {res}22          7       2        .01 {txt}{c |}
+ 27. {c |} {res} 6          7       3        .01 {txt}{c |}
+ 28. {c |} {res}14          7       4        .01 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+ 29. {c |} {res}30          8       1        .03 {txt}{c |}
+ 30. {c |} {res}25          8       2        .02 {txt}{c |}
+ 31. {c |} {res} 9          8       3        .03 {txt}{c |}
+ 32. {c |} {res} 2          8       4        .02 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+ 33. {c |} {res} 5          9       1        .03 {txt}{c |}
+ 34. {c |} {res} 1          9       2        .03 {txt}{c |}
+ 35. {c |} {res}10          9       3        .03 {txt}{c |}
+ 36. {c |} {res} 8          9       4        .03 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c RT}
+ 37. {c |} {res} 3         10       1        .03 {txt}{c |}
+ 38. {c |} {res}19         10       2        .06 {txt}{c |}
+ 39. {c |} {res}32         10       3        .09 {txt}{c |}
+ 40. {c |} {res}13         10       4        .04 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c BRC}
+
+{com}. 
+. * step 10
+. save "stratified randomization list", replace
+{txt}file stratified randomization list.dta saved
+
+{com}. 
+. * step 11
+. * -----------------------------------------------------------------
+. version `holdversion' // restore Stata version to what it was
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+{txt}end of do-file
+
+{com}. dotplot cd4cells , over(group) center median
+{res}
+{com}. ttesti 10 5 2 12 3 1, unequal
+
+{txt}Two-sample t test with unequal variances
+{hline 9}{c TT}{hline 68}
+{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
+{hline 9}{c +}{hline 68}
+       x {c |}{res}{col 12}     10{col 22}        5{col 34} .6324555{col 46}        2{col 58} 3.569286{col 70} 6.430714
+       {txt}y {c |}{res}{col 12}     12{col 22}        3{col 34} .2886751{col 46}        1{col 58}  2.36463{col 70}  3.63537
+{txt}{hline 9}{c +}{hline 68}
+combined {c |}{res}{col 12}     22{col 22} 3.909091{col 34} .3859496{col 46} 1.810264{col 58} 3.106465{col 70} 4.711717
+{txt}{hline 9}{c +}{hline 68}
+    diff {c |}{res}{col 22}        2{col 34} .6952218{col 58} .4943263{col 70} 3.505674
+{txt}{hline 9}{c BT}{hline 68}
+    diff = mean({res}x{txt}) - mean({res}y{txt})                                      t = {res}  2.8768
+{txt}Ho: diff = 0                     Satterthwaite's degrees of freedom = {res}   12.69
+
+    {txt}Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = {res}0.9934         {txt}Pr(|T| > |t|) = {res}0.0132          {txt}Pr(T > t) = {res}0.0066
+
+{com}. display "Pr(T < t) = " %5.4f 1 - ttail(12.69 ,  2.8768)
+{res}Pr(T < t) = 0.9934
+
+{com}. display "Pr(|T| > |t|) = " %5.4f 2*(ttail(12.69 ,  2.8768) )
+{res}Pr(|T| > |t|) = 0.0132
+
+{com}. display "Pr(T > t) = " %5.4f  ttail(12.69 ,  2.8768)
+{res}Pr(T > t) = 0.0066
+
+{com}. exit, clear

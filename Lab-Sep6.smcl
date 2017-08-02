@@ -1,0 +1,652 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Sep6.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Dec 2016, 22:56:06
+
+{com}. import delimited "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\datasets & do-files\stata_lab_ch1-3.csv"
+{res}{text}(6 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 9}{c -}{hline 9}{c -}{hline 9}{c -}{hline 12}{c -}{hline 5}{c TRC}
+     {c |} {res}studyid    gender       sbp        dm     provider   age {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 9}{c -}{hline 9}{c -}{hline 9}{c -}{hline 12}{c -}{hline 5}{c RT}
+  1. {c |} {res}      1         m       120   checked   Bill Jones    24 {txt}{c |}
+  2. {c |} {res}      2         F       119   checked   bill Jones    23 {txt}{c |}
+  3. {c |} {res}      3    female       100     blank   Bill Jones   211 {txt}{c |}
+  4. {c |} {res}      4   missing       110   checked   jean smith    21 {txt}{c |}
+  5. {c |} {res}      5      Male   unknown     blank   Jean Smith    25 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 9}{c -}{hline 9}{c -}{hline 9}{c -}{hline 12}{c -}{hline 5}{c BRC}
+
+{com}. tab age
+
+        {txt}age {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         21 {c |}{res}          1       20.00       20.00
+{txt}         23 {c |}{res}          1       20.00       40.00
+{txt}         24 {c |}{res}          1       20.00       60.00
+{txt}         25 {c |}{res}          1       20.00       80.00
+{txt}        211 {c |}{res}          1       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. gen age2=age
+
+. replace age2=. if age2==211
+{txt}(1 real change made, 1 to missing)
+
+{com}. tab age2
+
+       {txt}age2 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         21 {c |}{res}          1       25.00       25.00
+{txt}         23 {c |}{res}          1       25.00       50.00
+{txt}         24 {c |}{res}          1       25.00       75.00
+{txt}         25 {c |}{res}          1       25.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          4      100.00
+
+{com}. tab provider
+
+   {txt}provider {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+ Bill Jones {c |}{res}          2       40.00       40.00
+{txt} Jean Smith {c |}{res}          1       20.00       60.00
+{txt} bill Jones {c |}{res}          1       20.00       80.00
+{txt} jean smith {c |}{res}          1       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. gen provider2=provider
+
+. replace provider2=upper(provider2)
+{txt}(5 real changes made)
+
+{com}. tab provider2
+
+  {txt}provider2 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+ BILL JONES {c |}{res}          3       60.00       60.00
+{txt} JEAN SMITH {c |}{res}          2       40.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. tab sbp
+
+        {txt}sbp {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        100 {c |}{res}          1       20.00       20.00
+{txt}        110 {c |}{res}          1       20.00       40.00
+{txt}        119 {c |}{res}          1       20.00       60.00
+{txt}        120 {c |}{res}          1       20.00       80.00
+{txt}    unknown {c |}{res}          1       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. gen sbp2=sbp
+
+. destring sbp2 , replace force
+{txt}sbp2 contains nonnumeric characters; sbp2 {res}replaced {txt}as {res}int
+{txt}(1 missing value generated)
+{res}
+{com}. tab sbp2
+
+       {txt}sbp2 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        100 {c |}{res}          1       25.00       25.00
+{txt}        110 {c |}{res}          1       25.00       50.00
+{txt}        119 {c |}{res}          1       25.00       75.00
+{txt}        120 {c |}{res}          1       25.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          4      100.00
+
+{com}. describe sbp2
+
+              {txt}storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:sbp2           }{txt}{bind: int     }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+
+{com}. list sbp2
+{txt}
+     {c TLC}{hline 6}{c TRC}
+     {c |} {res}sbp2 {txt}{c |}
+     {c LT}{hline 6}{c RT}
+  1. {c |} {res} 120 {txt}{c |}
+  2. {c |} {res} 119 {txt}{c |}
+  3. {c |} {res} 100 {txt}{c |}
+  4. {c |} {res} 110 {txt}{c |}
+  5. {c |} {res}   . {txt}{c |}
+     {c BLC}{hline 6}{c BRC}
+
+{com}. tab dm
+
+         {txt}dm {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      blank {c |}{res}          2       40.00       40.00
+{txt}    checked {c |}{res}          3       60.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. gen dm2 = 0 if dm=="blank"
+{txt}(3 missing values generated)
+
+{com}. replace dm2 = 1 if dm=="checked"
+{txt}(3 real changes made)
+
+{com}. tab dm2
+
+        {txt}dm2 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          2       40.00       40.00
+{txt}          1 {c |}{res}          3       60.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. describe dm2
+
+              {txt}storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:dm2            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+
+{com}. tab gender
+
+     {txt}gender {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          F {c |}{res}          1       20.00       20.00
+{txt}       Male {c |}{res}          1       20.00       40.00
+{txt}     female {c |}{res}          1       20.00       60.00
+{txt}          m {c |}{res}          1       20.00       80.00
+{txt}    missing {c |}{res}          1       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. gen gender2=upper(gender)
+
+. replace gender2="M" if gender2=="MALE"
+{txt}(1 real change made)
+
+{com}. replace gender2="F" if gender2=="FEMALE"
+{txt}(1 real change made)
+
+{com}. replace gender2="" if gender2=="MISSING"
+{txt}(1 real change made)
+
+{com}. tab gender2
+
+    {txt}gender2 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          F {c |}{res}          2       50.00       50.00
+{txt}          M {c |}{res}          2       50.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          4      100.00
+
+{com}. display "SD = SE * sqrt(N) = " 2*sqrt(10)
+{res}SD = SE * sqrt(N) = 6.3245553
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions 
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version  // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // temporarily set Stata to version 13.1 so get 
+.                // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 999
+{txt}
+{com}. set obs 1000
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. gen aspirin=1 in 1/300
+{txt}(700 missing values generated)
+
+{com}. replace aspirin=0 in 301/1000
+{txt}(700 real changes made)
+
+{com}. label define aspirinlab 0 "0) non-aspirin" 1 "1) aspirin"
+{txt}
+{com}. label values aspirin aspirinlab
+{txt}
+{com}. gen female=0
+{txt}
+{com}. replace female=1 if uniform()<.54 & aspirin==1
+{txt}(171 real changes made)
+
+{com}. replace female=1 if uniform()<.62 & aspirin==0
+{txt}(456 real changes made)
+
+{com}. gen age=rnormal(69,6) if aspirin==1
+{txt}(700 missing values generated)
+
+{com}. replace age=rnormal(61,5) if aspirin==0
+{txt}(700 real changes made)
+
+{com}. recode age 70/max=3 60/70=2 min/60=1 ,gen(agecat)
+{txt}(1000 differences between age and agecat)
+
+{com}. lab var agecat "age categories"
+{txt}
+{com}. gen rand=uniform()
+{txt}
+{com}. recode rand 0/.10=1 .10/.70=2 .70/max=3 ,gen(education)
+{txt}(1000 differences between rand and education)
+
+{com}. lab var education "education level"
+{txt}
+{com}. replace rand=uniform()
+{txt}(1,000 real changes made)
+
+{com}. recode rand 0/.25=1 .25/.60=2 .60/max=3 ,gen(marital)
+{txt}(1000 differences between rand and marital)
+
+{com}. lab var marital "marital status"
+{txt}
+{com}. drop rand
+{txt}
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+.   version `holdversion' // restore user’s Stata version to the
+.                         // post version 14 that it was 
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+{txt}end of do-file
+
+{com}. tabulate aspirin
+
+       {txt}aspirin {c |}      Freq.     Percent        Cum.
+{hline 15}{c +}{hline 35}
+0) non-aspirin {c |}{res}        700       70.00       70.00
+{txt}    1) aspirin {c |}{res}        300       30.00      100.00
+{txt}{hline 15}{c +}{hline 35}
+         Total {c |}{res}      1,000      100.00
+
+{com}. tabstat age, statistics( sd mean count ) by(aspirin) columns(statistics)
+
+{txt}Summary for variables: age
+{col 6}by categories of: aspirin 
+
+{ralign 14:aspirin} {...}
+{c |}        sd      mean         N
+{hline 15}{c +}{hline 30}
+{ralign 14:0) non-aspirin} {...}
+{c |}{...}
+ {res} 4.799089  61.15712       700
+{txt}{ralign 14:1) aspirin} {...}
+{c |}{...}
+ {res} 6.085222  68.66106       300
+{txt}{hline 15}{c +}{hline 30}
+{ralign 14:Total} {...}
+{c |}{...}
+ {res}  6.24778   63.4083      1000
+{txt}{hline 15}{c BT}{hline 30}
+
+{com}. bysort aspirin: tab agecat
+
+{txt}{hline}
+-> aspirin = 0) non-aspirin
+
+        age {c |}
+ categories {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}        271       38.71       38.71
+{txt}          2 {c |}{res}        412       58.86       97.57
+{txt}          3 {c |}{res}         17        2.43      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        700      100.00
+
+{txt}{hline}
+-> aspirin = 1) aspirin
+
+        age {c |}
+ categories {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}         20        6.67        6.67
+{txt}          2 {c |}{res}        160       53.33       60.00
+{txt}          3 {c |}{res}        120       40.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        300      100.00
+
+
+{com}. table marital education, contents(mean age sd age) format(%3.0f)
+
+{txt}{hline 10}{c TT}{hline 17}
+marital   {c |} education level 
+status    {c |}    1     2     3
+{hline 10}{c +}{hline 17}
+        1 {c |}   {res}63    64    63
+          {txt}{c |}    {res}4     7     7
+          {txt}{c |} 
+        2 {c |}   {res}62    64    64
+          {txt}{c |}    {res}5     6     6
+          {txt}{c |} 
+        3 {c |}   {res}64    64    63
+          {txt}{c |}    {res}6     6     6
+{txt}{hline 10}{c BT}{hline 17}
+
+{com}. table marital education, contents(mean age semean age) format(%3.1f)
+
+{txt}{hline 10}{c TT}{hline 17}
+marital   {c |} education level 
+status    {c |}    1     2     3
+{hline 10}{c +}{hline 17}
+        1 {c |} {res}62.5  63.6  63.5
+          {txt}{c |}  {res}0.8   0.5   0.7
+          {txt}{c |} 
+        2 {c |} {res}62.0  63.6  63.6
+          {txt}{c |}  {res}0.8   0.4   0.6
+          {txt}{c |} 
+        3 {c |} {res}63.6  63.7  62.5
+          {txt}{c |}  {res}0.9   0.4   0.6
+{txt}{hline 10}{c BT}{hline 17}
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input week cd4cells count
+
+     {txt}     week   cd4cells      count
+  1{com}. 0 0.00 5
+{txt}  2{com}. 0 0.01 3
+{txt}  3{com}. 0 0.02 2
+{txt}  4{com}. 3 0.00 6
+{txt}  5{com}. 3 0.01 2
+{txt}  6{com}. 3 0.02 1
+{txt}  7{com}. 3 0.06 1
+{txt}  8{com}. 6 0.00 2
+{txt}  9{com}. 6 0.01 3
+{txt} 10{com}. 6 0.03 4
+{txt} 11{com}. 6 0.09 1
+{txt} 12{com}. 9 0.00 3
+{txt} 13{com}. 9 0.01 3
+{txt} 14{com}. 9 0.03 3
+{txt} 15{com}. 9 0.04 1
+{txt} 16{com}. end
+{txt}
+{com}. expand count
+{txt}(25 observations created)
+
+{com}. drop count
+{txt}
+{com}. sort week cd4cells
+{txt}
+{com}. gen id = _n in 1/10
+{txt}(30 missing values generated)
+
+{com}. replace id = _n-10 in 11/20
+{txt}(10 real changes made)
+
+{com}. replace id = _n-20 in 21/30
+{txt}(10 real changes made)
+
+{com}. replace id = _n-30 in 31/40
+{txt}(10 real changes made)
+
+{com}. sort id week
+{txt}
+{com}. label define weeklab 0 "baseline" 3 "week 3" ///
+>   6 "week 6" 9 "week 9"
+{txt}
+{com}. label values week weeklab
+{txt}
+{com}. label variable week "Week Post-Treatment"
+{txt}
+{com}. label variable cd4cells ///
+>   "% of CD4+ T-cells producing at least 2 cytokines"
+{txt}
+{com}. order id week cd4cells
+{txt}
+{com}. list in 17/24 , sepby(id)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}id       week   cd4cells {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c RT}
+ 17. {c |} {res} 5   baseline          0 {txt}{c |}
+ 18. {c |} {res} 5     week 3          0 {txt}{c |}
+ 19. {c |} {res} 5     week 6        .01 {txt}{c |}
+ 20. {c |} {res} 5     week 9        .01 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 10}{c RT}
+ 21. {c |} {res} 6   baseline        .01 {txt}{c |}
+ 22. {c |} {res} 6     week 3          0 {txt}{c |}
+ 23. {c |} {res} 6     week 6        .03 {txt}{c |}
+ 24. {c |} {res} 6     week 9        .01 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+{com}. 
+{txt}end of do-file
+
+{com}. tabulate week, nolabel
+
+       {txt}Week {c |}
+Post-Treatm {c |}
+        ent {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}         10       25.00       25.00
+{txt}          3 {c |}{res}         10       25.00       50.00
+{txt}          6 {c |}{res}         10       25.00       75.00
+{txt}          9 {c |}{res}         10       25.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         40      100.00
+
+{com}. bysort week: tabulate cd4cells
+
+{txt}{hline}
+-> week = baseline
+
+  % of CD4+ {c |}
+    T-cells {c |}
+  producing {c |}
+ at least 2 {c |}
+  cytokines {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          5       50.00       50.00
+{txt}        .01 {c |}{res}          3       30.00       80.00
+{txt}        .02 {c |}{res}          2       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         10      100.00
+
+{txt}{hline}
+-> week = week 3
+
+  % of CD4+ {c |}
+    T-cells {c |}
+  producing {c |}
+ at least 2 {c |}
+  cytokines {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          6       60.00       60.00
+{txt}        .01 {c |}{res}          2       20.00       80.00
+{txt}        .02 {c |}{res}          1       10.00       90.00
+{txt}        .06 {c |}{res}          1       10.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         10      100.00
+
+{txt}{hline}
+-> week = week 6
+
+  % of CD4+ {c |}
+    T-cells {c |}
+  producing {c |}
+ at least 2 {c |}
+  cytokines {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          2       20.00       20.00
+{txt}        .01 {c |}{res}          3       30.00       50.00
+{txt}        .03 {c |}{res}          4       40.00       90.00
+{txt}        .09 {c |}{res}          1       10.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         10      100.00
+
+{txt}{hline}
+-> week = week 9
+
+  % of CD4+ {c |}
+    T-cells {c |}
+  producing {c |}
+ at least 2 {c |}
+  cytokines {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          3       30.00       30.00
+{txt}        .01 {c |}{res}          3       30.00       60.00
+{txt}        .03 {c |}{res}          3       30.00       90.00
+{txt}        .04 {c |}{res}          1       10.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         10      100.00
+
+
+{com}. bysort week: summarize cd4cells
+
+{txt}{hline}
+-> week = baseline
+
+    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}cd4cells {c |}{res}         10        .007    .0082327          0        .02
+
+{txt}{hline}
+-> week = week 3
+
+    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}cd4cells {c |}{res}         10         .01    .0188562          0        .06
+
+{txt}{hline}
+-> week = week 6
+
+    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}cd4cells {c |}{res}         10        .024    .0263312          0        .09
+
+{txt}{hline}
+-> week = week 9
+
+    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}cd4cells {c |}{res}         10        .016    .0150555          0        .04
+
+
+{com}. bysort week: summarize cd4cells , detail
+
+{txt}{hline}
+-> week = baseline
+
+      % of CD4+ T-cells producing at least 2 cytokines
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}         10
+{txt}25%    {res}        0              0       {txt}Sum of Wgt. {res}         10
+
+{txt}50%    {res}     .005                      {txt}Mean          {res}     .007
+                        {txt}Largest       Std. Dev.     {res} .0082327
+{txt}75%    {res}      .01            .01
+{txt}90%    {res}      .02            .01       {txt}Variance      {res} .0000678
+{txt}95%    {res}      .02            .02       {txt}Skewness      {res} .5793144
+{txt}99%    {res}      .02            .02       {txt}Kurtosis      {res} 1.864284
+
+{txt}{hline}
+-> week = week 3
+
+      % of CD4+ T-cells producing at least 2 cytokines
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}         10
+{txt}25%    {res}        0              0       {txt}Sum of Wgt. {res}         10
+
+{txt}50%    {res}        0                      {txt}Mean          {res}      .01
+                        {txt}Largest       Std. Dev.     {res} .0188562
+{txt}75%    {res}      .01            .01
+{txt}90%    {res}      .04            .01       {txt}Variance      {res} .0003556
+{txt}95%    {res}      .06            .02       {txt}Skewness      {res} 2.096314
+{txt}99%    {res}      .06            .06       {txt}Kurtosis      {res} 6.171875
+
+{txt}{hline}
+-> week = week 6
+
+      % of CD4+ T-cells producing at least 2 cytokines
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0            .01       {txt}Obs         {res}         10
+{txt}25%    {res}      .01            .01       {txt}Sum of Wgt. {res}         10
+
+{txt}50%    {res}      .02                      {txt}Mean          {res}     .024
+                        {txt}Largest       Std. Dev.     {res} .0263312
+{txt}75%    {res}      .03            .03
+{txt}90%    {res}      .06            .03       {txt}Variance      {res} .0006933
+{txt}95%    {res}      .09            .03       {txt}Skewness      {res} 1.619758
+{txt}99%    {res}      .09            .09       {txt}Kurtosis      {res} 5.074458
+
+{txt}{hline}
+-> week = week 9
+
+      % of CD4+ T-cells producing at least 2 cytokines
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}         10
+{txt}25%    {res}        0            .01       {txt}Sum of Wgt. {res}         10
+
+{txt}50%    {res}      .01                      {txt}Mean          {res}     .016
+                        {txt}Largest       Std. Dev.     {res} .0150555
+{txt}75%    {res}      .03            .03
+{txt}90%    {res}     .035            .03       {txt}Variance      {res} .0002267
+{txt}95%    {res}      .04            .03       {txt}Skewness      {res} .3130038
+{txt}99%    {res}      .04            .04       {txt}Kurtosis      {res}  1.55594
+
+
+{com}. tabstat cd4cells, statistics( mean p50 sd semean count ) by(week) columns(statistics)
+
+{txt}Summary for variables: cd4cells
+{col 6}by categories of: week (Week Post-Treatment)
+
+{ralign 8:week} {...}
+{c |}      mean       p50        sd  se(mean)         N
+{hline 9}{c +}{hline 50}
+{ralign 8:baseline} {...}
+{c |}{...}
+ {res}     .007      .005  .0082327  .0026034        10
+{txt}{ralign 8:week 3} {...}
+{c |}{...}
+ {res}      .01         0  .0188562  .0059628        10
+{txt}{ralign 8:week 6} {...}
+{c |}{...}
+ {res}     .024       .02  .0263312  .0083267        10
+{txt}{ralign 8:week 9} {...}
+{c |}{...}
+ {res}     .016       .01  .0150555   .004761        10
+{txt}{hline 9}{c +}{hline 50}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res}   .01425       .01  .0187955  .0029718        40
+{txt}{hline 9}{c BT}{hline 50}
+
+{com}. graph box cd4cells, over(week)
+{res}
+{com}. exit, clear

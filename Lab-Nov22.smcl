@@ -1,0 +1,62 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Nov22.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}16 Dec 2016, 00:03:37
+
+{com}. log using "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Nov22.smcl"
+{err}log file already open
+{txt}{search r(604):r(604);}
+
+{com}. regress sbp dbp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     4,699
+{txt}{hline 13}{c +}{hline 34}   F(1, 4697)      = {res}  7484.39
+{txt}       Model {c |} {res}  1500666.8         1   1500666.8   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 941778.101     4,697  200.506302   {txt}R-squared       ={res}    0.6144
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6143
+{txt}       Total {c |} {res}  2442444.9     4,698  519.890358   {txt}Root MSE        =   {res}  14.16
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         sbp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}dbp {c |}{col 14}{res}{space 2} 1.403161{col 26}{space 2} .0162192{col 37}{space 1}   86.51{col 46}{space 3}0.000{col 54}{space 4} 1.371364{col 67}{space 3} 1.434958
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 16.94739{col 26}{space 2} 1.354601{col 37}{space 1}   12.51{col 46}{space 3}0.000{col 54}{space 4} 14.29174{col 67}{space 3} 19.60304
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. graph twoway (scatter sbp dbp)(lfit sbp dbp, clcolor(red))
+{res}
+{com}. regress sbp scl bmi
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     4,658
+{txt}{hline 13}{c +}{hline 34}   F(2, 4655)      = {res}   368.51
+{txt}       Model {c |} {res} 330794.518         2  165397.259   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 2089270.99     4,655  448.822983   {txt}R-squared       ={res}    0.1367
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1363
+{txt}       Total {c |} {res}  2420065.5     4,657  519.661908   {txt}Root MSE        =   {res} 21.185
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         sbp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}scl {c |}{col 14}{res}{space 2} .0886605{col 26}{space 2} .0070448{col 37}{space 1}   12.59{col 46}{space 3}0.000{col 54}{space 4} .0748493{col 67}{space 3} .1024717
+{txt}{space 9}bmi {c |}{col 14}{res}{space 2} 1.687765{col 26}{space 2} .0769257{col 37}{space 1}   21.94{col 46}{space 3}0.000{col 54}{space 4} 1.536954{col 67}{space 3} 1.838576
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  69.2793{col 26}{space 2} 2.374029{col 37}{space 1}   29.18{col 46}{space 3}0.000{col 54}{space 4} 64.62508{col 67}{space 3} 73.93352
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. predict predict_sbp, xb
+{txt}(41 missing values generated)
+
+{com}. correlate sbp predict_sbp
+{txt}(obs=4,658)
+
+             {c |}      sbp predic~p
+{hline 13}{c +}{hline 18}
+         sbp {c |}{res}   1.0000
+ {txt}predict_sbp {c |}{res}   0.3697   1.0000
+
+
+{com}. display sqrt(0.1403)
+{res}.37456642
+
+{com}. exit, clear

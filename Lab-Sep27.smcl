@@ -1,0 +1,463 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Sep27.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Dec 2016, 23:30:03
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input sequence OR lowerCI upperCI
+
+     {txt} sequence         OR    lowerCI    upperCI
+  1{com}. 1 1.00 . .
+{txt}  2{com}. 2 0.87 0.69 1.11
+{txt}  3{com}. 3 0.93 0.74 1.17
+{txt}  4{com}. 4 0.74 0.58 0.95
+{txt}  5{com}. end
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 10}{c -}{hline 5}{c -}{hline 9}{c -}{hline 9}{c TRC}
+     {c |} {res}sequence    OR   lowerCI   upperCI {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 5}{c -}{hline 9}{c -}{hline 9}{c RT}
+  1. {c |} {res}       1     1         .         . {txt}{c |}
+  2. {c |} {res}       2   .87       .69      1.11 {txt}{c |}
+  3. {c |} {res}       3   .93       .74      1.17 {txt}{c |}
+  4. {c |} {res}       4   .74       .58       .95 {txt}{c |}
+     {c BLC}{hline 10}{c -}{hline 5}{c -}{hline 9}{c -}{hline 9}{c BRC}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. * increasing size of numbers and letters everywhere
+. #delimit ;
+{txt}delimiter now ;
+{com}. twoway (rcap upperCI lowerCI sequence , msize(*2) lwidth(*2))
+>    (scatter OR sequence , msymbol(square) mlcolor(blue) 
+>       mfcolor(blue) msize(*2))
+>  , legend(off)
+>    ytitle("Odds Ratio for Stroke" , size(*2))
+>    xtitle("Body Mass Index (kg/m{c -(}superscript:{c -(}bf:2{c )-}{c )-})" , 
+>      height(10) size(*2))
+>    note("Note: odds ratios are shown with 95% confidence intervals"
+>      , size(*1.5))
+>    xlabel(0.5 " " 1 "<25.0" 2 "25.0-27.7" 3 "27.8-31.1" 
+>      4 "{c -(}&ge{c )-}31.2" 4.5 " " , noticks labsize(*1.5)) 
+>    ylabels(.5(.2)1.4,angle(horizontal) labsize(*1.5))
+>    yline(1, lstyle(solid)) yscale(log) yscale(range(.5 1.4))
+>  ;
+{res}{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. * increasing size of numbers and letters everywhere
+. #delimit ;
+{txt}delimiter now ;
+{com}. twoway (rcap upperCI lowerCI sequence , msize(*2) lwidth(*2))
+>    (scatter OR sequence , msymbol(square) mlcolor(blue) 
+>       mfcolor(blue) msize(*2))
+>  , legend(off) scheme(s1mono)
+>    ytitle("Odds Ratio for Stroke" , size(*2))
+>    xtitle("Body Mass Index (kg/m{c -(}superscript:{c -(}bf:2{c )-}{c )-})" , 
+>      height(10) size(*2))
+>    note("Note: odds ratios are shown with 95% confidence intervals"
+>      , size(*1.5))
+>    xlabel(0.5 " " 1 "<25.0" 2 "25.0-27.7" 3 "27.8-31.1" 
+>      4 "{c -(}&ge{c )-}31.2" 4.5 " " , noticks labsize(*1.5)) 
+>    ylabels(.5(.2)1.4,angle(horizontal) labsize(*1.5))
+>    yline(1, lstyle(solid)) yscale(log) yscale(range(.5 1.4))
+>  ;
+{res}{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. * increasing size of numbers and letters everywhere
+. #delimit ;
+{txt}delimiter now ;
+{com}. twoway (rcap upperCI lowerCI sequence , msize(*2) lwidth(*2))
+>    (scatter OR sequence , msymbol(square) mlcolor(blue) 
+>       mfcolor(blue) msize(*2))
+>  , legend(off) scheme(s1mono) plotregion(style(none))
+>    ytitle("Odds Ratio for Stroke" , size(*2))
+>    xtitle("Body Mass Index (kg/m{c -(}superscript:{c -(}bf:2{c )-}{c )-})" , 
+>      height(10) size(*2))
+>    note("Note: odds ratios are shown with 95% confidence intervals"
+>      , size(*1.5))
+>    xlabel(0.5 " " 1 "<25.0" 2 "25.0-27.7" 3 "27.8-31.1" 
+>      4 "{c -(}&ge{c )-}31.2" 4.5 " " , noticks labsize(*1.5)) 
+>    ylabels(.5(.2)1.4,angle(horizontal) labsize(*1.5))
+>    yline(1, lstyle(solid)) yscale(log) yscale(range(.5 1.4))
+>  ;
+{res}{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. * increasing size of numbers and letters everywhere
+. #delimit ;
+{txt}delimiter now ;
+{com}. twoway (rcap upperCI lowerCI sequence , msize(*2) lwidth(*2))
+>    (scatter OR sequence , msymbol(square) mlcolor(blue) 
+>       mfcolor(blue) msize(*2))
+>  , legend(off) scheme(s1mono) plotregion(style(none))
+>    ytitle("Odds Ratio for Stroke" , size(*2))
+>    xtitle("Body Mass Index (kg/m{c -(}superscript:{c -(}bf:2{c )-}{c )-})" , 
+>      height(10) size(*2))
+>   
+>    xlabel(0.5 " " 1 "<25.0" 2 "25.0-27.7" 3 "27.8-31.1" 
+>      4 "{c -(}&ge{c )-}31.2" 4.5 " " , noticks labsize(*1.5)) 
+>    ylabels(.5(.2)1.4,angle(horizontal) labsize(*1.5))
+>    yline(1, lstyle(solid)) yscale(log) yscale(range(.5 1.4))
+>  ;
+{res}{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. * increasing size of numbers and letters everywhere
+. #delimit ;
+{txt}delimiter now ;
+{com}. twoway (rcap upperCI lowerCI sequence , msize(*2) lwidth(*2))
+>    (scatter OR sequence , msymbol(square) mlcolor(black) 
+>       mfcolor(black) msize(*2))
+>  , legend(off) scheme(s1mono) plotregion(style(none))
+>    ytitle("Odds Ratio for Stroke" , size(*2))
+>    xtitle("Body Mass Index (kg/m{c -(}superscript:{c -(}bf:2{c )-}{c )-})" , 
+>      height(10) size(*2))
+>   
+>    xlabel(0.5 " " 1 "<25.0" 2 "25.0-27.7" 3 "27.8-31.1" 
+>      4 "{c -(}&ge{c )-}31.2" 4.5 " " , noticks labsize(*1.5)) 
+>    ylabels(.5(.2)1.4,angle(horizontal) labsize(*1.5))
+>    yline(1, lstyle(solid)) yscale(log) yscale(range(.5 1.4))
+>  ;
+{res}{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. * increasing size of numbers and letters everywhere
+. #delimit ;
+{txt}delimiter now ;
+{com}. twoway (rcap upperCI lowerCI sequence , msize(*2) lwidth(*2))
+>    (scatter OR sequence , msymbol(square) mlcolor(black) 
+>       mfcolor(black) msize(*2))
+>  , legend(off) scheme(s1mono) plotregion(style(none))
+>    ytitle("Odds Ratio for Stroke" , size(*1.5))
+>    xtitle("Body Mass Index (kg/m{c -(}superscript:{c -(}bf:2{c )-}{c )-})" , 
+>      height(10) size(*1.5))
+>    
+>    xlabel(0.5 " " 1 "<25.0" 2 "25.0-27.7" 3 "27.8-31.1" 
+>      4 "{c -(}&ge{c )-}31.2" 4.5 " " , noticks labsize(*1.5)) 
+>    ylabels(.5(.2)1.4,angle(horizontal) labsize(*1.5))
+>    yline(1, lstyle(solid)) yscale(log) yscale(range(.5 1.4))
+>  ;
+{res}{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. 
+{txt}end of do-file
+
+{com}. graph export figure1.eps , cmyk(on) replace
+{txt}(note: file figure1.eps not found)
+(file figure1.eps written in EPS format)
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD05000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions 
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version  // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // temporarily set Stata to version 13.1 so get 
+.                // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 999
+{txt}
+{com}. set obs 1000
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. gen aspirin=1 in 1/300
+{txt}(700 missing values generated)
+
+{com}. replace aspirin=0 in 301/1000
+{txt}(700 real changes made)
+
+{com}. label define aspirinlab 0 "0) non-aspirin" 1 "1) aspirin"
+{txt}
+{com}. label values aspirin aspirinlab
+{txt}
+{com}. gen female=0
+{txt}
+{com}. replace female=1 if uniform()<.54 & aspirin==1
+{txt}(171 real changes made)
+
+{com}. replace female=1 if uniform()<.62 & aspirin==0
+{txt}(456 real changes made)
+
+{com}. gen age=rnormal(69,6) if aspirin==1
+{txt}(700 missing values generated)
+
+{com}. replace age=rnormal(67.5,5) if aspirin==0
+{txt}(700 real changes made)
+
+{com}. recode age 70/max=3 60/70=2 min/60=1 ,gen(agecat)
+{txt}(1000 differences between age and agecat)
+
+{com}. lab var agecat "age categories"
+{txt}
+{com}. gen rand=uniform()
+{txt}
+{com}. recode rand 0/.10=1 .10/.70=2 .70/max=3 ,gen(education)
+{txt}(1000 differences between rand and education)
+
+{com}. lab var education "education level"
+{txt}
+{com}. replace rand=uniform()
+{txt}(1,000 real changes made)
+
+{com}. recode rand 0/.25=1 .25/.60=2 .60/max=3 ,gen(marital)
+{txt}(1000 differences between rand and marital)
+
+{com}. lab var marital "marital status"
+{txt}
+{com}. drop rand
+{txt}
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+.   version `holdversion' // restore user’s Stata version to the
+.                         // post version 14 that it was 
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+{txt}end of do-file
+
+{com}. tabulate female nonaspirin, column chi2
+{err}variable {bf}nonaspirin{sf} not found
+{txt}{search r(111):r(111);}
+
+{com}. tabulate female aspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}        aspirin
+    female {c |} 0) non-as  1) aspiri {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       244        129 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     34.86      43.00 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       456        171 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     65.14      57.00 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       700        300 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. recode aspirin 1=0 0=1 , gen(nonaspirin)
+{txt}(1000 differences between aspirin and nonaspirin)
+
+{com}. tab aspirin nonaspirin , missing
+
+               {txt}{c |}   RECODE of aspirin
+       aspirin {c |}         0          1 {c |}     Total
+{hline 15}{c +}{hline 22}{c +}{hline 10}
+0) non-aspirin {c |}{res}         0        700 {txt}{c |}{res}       700 
+{txt}    1) aspirin {c |}{res}       300          0 {txt}{c |}{res}       300 
+{txt}{hline 15}{c +}{hline 22}{c +}{hline 10}
+         Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+
+
+{com}. label variable nonaspirin
+
+. tab aspirin nonaspirin , missing
+
+               {txt}{c |}      nonaspirin
+       aspirin {c |}         0          1 {c |}     Total
+{hline 15}{c +}{hline 22}{c +}{hline 10}
+0) non-aspirin {c |}{res}         0        700 {txt}{c |}{res}       700 
+{txt}    1) aspirin {c |}{res}       300          0 {txt}{c |}{res}       300 
+{txt}{hline 15}{c +}{hline 22}{c +}{hline 10}
+         Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+
+
+{com}. tabulate female nonaspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     43.00      34.86 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     57.00      65.14 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. tabulate female nonaspirin, expected
+{txt}
+{c TLC}{hline 20}{c TRC}
+{c |} Key{col 22}{c |}
+{c LT}{hline 20}{c RT}
+{c |}{space 5}{it:frequency}{col 22}{c |}
+{c |}{space 1}{it:expected frequency}{col 22}{c |}
+{c BLC}{hline 20}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     111.9      261.1 {txt}{c |}{res}     373.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     188.1      438.9 {txt}{c |}{res}     627.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}     300.0      700.0 {txt}{c |}{res}   1,000.0 
+
+
+{com}. tabulate female nonaspirin, exact expected
+{txt}
+{c TLC}{hline 20}{c TRC}
+{c |} Key{col 22}{c |}
+{c LT}{hline 20}{c RT}
+{c |}{space 5}{it:frequency}{col 22}{c |}
+{c |}{space 1}{it:expected frequency}{col 22}{c |}
+{c BLC}{hline 20}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     111.9      261.1 {txt}{c |}{res}     373.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     188.1      438.9 {txt}{c |}{res}     627.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}     300.0      700.0 {txt}{c |}{res}   1,000.0 
+
+{txt}           Fisher's exact =                 {res}0.015
+{txt}   1-sided Fisher's exact =                 {res}0.009
+
+{com}. tabulate female nonaspirin, chi2 expected
+{txt}
+{c TLC}{hline 20}{c TRC}
+{c |} Key{col 22}{c |}
+{c LT}{hline 20}{c RT}
+{c |}{space 5}{it:frequency}{col 22}{c |}
+{c |}{space 1}{it:expected frequency}{col 22}{c |}
+{c BLC}{hline 20}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     111.9      261.1 {txt}{c |}{res}     373.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     188.1      438.9 {txt}{c |}{res}     627.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}     300.0      700.0 {txt}{c |}{res}   1,000.0 
+
+{txt}          Pearson chi2({res}1{txt}) = {res}  5.9538  {txt} Pr = {res}0.015
+
+{com}. tab female nonaspirin, col chi2
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     43.00      34.86 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     57.00      65.14 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+{txt}          Pearson chi2({res}1{txt}) = {res}  5.9538  {txt} Pr = {res}0.015
+
+{com}. tabulate marital nonaspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+   marital {c |}      nonaspirin
+    status {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        84        182 {txt}{c |}{res}       266 
+           {txt}{c |}{res}     28.00      26.00 {txt}{c |}{res}     26.60 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         2 {c |}{res}        96        251 {txt}{c |}{res}       347 
+           {txt}{c |}{res}     32.00      35.86 {txt}{c |}{res}     34.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         3 {c |}{res}       120        267 {txt}{c |}{res}       387 
+           {txt}{c |}{res}     40.00      38.14 {txt}{c |}{res}     38.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. exit, clear

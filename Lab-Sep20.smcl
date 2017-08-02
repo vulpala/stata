@@ -1,0 +1,522 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Sep20.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Dec 2016, 02:06:00
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input studyid str1 gender sbp age
+
+     {txt}  studyid     gender        sbp        age
+  1{com}. 1 M 120 18
+{txt}  2{com}. 2 F 119 22
+{txt}  3{com}. 3 F 125 33
+{txt}  4{com}. 4 M 110 40
+{txt}  5{com}. 5 F 100 25   
+{txt}  6{com}. end
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}studyid   gender   sbp   age {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res}      1        M   120    18 {txt}{c |}
+  2. {c |} {res}      2        F   119    22 {txt}{c |}
+  3. {c |} {res}      3        F   125    33 {txt}{c |}
+  4. {c |} {res}      4        M   110    40 {txt}{c |}
+  5. {c |} {res}      5        F   100    25 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. 
+{txt}end of do-file
+
+{com}. recode age 40/max=1 min/40=0 , gen(age40plus)
+{txt}(5 differences between age and age40plus)
+
+{com}. tab age age40plus
+
+           {txt}{c |}     RECODE of age
+       age {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+        18 {c |}{res}         1          0 {txt}{c |}{res}         1 
+{txt}        22 {c |}{res}         1          0 {txt}{c |}{res}         1 
+{txt}        25 {c |}{res}         1          0 {txt}{c |}{res}         1 
+{txt}        33 {c |}{res}         1          0 {txt}{c |}{res}         1 
+{txt}        40 {c |}{res}         0          1 {txt}{c |}{res}         1 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}         4          1 {txt}{c |}{res}         5 
+
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}             5                          
+{txt} vars:{res}             5                          
+{txt} size:{res}            85                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:studyid        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:gender         }{txt}{bind: str1    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:sbp            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age40plus      }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}RECODE of age{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+
+{com}. label variable age40plus "age 40 or older"
+
+. describe
+
+{txt}Contains data
+  obs:{res}             5                          
+{txt} vars:{res}             5                          
+{txt} size:{res}            85                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:studyid        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:gender         }{txt}{bind: str1    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:sbp            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age40plus      }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}age 40 or older{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+
+{com}. tab age40plus
+
+  {txt}age 40 or {c |}
+      older {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          4       80.00       80.00
+{txt}          1 {c |}{res}          1       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. label define age40plus 0 "0)<40" 1 "1)40+"
+
+. label values age40plus age40pluslab
+
+. describe
+
+{txt}Contains data
+  obs:{res}             5                          
+{txt} vars:{res}             5                          
+{txt} size:{res}            85                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:studyid        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:gender         }{txt}{bind: str1    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:sbp            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age40plus      }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{txt}age40pluslab{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}age 40 or older{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+
+{com}. tab age40plus
+
+  {txt}age 40 or {c |}
+      older {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          4       80.00       80.00
+{txt}          1 {c |}{res}          1       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. tab age40plus
+
+  {txt}age 40 or {c |}
+      older {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}          4       80.00       80.00
+{txt}          1 {c |}{res}          1       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. label define age40pluslab 0 "0)<40" 1 "1)40+"
+
+. label values age40plus age40pluslab
+
+. decsribe
+{err}command {bf}decsribe{sf} is unrecognized
+{txt}{search r(199):r(199);}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}             5                          
+{txt} vars:{res}             5                          
+{txt} size:{res}            85                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:studyid        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:gender         }{txt}{bind: str1    }{bind:{txt}%9s       }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:sbp            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age40plus      }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{txt}age40pluslab{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}age 40 or older{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+
+{com}. tab age40plus
+
+  {txt}age 40 or {c |}
+      older {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      0)<40 {c |}{res}          4       80.00       80.00
+{txt}      1)40+ {c |}{res}          1       20.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}          5      100.00
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions 
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version  // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+.   version 13.1 // temporarily set Stata to version 13.1 so get 
+.                // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 999
+{txt}
+{com}. set obs 1000
+{txt}{p}
+number of observations (_N)  was 0,
+now 1,000
+{p_end}
+
+{com}. gen aspirin=1 in 1/300
+{txt}(700 missing values generated)
+
+{com}. replace aspirin=0 in 301/1000
+{txt}(700 real changes made)
+
+{com}. label define aspirinlab 0 "0) non-aspirin" 1 "1) aspirin"
+{txt}
+{com}. label values aspirin aspirinlab
+{txt}
+{com}. gen female=0
+{txt}
+{com}. replace female=1 if uniform()<.54 & aspirin==1
+{txt}(171 real changes made)
+
+{com}. replace female=1 if uniform()<.62 & aspirin==0
+{txt}(456 real changes made)
+
+{com}. gen age=rnormal(69,6) if aspirin==1
+{txt}(700 missing values generated)
+
+{com}. replace age=rnormal(67.5,5) if aspirin==0
+{txt}(700 real changes made)
+
+{com}. recode age 70/max=3 60/70=2 min/60=1 ,gen(agecat)
+{txt}(1000 differences between age and agecat)
+
+{com}. lab var agecat "age categories"
+{txt}
+{com}. gen rand=uniform()
+{txt}
+{com}. recode rand 0/.10=1 .10/.70=2 .70/max=3 ,gen(education)
+{txt}(1000 differences between rand and education)
+
+{com}. lab var education "education level"
+{txt}
+{com}. replace rand=uniform()
+{txt}(1,000 real changes made)
+
+{com}. recode rand 0/.25=1 .25/.60=2 .60/max=3 ,gen(marital)
+{txt}(1000 differences between rand and marital)
+
+{com}. lab var marital "marital status"
+{txt}
+{com}. drop rand
+{txt}
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+.   version `holdversion' // restore user’s Stata version to the
+.                         // post version 14 that it was 
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+. 
+{txt}end of do-file
+
+{com}. tabulate female aspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}        aspirin
+    female {c |} 0) non-as  1) aspiri {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       244        129 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     34.86      43.00 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       456        171 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     65.14      57.00 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       700        300 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. recode aspirin 1=0 0=1 , gen(nonaspirin)
+{txt}(1000 differences between aspirin and nonaspirin)
+
+{com}. tab aspirin nonaspirin , missing
+
+               {txt}{c |}   RECODE of aspirin
+       aspirin {c |}         0          1 {c |}     Total
+{hline 15}{c +}{hline 22}{c +}{hline 10}
+0) non-aspirin {c |}{res}         0        700 {txt}{c |}{res}       700 
+{txt}    1) aspirin {c |}{res}       300          0 {txt}{c |}{res}       300 
+{txt}{hline 15}{c +}{hline 22}{c +}{hline 10}
+         Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+
+
+{com}. label variable nonaspirin
+
+. tab aspirin nonaspirin , missing
+
+               {txt}{c |}      nonaspirin
+       aspirin {c |}         0          1 {c |}     Total
+{hline 15}{c +}{hline 22}{c +}{hline 10}
+0) non-aspirin {c |}{res}         0        700 {txt}{c |}{res}       700 
+{txt}    1) aspirin {c |}{res}       300          0 {txt}{c |}{res}       300 
+{txt}{hline 15}{c +}{hline 22}{c +}{hline 10}
+         Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+
+
+{com}. tabulate female nonaspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     43.00      34.86 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     57.00      65.14 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. tabulate female nonaspirin, expected
+{txt}
+{c TLC}{hline 20}{c TRC}
+{c |} Key{col 22}{c |}
+{c LT}{hline 20}{c RT}
+{c |}{space 5}{it:frequency}{col 22}{c |}
+{c |}{space 1}{it:expected frequency}{col 22}{c |}
+{c BLC}{hline 20}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     111.9      261.1 {txt}{c |}{res}     373.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     188.1      438.9 {txt}{c |}{res}     627.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}     300.0      700.0 {txt}{c |}{res}   1,000.0 
+
+
+{com}. tabulate female nonaspirin, exact expected
+{txt}
+{c TLC}{hline 20}{c TRC}
+{c |} Key{col 22}{c |}
+{c LT}{hline 20}{c RT}
+{c |}{space 5}{it:frequency}{col 22}{c |}
+{c |}{space 1}{it:expected frequency}{col 22}{c |}
+{c BLC}{hline 20}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     111.9      261.1 {txt}{c |}{res}     373.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     188.1      438.9 {txt}{c |}{res}     627.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}     300.0      700.0 {txt}{c |}{res}   1,000.0 
+
+{txt}           Fisher's exact =                 {res}0.015
+{txt}   1-sided Fisher's exact =                 {res}0.009
+
+{com}. tabulate female nonaspirin, chi2 expected
+{txt}
+{c TLC}{hline 20}{c TRC}
+{c |} Key{col 22}{c |}
+{c LT}{hline 20}{c RT}
+{c |}{space 5}{it:frequency}{col 22}{c |}
+{c |}{space 1}{it:expected frequency}{col 22}{c |}
+{c BLC}{hline 20}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     111.9      261.1 {txt}{c |}{res}     373.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     188.1      438.9 {txt}{c |}{res}     627.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}     300.0      700.0 {txt}{c |}{res}   1,000.0 
+
+{txt}          Pearson chi2({res}1{txt}) = {res}  5.9538  {txt} Pr = {res}0.015
+
+{com}. tab female nonaspirin, col chi2
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+           {c |}      nonaspirin
+    female {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       129        244 {txt}{c |}{res}       373 
+           {txt}{c |}{res}     43.00      34.86 {txt}{c |}{res}     37.30 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}       171        456 {txt}{c |}{res}       627 
+           {txt}{c |}{res}     57.00      65.14 {txt}{c |}{res}     62.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+{txt}          Pearson chi2({res}1{txt}) = {res}  5.9538  {txt} Pr = {res}0.015
+
+{com}. tabulate marital nonaspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+   marital {c |}      nonaspirin
+    status {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        84        182 {txt}{c |}{res}       266 
+           {txt}{c |}{res}     28.00      26.00 {txt}{c |}{res}     26.60 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         2 {c |}{res}        96        251 {txt}{c |}{res}       347 
+           {txt}{c |}{res}     32.00      35.86 {txt}{c |}{res}     34.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         3 {c |}{res}       120        267 {txt}{c |}{res}       387 
+           {txt}{c |}{res}     40.00      38.14 {txt}{c |}{res}     38.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. tabulate marital nonaspirin, column
+{txt}
+{c TLC}{hline 19}{c TRC}
+{c |} Key{col 21}{c |}
+{c LT}{hline 19}{c RT}
+{c |}{space 5}{it:frequency}{col 21}{c |}
+{c |}{space 1}{it:column percentage}{col 21}{c |}
+{c BLC}{hline 19}{c BRC}
+
+   marital {c |}      nonaspirin
+    status {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        84        182 {txt}{c |}{res}       266 
+           {txt}{c |}{res}     28.00      26.00 {txt}{c |}{res}     26.60 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         2 {c |}{res}        96        251 {txt}{c |}{res}       347 
+           {txt}{c |}{res}     32.00      35.86 {txt}{c |}{res}     34.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         3 {c |}{res}       120        267 {txt}{c |}{res}       387 
+           {txt}{c |}{res}     40.00      38.14 {txt}{c |}{res}     38.70 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}    100.00     100.00 {txt}{c |}{res}    100.00 
+
+
+{com}. tabulate marital nonaspirin
+
+   {txt}marital {c |}      nonaspirin
+    status {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        84        182 {txt}{c |}{res}       266 
+{txt}         2 {c |}{res}        96        251 {txt}{c |}{res}       347 
+{txt}         3 {c |}{res}       120        267 {txt}{c |}{res}       387 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+
+
+{com}. tabulate marital nonaspirin, expected
+{txt}
+{c TLC}{hline 20}{c TRC}
+{c |} Key{col 22}{c |}
+{c LT}{hline 20}{c RT}
+{c |}{space 5}{it:frequency}{col 22}{c |}
+{c |}{space 1}{it:expected frequency}{col 22}{c |}
+{c BLC}{hline 20}{c BRC}
+
+   marital {c |}      nonaspirin
+    status {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         1 {c |}{res}        84        182 {txt}{c |}{res}       266 
+           {txt}{c |}{res}      79.8      186.2 {txt}{c |}{res}     266.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         2 {c |}{res}        96        251 {txt}{c |}{res}       347 
+           {txt}{c |}{res}     104.1      242.9 {txt}{c |}{res}     347.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+         3 {c |}{res}       120        267 {txt}{c |}{res}       387 
+           {txt}{c |}{res}     116.1      270.9 {txt}{c |}{res}     387.0 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}       300        700 {txt}{c |}{res}     1,000 
+           {txt}{c |}{res}     300.0      700.0 {txt}{c |}{res}   1,000.0 
+
+
+{com}. exit, clear

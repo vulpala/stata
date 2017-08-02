@@ -1,0 +1,698 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Nov29.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}13 Dec 2016, 02:35:35
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. * overfitting simulation (correlate random numbers using
+. * sample sizes of 2 through 10)
+. clear
+{txt}
+{com}. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+. version 13.1 // temporarily set Stata to version 13.1 so get
+. // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 777
+{txt}
+{com}. set obs 54
+{txt}{p}
+number of observations (_N)  was 0,
+now 54
+{p_end}
+
+{com}. capture drop rand1 rand2 frame
+{txt}
+{com}. gen rand1=rnormal(0,1)
+{txt}
+{com}. gen rand2=rnormal(0,1)
+{txt}
+{com}. gen frame=_n // row numbers, 1 to 54
+{txt}
+{com}. recode frame 1/2=1 3/5=2 6/9=3 10/14=4 15/20=5 21/27=6 ///
+> 28/35=7 36/44=8 45/54=9 // frames with sample sizes 2 to 10
+{txt}(frame: 53 changes made)
+
+{com}. forval i=1/9 {c -(}
+{txt}  2{com}. corr rand1 rand2 if frame==`i'
+{txt}  3{com}. local r`i' = round(r(rho),.01)
+{txt}  4{com}. {c )-}
+{txt}(obs=2)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   1.0000   1.0000
+
+{txt}(obs=3)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}  -0.9537   1.0000
+
+{txt}(obs=4)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.9698   1.0000
+
+{txt}(obs=5)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}  -0.8427   1.0000
+
+{txt}(obs=6)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}  -0.0690   1.0000
+
+{txt}(obs=7)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.3266   1.0000
+
+{txt}(obs=8)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}  -0.4170   1.0000
+
+{txt}(obs=9)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}  -0.5386   1.0000
+
+{txt}(obs=10)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}  -0.7280   1.0000
+
+{txt}
+{com}. *
+. capture label drop framelab
+{txt}
+{com}. #delimit ;
+{txt}delimiter now ;
+{com}. label define framelab 1 "n=2 (r= `r1')" 2 "n=3 (r = `r2')"
+> 3 "n=4 (r = `r3')" 4 "n=5 (r = `r4')" 5 "n=6 (r = `r5')"
+> 6 "n=7 (r = `r6')" 7 "n=8 (r= `r7')" 8 "n=9 (r = `r8')"
+> 9 "n=10 (r = `r9')" ;
+{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. label values frame framelab
+{txt}
+{com}. label variable frame "sample size"
+{txt}
+{com}. #delimit ;
+{txt}delimiter now ;
+{com}. twoway (scatter rand1 rand2)(lfit rand1 rand2)
+> , by(frame,legend(off)
+> title(Spurious Correlation of Pairs of Random Numbers))
+> xtitle("")
+> ;
+{res}{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+. version `holdversion' // restore user’s Stata version to the
+. // post version 14 that it was
+. {c )-}
+{txt}
+{com}. * ---------
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. * overfitting simulation (correlate random numbers using
+. * sample sizes of 12 through 20)
+. clear
+{txt}
+{com}. * -----------------------------------------------------------------
+. * create random numbers compatible with pre-14 versions of Stata
+. * so course manual shows same results as users using Stata versions
+. * See appendix to Ch 5-13 for an explanation of why doing this.
+. version // discover user’s Stata version
+{txt}version 14.0
+
+{com}. quietly creturn list
+{txt}
+{com}. local holdversion = `c(version)' // store version
+{txt}
+{com}. if `holdversion'>=14 {c -(}
+. version 13.1 // temporarily set Stata to version 13.1 so get
+. // pre-14 version random numbers
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. set seed 777
+{txt}
+{com}. set obs 144
+{txt}{p}
+number of observations (_N)  was 0,
+now 144
+{p_end}
+
+{com}. capture drop rand1 rand2 frame
+{txt}
+{com}. gen rand1=rnormal(0,1)
+{txt}
+{com}. gen rand2=rnormal(0,1)
+{txt}
+{com}. gen frame=_n // row numbers, 1 to 54
+{txt}
+{com}. recode frame 1/12=1 13/25=2 26/39=3 40/54=4 55/70=5 71/87=6 ///
+> 88/105=7 106/124=8 125/144=9 // frames with sample sizes 12 to 20
+{txt}(frame: 143 changes made)
+
+{com}. tab frame
+
+      {txt}frame {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}         12        8.33        8.33
+{txt}          2 {c |}{res}         13        9.03       17.36
+{txt}          3 {c |}{res}         14        9.72       27.08
+{txt}          4 {c |}{res}         15       10.42       37.50
+{txt}          5 {c |}{res}         16       11.11       48.61
+{txt}          6 {c |}{res}         17       11.81       60.42
+{txt}          7 {c |}{res}         18       12.50       72.92
+{txt}          8 {c |}{res}         19       13.19       86.11
+{txt}          9 {c |}{res}         20       13.89      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        144      100.00
+{txt}
+{com}. forval i=1/9 {c -(}
+{txt}  2{com}. corr rand1 rand2 if frame==`i'
+{txt}  3{com}. local r`i' = round(r(rho),.01)
+{txt}  4{com}. {c )-}
+{txt}(obs=12)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}  -0.2396   1.0000
+
+{txt}(obs=13)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.3968   1.0000
+
+{txt}(obs=14)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.2516   1.0000
+
+{txt}(obs=15)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.2796   1.0000
+
+{txt}(obs=16)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.2147   1.0000
+
+{txt}(obs=17)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.0384   1.0000
+
+{txt}(obs=18)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.2605   1.0000
+
+{txt}(obs=19)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.0229   1.0000
+
+{txt}(obs=20)
+
+             {c |}    rand1    rand2
+{hline 13}{c +}{hline 18}
+       rand1 {c |}{res}   1.0000
+       {txt}rand2 {c |}{res}   0.3029   1.0000
+
+{txt}
+{com}. *
+. capture label drop framelab
+{txt}
+{com}. #delimit ;
+{txt}delimiter now ;
+{com}. label define framelab 1 "n=12 (r= `r1')" 2 "n=13 (r = `r2')"
+> 3 "n=14 (r = `r3')" 4 "n=15 (r = `r4')" 5 "n=16 (r = `r5')"
+> 6 "n=17 (r = `r6')" 7 "n=18 (r= `r7')" 8 "n=19 (r = `r8')"
+> 9 "n=20 (r = `r9')" ;
+{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. label values frame framelab
+{txt}
+{com}. label variable frame "sample size"
+{txt}
+{com}. #delimit ;
+{txt}delimiter now ;
+{com}. twoway (scatter rand1 rand2)(lfit rand1 rand2)
+> , by(frame,legend(off)
+> title(Spurious Correlation of Pairs of Random Numbers))
+> xtitle("")
+> ;
+{res}{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. * -----------------------------------------------------------------
+. if `holdversion'>=14 {c -(}
+. version `holdversion' // restore user’s Stata version to the
+. // post version 14 that it was
+. {c )-}
+{txt}
+{com}. * -----------------------------------------------------------------
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\HARISH~1\AppData\Local\Temp\STD04000000.tmp"
+{txt}
+{com}. clear
+{txt}
+{com}. input day treatment infection count
+
+     {txt}      day  treatment  infection      count
+  1{com}. 1 1 1 5
+{txt}  2{com}. 1 1 0 7
+{txt}  3{com}. 2 1 1 6
+{txt}  4{com}. 2 1 0 5
+{txt}  5{com}. 3 1 1 5
+{txt}  6{com}. 3 1 0 22
+{txt}  7{com}. 1 0 1 3
+{txt}  8{com}. 1 0 0 7
+{txt}  9{com}. 2 0 1 4
+{txt} 10{com}. 2 0 0 6
+{txt} 11{com}. 3 0 1 3
+{txt} 12{com}. 3 0 0 27
+{txt} 13{com}. end
+{txt}
+{com}. drop if count==0
+{txt}(0 observations deleted)
+
+{com}. expand count
+{txt}(88 observations created)
+
+{com}. drop count
+{txt}
+{com}. ltable day infection ,by(treatment) noadjust intervals(1) hazard
+
+{txt}{col 18}Beg.{col 27}Cum.{col 36}Std.{col 56}Std.
+{col 4}Interval{col 17}Total{col 25}Failure{col 35}Error{col 44}Hazard{col 55}Error{col 64}[95% Conf. Int.]
+{hline 79}
+treatment 0
+    1     2        50    0.0600  0.0336{res}    0.0600    0.0346    0.0124    0.1445
+{txt}    2     3        40    0.1540  0.0539{res}    0.1000    0.0500    0.0272    0.2192
+{txt}    3     4        30    0.2386  0.0671{res}    0.1000    0.0577    0.0206    0.2408
+{txt}treatment 1
+    1     2        50    0.1000  0.0424{res}    0.1000    0.0447    0.0325    0.2048
+{txt}    2     3        38    0.2421  0.0641{res}    0.1579    0.0645    0.0579    0.3071
+{txt}    3     4        27    0.3825  0.0771{res}    0.1852    0.0828    0.0601    0.3793
+{txt}{hline 79}
+
+{com}. 
+{txt}end of do-file
+
+{com}. cs infection treatment
+
+{col 18}{txt}{c |} treatment{col 43}{c |}
+{col 18}{c |}   Exposed   Unexposed  {c |}      Total
+{hline 17}{c +}{hline 24}{c +}{hline 12}
+           Cases {c |} {res}       16          10{txt}  {c |}  {res}       26
+        {txt}Noncases {c |} {res}       34          40{txt}  {c |}  {res}       74
+{txt}{hline 17}{c +}{hline 24}{c +}{hline 12}
+{col 12}Total {c |} {res}       50          50{txt}  {c |}  {res}      100
+{txt}{col 18}{c |}{col 43}{c |}
+            Risk {c |} {res}      .32          .2{txt}  {c |}  {res}      .26
+{txt}{col 18}{c |}{col 43}{c |}
+{col 18}{c |}      Point estimate    {c |}    [95% Conf. Interval]
+{col 18}{c LT}{hline 24}{c +}{hline 24}
+ Risk difference {c |} {res}{col 27}      .12{txt}{col 43}{c |}   {res}-.0503253    .2903253{txt} 
+      Risk ratio {c |} {res}{col 27}      1.6{txt}{col 43}{c |}   {res} .8057484    3.177171{txt} 
+ Attr. frac. ex. {c |} {res}{col 27}     .375{txt}{col 43}{c |}   {res}-.2410822    .6852545{txt} 
+ Attr. frac. pop {c |} {res}{col 27} .2307692{txt}{col 43}{c |}
+{col 18}{c BLC}{hline 24}{c BT}{hline 24}
+{col 22}          chi2(1) ={res}     1.87{txt}  Pr>chi2 ={res} 0.1713
+
+{com}. ir infection treatment day
+
+{col 18}{txt}{c |} treatment{col 43}{c |}
+{col 18}{c |}   Exposed   Unexposed  {c |}      Total
+{hline 17}{c +}{hline 24}{c +}{hline 12}
+       infection {c |} {res}       16          10{txt}  {c |}  {res}       26
+             {txt}day {c |} {res}      115         120{txt}  {c |}  {res}      235
+{txt}{hline 17}{c +}{hline 24}{c +}{hline 12}
+{col 18}{c |}{col 43}{c |}
+  Incidence rate {c |} {res} .1391304    .0833333{txt}  {c |}  {res} .1106383
+{txt}{col 18}{c |}{col 43}{c |}
+{col 18}{c |}      Point estimate    {c |}    [95% Conf. Interval]
+{col 18}{c LT}{hline 24}{c +}{hline 24}
+ Inc. rate diff. {c |} {res}{col 27} .0557971{txt}{col 43}{c |}   {res}-.0297318     .141326{txt} 
+ Inc. rate ratio {c |} {res}{col 27} 1.669565{txt}{col 43}{c |}   {res} .7123546    4.115609{txt} (exact)
+ Attr. frac. ex. {c |} {res}{col 27} .4010417{txt}{col 43}{c |}   {res}-.4037952    .7570226{txt} (exact)
+ Attr. frac. pop {c |} {col 27}{res} .2467949{txt}{col 43}{c |}
+{col 18}{c BLC}{hline 24}{c BT}{hline 24}
+                     (midp)   Pr(k>=16) =                   {res} 0.1033{txt} (exact)
+                     (midp) 2*Pr(k>=16) =                   {res} 0.2067{txt} (exact)
+
+{com}. stset day, failure(infection==1)
+
+     {txt}failure event:  {res}infection == 1
+{txt}obs. time interval:  {res}(0, day]
+{txt} exit on or before:  {res}failure
+
+{txt}{hline 78}
+{res}        100{txt}  total observations
+{res}          0{txt}  exclusions
+{hline 78}
+{res}        100{txt}  observations remaining, representing
+{res}         26{txt}  failures in single-record/single-failure data
+{res}        235{txt}  total analysis time at risk and under observation
+                                                at risk from t = {res}        0
+                                     {txt}earliest observed entry t = {res}        0
+                                          {txt}last observed exit t = {res}        3
+
+{com}. stcox treatment
+
+         {txt}failure _d:  {res}infection == 1
+   {txt}analysis time _t:  {res}day
+
+{txt}Iteration 0:   log likelihood = {res}-112.75286
+{txt}Iteration 1:   log likelihood = {res}-111.88891
+{txt}Iteration 2:   log likelihood = {res} -111.8887
+{txt}Refining estimates:
+Iteration 0:   log likelihood = {res} -111.8887
+
+{txt}Cox regression -- Breslow method for ties
+
+No. of subjects = {res}         100                  {txt}Number of obs    =  {res}       100
+{txt}No. of failures = {res}          26
+{txt}Time at risk    = {res}         235
+                                                {txt}LR chi2({res}1{txt})       =  {res}      1.73
+{txt}Log likelihood  =   {res} -111.8887                  {txt}Prob > chi2      =  {res}    0.1886
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          _t{col 14}{c |} Haz. Ratio{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}treatment {c |}{col 14}{res}{space 2} 1.685981{col 26}{space 2} .6797779{col 37}{space 1}    1.30{col 46}{space 3}0.195{col 54}{space 4} .7649849{col 67}{space 3} 3.715799
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. ltable day infection ,by(treatment) noadjust intervals(1) hazard
+
+{txt}{col 18}Beg.{col 27}Cum.{col 36}Std.{col 56}Std.
+{col 4}Interval{col 17}Total{col 25}Failure{col 35}Error{col 44}Hazard{col 55}Error{col 64}[95% Conf. Int.]
+{hline 79}
+treatment 0
+    1     2        50    0.0600  0.0336{res}    0.0600    0.0346    0.0124    0.1445
+{txt}    2     3        40    0.1540  0.0539{res}    0.1000    0.0500    0.0272    0.2192
+{txt}    3     4        30    0.2386  0.0671{res}    0.1000    0.0577    0.0206    0.2408
+{txt}treatment 1
+    1     2        50    0.1000  0.0424{res}    0.1000    0.0447    0.0325    0.2048
+{txt}    2     3        38    0.2421  0.0641{res}    0.1579    0.0645    0.0579    0.3071
+{txt}    3     4        27    0.3825  0.0771{res}    0.1852    0.0828    0.0601    0.3793
+{txt}{hline 79}
+
+{com}. display (6/38)
+{res}.15789474
+
+{com}. ltable day infection ,by(treatment) intervals(1) hazard
+
+{txt}{col 18}Beg.{col 27}Cum.{col 36}Std.{col 56}Std.
+{col 4}Interval{col 17}Total{col 25}Failure{col 35}Error{col 44}Hazard{col 55}Error{col 64}[95% Conf. Int.]
+{hline 79}
+treatment 0
+    1     2        50    0.0645  0.0360{res}    0.0667    0.0385    0.0000    0.1421
+{txt}    2     3        40    0.1656  0.0576{res}    0.1143    0.0570    0.0025    0.2261
+{txt}    3     4        30    0.3173  0.0922{res}    0.2000    0.1149    0.0000    0.4252
+{txt}treatment 1
+    1     2        50    0.1075  0.0454{res}    0.1136    0.0507    0.0142    0.2131
+{txt}    2     3        38    0.2584  0.0676{res}    0.1846    0.0750    0.0375    0.3317
+{txt}    3     4        27    0.4901  0.0977{res}    0.3704    0.1628    0.0513    0.6894
+{txt}{hline 79}
+
+{com}. display 6/(38 - (1/2)*(6+5))
+{res}.18461538
+
+{com}. sts list, by(treatment)
+
+         {txt}failure _d:  {res}infection == 1
+   {txt}analysis time _t:  {res}day
+
+           {txt}Beg.          Net            Survivor      Std.
+  Time    Total   Fail   Lost           Function     Error     [95% Conf. Int.]
+{hline 79}
+treatment=0 
+     1 {res}      50      3      7             0.9400    0.0336     0.8254    0.9802
+{txt}     2 {res}      40      4      6             0.8460    0.0539     0.7028    0.9238
+{txt}     3 {res}      30      3     27             0.7614    0.0671     0.5984    0.8653
+{txt}treatment=1 
+     1 {res}      50      5      7             0.9000    0.0424     0.7763    0.9571
+{txt}     2 {res}      38      6      5             0.7579    0.0641     0.6040    0.8586
+{txt}     3 {res}      27      5     22             0.6175    0.0771     0.4490    0.7481
+{txt}{hline 79}
+
+{com}. display (1 - (5/27))
+{res}.81481481
+
+{com}. use "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\datasets & do-files\wright_lowbw.dta", clear
+
+. recode alc 1 2=0 3=1, gen(heavyalc)
+{txt}(900 differences between alc and heavyalc)
+
+{com}. cs lowbw heavyalc
+
+{col 18}{txt}{c |} RECODE of alc{col 43}{c |}
+{col 18}{c |}   Exposed   Unexposed  {c |}      Total
+{hline 17}{c +}{hline 24}{c +}{hline 12}
+           Cases {c |} {res}       32          66{txt}  {c |}  {res}       98
+        {txt}Noncases {c |} {res}      152         650{txt}  {c |}  {res}      802
+{txt}{hline 17}{c +}{hline 24}{c +}{hline 12}
+{col 12}Total {c |} {res}      184         716{txt}  {c |}  {res}      900
+{txt}{col 18}{c |}{col 43}{c |}
+            Risk {c |} {res}  .173913    .0921788{txt}  {c |}  {res} .1088889
+{txt}{col 18}{c |}{col 43}{c |}
+{col 18}{c |}      Point estimate    {c |}    [95% Conf. Interval]
+{col 18}{c LT}{hline 24}{c +}{hline 24}
+ Risk difference {c |} {res}{col 27} .0817343{txt}{col 43}{c |}   {res} .0230114    .1404572{txt} 
+      Risk ratio {c |} {res}{col 27} 1.886693{txt}{col 43}{c |}   {res} 1.277551    2.786277{txt} 
+ Attr. frac. ex. {c |} {res}{col 27} .4699721{txt}{col 43}{c |}   {res} .2172524    .6410981{txt} 
+ Attr. frac. pop {c |} {res}{col 27} .1534603{txt}{col 43}{c |}
+{col 18}{c BLC}{hline 24}{c BT}{hline 24}
+{col 22}          chi2(1) ={res}    10.08{txt}  Pr>chi2 ={res} 0.0015
+
+{com}. regress lowbw heavyalc
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       900
+{txt}{hline 13}{c +}{hline 34}   F(1, 898)       = {res}    10.17
+{txt}       Model {c |} {res} .977905163         1  .977905163   {txt}Prob > F        ={res}    0.0015
+{txt}    Residual {c |} {res} 86.3509837       898  .096159225   {txt}R-squared       ={res}    0.0112
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0101
+{txt}       Total {c |} {res} 87.3288889       899  .097140032   {txt}Root MSE        =   {res}  .3101
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       lowbw{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}heavyalc {c |}{col 14}{res}{space 2} .0817343{col 26}{space 2} .0256302{col 37}{space 1}    3.19{col 46}{space 3}0.001{col 54}{space 4} .0314323{col 67}{space 3} .1320363
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0921788{col 26}{space 2} .0115888{col 37}{space 1}    7.95{col 46}{space 3}0.000{col 54}{space 4} .0694345{col 67}{space 3} .1149231
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. regress lowbw heavyalc
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       900
+{txt}{hline 13}{c +}{hline 34}   F(1, 898)       = {res}    10.17
+{txt}       Model {c |} {res} .977905163         1  .977905163   {txt}Prob > F        ={res}    0.0015
+{txt}    Residual {c |} {res} 86.3509837       898  .096159225   {txt}R-squared       ={res}    0.0112
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0101
+{txt}       Total {c |} {res} 87.3288889       899  .097140032   {txt}Root MSE        =   {res}  .3101
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       lowbw{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}heavyalc {c |}{col 14}{res}{space 2} .0817343{col 26}{space 2} .0256302{col 37}{space 1}    3.19{col 46}{space 3}0.001{col 54}{space 4} .0314323{col 67}{space 3} .1320363
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0921788{col 26}{space 2} .0115888{col 37}{space 1}    7.95{col 46}{space 3}0.000{col 54}{space 4} .0694345{col 67}{space 3} .1149231
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. tab pred_lowbw
+{err}variable {bf}pred_lowbw{sf} not found
+{txt}{search r(111):r(111);}
+
+{com}. predict pred_lowbw
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. tab pred_lowbw
+
+     {txt}Fitted {c |}
+     values {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+   .0921788 {c |}{res}        716       79.56       79.56
+{txt}    .173913 {c |}{res}        184       20.44      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        900      100.00
+
+{com}. use "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\datasets & do-files\births.dta", clear
+{txt}(Data from 500 births)
+
+{com}. regress lowbw gestwks
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       490
+{txt}{hline 13}{c +}{hline 34}   F(1, 488)       = {res}   296.89
+{txt}       Model {c |} {res} 19.6298947         1  19.6298947   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 32.2660237       488  .066118901   {txt}R-squared       ={res}    0.3783
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.3770
+{txt}       Total {c |} {res} 51.8959184       489  .106126622   {txt}Root MSE        =   {res} .25714
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       lowbw{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}gestwks {c |}{col 14}{res}{space 2}-.0865784{col 26}{space 2} .0050247{col 37}{space 1}  -17.23{col 46}{space 3}0.000{col 54}{space 4}-.0964512{col 67}{space 3}-.0767057
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.472886{col 26}{space 2} .1949137{col 37}{space 1}   17.82{col 46}{space 3}0.000{col 54}{space 4} 3.089913{col 67}{space 3}  3.85586
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}.  predict x
+{txt}(option {bf:xb} assumed; fitted values)
+(10 missing values generated)
+
+{com}.  sum x
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 11}x {c |}{res}        490    .1204082     .200357  -.2638393   1.335265
+
+{com}.  twoway scatter x gestwks
+{res}
+{com}. logistic lowbw  gestwks
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}       490
+{txt}{col 49}LR chi2({res}1{txt}){col 67}= {res}    154.63
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log likelihood = {res}-102.87406{txt}{col 49}Pseudo R2{col 67}= {res}    0.4291
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       lowbw{col 14}{c |} Odds Ratio{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}gestwks {c |}{col 14}{res}{space 2} .4080114{col 26}{space 2} .0442155{col 37}{space 1}   -8.27{col 46}{space 3}0.000{col 54}{space 4} .3299355{col 67}{space 3} .5045631
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 6.78e+13{col 26}{space 2} 2.75e+14{col 37}{space 1}    7.85{col 46}{space 3}0.000{col 54}{space 4} 2.39e+10{col 67}{space 3} 1.93e+17
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. predict y , p
+{txt}(10 missing values generated)
+
+{com}. sum y
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 11}y {c |}{res}        490    .1204082    .2186326   .0010652   .9999396
+
+{com}. twoway (scatter x gestwks)(scatter y gestwks)(scatter lowbw gestwks),ytitle("gestation period")
+{res}
+{com}. exit, clear
+(error occurred while loading dbstyle.class)
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\Lab-Nov29.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}15 Dec 2016, 23:51:02
+
+{com}.  use "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\datasets & do-files\2.20.Framingham.dta", clear
+
+. regress sbp dbp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     4,699
+{txt}{hline 13}{c +}{hline 34}   F(1, 4697)      = {res}  7484.39
+{txt}       Model {c |} {res}  1500666.8         1   1500666.8   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 941778.101     4,697  200.506302   {txt}R-squared       ={res}    0.6144
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6143
+{txt}       Total {c |} {res}  2442444.9     4,698  519.890358   {txt}Root MSE        =   {res}  14.16
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         sbp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}dbp {c |}{col 14}{res}{space 2} 1.403161{col 26}{space 2} .0162192{col 37}{space 1}   86.51{col 46}{space 3}0.000{col 54}{space 4} 1.371364{col 67}{space 3} 1.434958
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 16.94739{col 26}{space 2} 1.354601{col 37}{space 1}   12.51{col 46}{space 3}0.000{col 54}{space 4} 14.29174{col 67}{space 3} 19.60304
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. graph twoway (scatter sbp dbp)(lfit sbp dbp, clcolor(red))
+{res}
+{com}. regress sbp scl bmi
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     4,658
+{txt}{hline 13}{c +}{hline 34}   F(2, 4655)      = {res}   368.51
+{txt}       Model {c |} {res} 330794.518         2  165397.259   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 2089270.99     4,655  448.822983   {txt}R-squared       ={res}    0.1367
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1363
+{txt}       Total {c |} {res}  2420065.5     4,657  519.661908   {txt}Root MSE        =   {res} 21.185
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         sbp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}scl {c |}{col 14}{res}{space 2} .0886605{col 26}{space 2} .0070448{col 37}{space 1}   12.59{col 46}{space 3}0.000{col 54}{space 4} .0748493{col 67}{space 3} .1024717
+{txt}{space 9}bmi {c |}{col 14}{res}{space 2} 1.687765{col 26}{space 2} .0769257{col 37}{space 1}   21.94{col 46}{space 3}0.000{col 54}{space 4} 1.536954{col 67}{space 3} 1.838576
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  69.2793{col 26}{space 2} 2.374029{col 37}{space 1}   29.18{col 46}{space 3}0.000{col 54}{space 4} 64.62508{col 67}{space 3} 73.93352
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. predict predict_sbp, xb
+{txt}(41 missing values generated)
+
+{com}. correlate sbp predict_sbp
+{txt}(obs=4,658)
+
+             {c |}      sbp predic~p
+{hline 13}{c +}{hline 18}
+         sbp {c |}{res}   1.0000
+ {txt}predict_sbp {c |}{res}   0.3697   1.0000
+
+
+{com}. display sqrt(0.1403)
+{res}.37456642
+
+{com}. exit, clear

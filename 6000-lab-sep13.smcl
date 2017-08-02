@@ -1,0 +1,271 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs\6000-hw4.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}21 Nov 2016, 11:28:35
+
+{com}. cd "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs"
+{res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\stata labs
+
+{com}. import delimited "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\datasets & do-files\stata_lab_ch1-4a.csv"
+{res}{text}(3 vars, 5 obs)
+
+{com}. 
+. cd "C:\Users\Greg\Desktop\Biostats & Epi With Stata\"
+{err}unable to change to C:\Users\Greg\Desktop\Biostats & Epi With Stata\
+{txt}{search r(170):r(170);}
+
+{com}. 
+. cd "datasets & do-files"
+{err}unable to change to datasets & do-files
+{txt}{search r(170):r(170);}
+
+{com}. 
+. cd "C:\Users\Greg\Desktop\Biostats & Epi With Stata\"
+{err}unable to change to C:\Users\Greg\Desktop\Biostats & Epi With Stata\
+{txt}{search r(170):r(170);}
+
+{com}. 
+. 
+. 
+. 
+. 
+. cd "datasets & do-files"
+{err}unable to change to datasets & do-files
+{txt}{search r(170):r(170);}
+
+{com}. 
+. cd C:\Users\Harishiva\Desktop\Biostats & Epi With Stata
+{err}invalid syntax
+{txt}{search r(198):r(198);}
+
+{com}. cd "C:\Users\Harishiva\Desktop\Biostats & Epi With Stata"
+{res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata
+
+{com}. cd "datasets & do-files"
+{res}C:\Users\Harishiva\Desktop\Biostats & Epi With Stata\datasets & do-files
+
+{com}. insheet using Ch1-4data4.txt , clear
+{err}{p 0 4 2}
+file Ch1-4data4.txt
+not found
+{p_end}
+{txt}{search r(601):r(601);}
+
+{com}. clear
+
+. 
+. input ID X Y
+
+     {txt}       ID          X          Y
+  1{com}. 
+. 1710
+{txt}{bf:'' cannot be read as a number}
+  1{com}. 
+. 2811
+{txt}{bf:'' cannot be read as a number}
+  1{com}. 
+. 3912
+{txt}{bf:'' cannot be read as a number}
+  1{com}. 
+. end
+
+. import delimited Ch1-4data2.txt, clear
+{res}{err}file Ch1-4data2.txt not found
+{txt}{search r(601):r(601);}
+
+{com}. import delimited stata_lab_ch1-4b.csv , clear
+{res}{text}(3 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}studyid   sbp   age {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res}      1   120    18 {txt}{c |}
+  2. {c |} {res}      2   160    22 {txt}{c |}
+  3. {c |} {res}      3   125    33 {txt}{c |}
+  4. {c |} {res}      4   110    40 {txt}{c |}
+  5. {c |} {res}      5   100    25 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. save stata_lab_ch1-4b.csv , replace
+{txt}file stata_lab_ch1-4b.csv saved
+
+{com}. import delimited stata_lab_ch1-4a.csv , clear
+{res}{text}(3 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c TRC}
+     {c |} {res}studyid   gender   sbp {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c RT}
+  1. {c |} {res}      1        M   120 {txt}{c |}
+  2. {c |} {res}      2        F   119 {txt}{c |}
+  3. {c |} {res}      3        F     . {txt}{c |}
+  4. {c |} {res}      4        M   110 {txt}{c |}
+  5. {c |} {res}      5        F   100 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c BRC}
+
+{com}. append using stata_lab_ch1-4b.csv
+
+. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}studyid   gender   sbp   age {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res}      1        M   120     . {txt}{c |}
+  2. {c |} {res}      2        F   119     . {txt}{c |}
+  3. {c |} {res}      3        F     .     . {txt}{c |}
+  4. {c |} {res}      4        M   110     . {txt}{c |}
+  5. {c |} {res}      5        F   100     . {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res}      1            120    18 {txt}{c |}
+  7. {c |} {res}      2            160    22 {txt}{c |}
+  8. {c |} {res}      3            125    33 {txt}{c |}
+  9. {c |} {res}      4            110    40 {txt}{c |}
+ 10. {c |} {res}      5            100    25 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. merge 1:1 _n using stata_lab_ch1-4a.csv
+{res}{err}{p 0 4 2}
+file stata_lab_ch1-4a.csv
+not Stata format
+{p_end}
+{txt}{search r(610):r(610);}
+
+{com}. merge 1:1 _n using stata_lab_ch1-4b.csv
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               5
+{txt}{col 9}from master{col 30}{res}               5{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               5{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 17}{c TRC}
+     {c |} {res}studyid   gender   sbp   age            _merge {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 17}{c RT}
+  1. {c |} {res}      1        M   120     .       matched (3) {txt}{c |}
+  2. {c |} {res}      2        F   119     .       matched (3) {txt}{c |}
+  3. {c |} {res}      3        F     .     .       matched (3) {txt}{c |}
+  4. {c |} {res}      4        M   110     .       matched (3) {txt}{c |}
+  5. {c |} {res}      5        F   100     .       matched (3) {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 17}{c RT}
+  6. {c |} {res}      1            120    18   master only (1) {txt}{c |}
+  7. {c |} {res}      2            160    22   master only (1) {txt}{c |}
+  8. {c |} {res}      3            125    33   master only (1) {txt}{c |}
+  9. {c |} {res}      4            110    40   master only (1) {txt}{c |}
+ 10. {c |} {res}      5            100    25   master only (1) {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 17}{c BRC}
+
+{com}. clear
+
+. import delimited stata_lab_ch1-4a.csv  , clear
+{res}{text}(3 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c TRC}
+     {c |} {res}studyid   gender   sbp {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c RT}
+  1. {c |} {res}      1        M   120 {txt}{c |}
+  2. {c |} {res}      2        F   119 {txt}{c |}
+  3. {c |} {res}      3        F     . {txt}{c |}
+  4. {c |} {res}      4        M   110 {txt}{c |}
+  5. {c |} {res}      5        F   100 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c BRC}
+
+{com}. save stata_lab_ch1-4b.csv  , replace
+{txt}file stata_lab_ch1-4b.csv saved
+
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c TRC}
+     {c |} {res}studyid   gender   sbp {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c RT}
+  1. {c |} {res}      1        M   120 {txt}{c |}
+  2. {c |} {res}      2        F   119 {txt}{c |}
+  3. {c |} {res}      3        F     . {txt}{c |}
+  4. {c |} {res}      4        M   110 {txt}{c |}
+  5. {c |} {res}      5        F   100 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c BRC}
+
+{com}. import delimited stata_lab_ch1-4a.csv , clear
+{res}{text}(3 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c TRC}
+     {c |} {res}studyid   gender   sbp {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 8}{c -}{hline 5}{c RT}
+  1. {c |} {res}      1        M   120 {txt}{c |}
+  2. {c |} {res}      2        F   119 {txt}{c |}
+  3. {c |} {res}      3        F     . {txt}{c |}
+  4. {c |} {res}      4        M   110 {txt}{c |}
+  5. {c |} {res}      5        F   100 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 8}{c -}{hline 5}{c BRC}
+
+{com}. append using stata_lab_ch1-4b
+{err}file stata_lab_ch1-4b not found
+{txt}{search r(601):r(601);}
+
+{com}. merge 1:1 _n using stata_lab_ch1-4b.csv
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               5{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. clear
+
+. import delimited stata_lab_ch1-4a.csv , clear
+{res}{text}(3 vars, 5 obs)
+
+{com}. save stata_lab_ch1-4a.csv  , replace
+{txt}file stata_lab_ch1-4a.csv saved
+
+{com}. import delimited stata_lab_ch1-4b.csv , clear
+{res}{p 0 7 2} Note:  1,396 binary zeros were ignored in the source file.   The first instance occurred on line 1.  Binary zeros are not valid in text data.  Inspect your data carefully.{p_end}
+{text}(9 vars, 34 obs)
+
+{com}. save stata_lab_ch1-4b  , replace
+{txt}(note: file stata_lab_ch1-4b.dta not found)
+file stata_lab_ch1-4b.dta saved
+
+{com}. clear
+
+. import delimited stata_lab_ch1-4a.csv , clear
+{res}{p 0 7 2} Note:  1,387 binary zeros were ignored in the source file.   The first instance occurred on line 1.  Binary zeros are not valid in text data.  Inspect your data carefully.{p_end}
+{text}(9 vars, 34 obs)
+
+{com}. save stata_lab_ch1-4a  , replace
+{txt}(note: file stata_lab_ch1-4a.dta not found)
+file stata_lab_ch1-4a.dta saved
+
+{com}. import delimited stata_lab_ch1-4a.csv , clear
+{res}{p 0 7 2} Note:  1,387 binary zeros were ignored in the source file.   The first instance occurred on line 1.  Binary zeros are not valid in text data.  Inspect your data carefully.{p_end}
+{text}(9 vars, 34 obs)
+
+{com}. save stata_lab_ch1-4b , replace
+{txt}file stata_lab_ch1-4b.dta saved
+
+{com}. use stata_lab_ch1-4a, clear
+
+. merge 1:1 _n using stata_lab_ch1-4b
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}              34{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. clear
+
+. exit, clear
